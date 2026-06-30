@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title>Glow Blocks - офлайн игра</title>
-  <link rel="stylesheet" href="styles.css?v=20260629-1">
+  <link rel="stylesheet" href="styles.css?v=20260630-1">
 </head>
 <body>
   <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
@@ -69,6 +69,7 @@
         <button class="primary-button" id="playButton" type="button">Играть</button>
         <button class="menu-button" id="dailyButton" type="button">Ежедневная награда</button>
         <button class="menu-button" id="eventButton" type="button" data-i18n="menu.event">Событие июля</button>
+        <button class="menu-button" id="updatesButton" type="button" data-i18n="menu.updates">Обновления</button>
         <button class="menu-button" id="shopButton" type="button" data-i18n="menu.shop">Магазин</button>
         <button class="menu-button" id="achievementsButton" type="button" data-i18n="menu.achievements">Достижения</button>
         <button class="menu-button" id="statsButton" type="button" data-i18n="menu.stats">Статистика</button>
@@ -219,6 +220,38 @@
     </div>
   </section>
 
+  <section class="modal" id="updatesModal" aria-modal="true" role="dialog">
+    <div class="modal-panel update-panel">
+      <div class="modal-heading">
+        <div>
+          <p class="eyebrow" data-i18n="updates.eyebrow">Обновления</p>
+          <h2 data-i18n="updates.title">Следующее обновление</h2>
+        </div>
+        <button class="close-button" data-close-modal="updatesModal" type="button" aria-label="Закрыть обновления" data-i18n-aria="updates.close">×</button>
+      </div>
+      <div class="update-card">
+        <div class="update-mark">1.07</div>
+        <div>
+          <strong id="nextUpdateStatus">Следующее обновление скоро</strong>
+          <span id="nextUpdateTimer">--</span>
+        </div>
+      </div>
+      <div class="update-list">
+        <div>
+          <strong data-i18n="updates.dateLabel">Дата</strong>
+          <span id="nextUpdateDate">1 июля 2026</span>
+        </div>
+        <div>
+          <strong data-i18n="updates.noteLabel">Что будет</strong>
+          <span data-i18n="updates.note">Июльское событие, награды и улучшенный баланс очков.</span>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="menu-button" data-close-modal="updatesModal" type="button" data-i18n="common.close">Закрыть</button>
+      </div>
+    </div>
+  </section>
+
   <section class="modal" id="statsModal" aria-modal="true" role="dialog">
     <div class="modal-panel">
       <div class="modal-heading">
@@ -281,6 +314,6 @@
     </div>
   </section>
 
-  <script src="script.js?v=20260629-1"></script>
+  <script src="script.js?v=20260630-1"></script>
 </body>
 </html>

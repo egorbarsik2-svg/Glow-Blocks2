@@ -9,6 +9,7 @@
   const JULY_EVENT_ID = "july_2026";
   const JULY_EVENT_START = new Date(2026, 6, 1, 0, 0, 0);
   const JULY_EVENT_END = new Date(2026, 7, 1, 0, 0, 0);
+  const NEXT_UPDATE_AT = new Date(2026, 6, 1, 0, 0, 0);
   const JULY_EVENT_GOALS = [
     { score: 1000, reward: 100 },
     { score: 3000, reward: 250 },
@@ -66,16 +67,16 @@
       label: "Легкий",
       hint: "Меньше крупных фигур и мягкий темп",
       place: 8,
-      line: 85,
-      combo: 55,
+      line: 180,
+      combo: 130,
       pool: ["single", "dominoH", "dominoV", "triH", "triV", "l3", "l3Flip", "square2"]
     },
     normal: {
       label: "Нормальный",
       hint: "Сбалансированные фигуры и очки",
-      place: 10,
-      line: 110,
-      combo: 75,
+      place: 14,
+      line: 240,
+      combo: 180,
       pool: [
         "single", "dominoH", "dominoV", "triH", "triV", "l3", "l3Flip", "square2",
         "line4H", "line4V", "t4", "t4Down", "s4", "z4", "l4", "l4Flip", "plus5"
@@ -84,9 +85,9 @@
     hard: {
       label: "Сложный",
       hint: "Крупные фигуры, выше риск и награды",
-      place: 12,
-      line: 135,
-      combo: 105,
+      place: 18,
+      line: 320,
+      combo: 240,
       pool: [
         "triH", "triV", "square2", "line4H", "line4V", "t4", "t4Down", "s4", "z4",
         "l4", "l4Flip", "line5H", "line5V", "plus5", "corner5", "corner5Flip", "penta", "square3"
@@ -157,6 +158,7 @@
       "menu.dailyClaimed": "Награда получена",
       "menu.achievements": "Достижения",
       "menu.stats": "Статистика",
+      "menu.updates": "Обновления",
       "menu.event": "Событие июля",
       "menu.eventReady": "Событие: награда готова",
       "menu.shop": "Магазин",
@@ -166,6 +168,17 @@
       "pause.resume": "Продолжить",
       "gameOver.eyebrow": "Конец игры",
       "gameOver.lines": "Линии",
+      "updates.eyebrow": "Обновления",
+      "updates.title": "Следующее обновление",
+      "updates.close": "Закрыть обновления",
+      "updates.statusSoon": "Следующее обновление скоро",
+      "updates.statusReleased": "Обновление уже вышло",
+      "updates.timerSoon": "Осталось {time}",
+      "updates.timerReleased": "Вышло 1 июля 2026",
+      "updates.dateLabel": "Дата",
+      "updates.dateValue": "1 июля 2026",
+      "updates.noteLabel": "Что будет",
+      "updates.note": "Июльское событие, награды и улучшенный баланс очков.",
       "event.eyebrow": "Событие июля",
       "event.title": "Июльский рывок",
       "event.close": "Закрыть событие",
@@ -309,6 +322,7 @@
       "menu.dailyClaimed": "Daily Claimed",
       "menu.achievements": "Achievements",
       "menu.stats": "Statistics",
+      "menu.updates": "Updates",
       "menu.event": "July Event",
       "menu.eventReady": "Event: reward ready",
       "menu.shop": "Shop",
@@ -318,6 +332,17 @@
       "pause.resume": "Resume",
       "gameOver.eyebrow": "Game Over",
       "gameOver.lines": "Lines",
+      "updates.eyebrow": "Updates",
+      "updates.title": "Next update",
+      "updates.close": "Close updates",
+      "updates.statusSoon": "Next update is coming",
+      "updates.statusReleased": "Update is live",
+      "updates.timerSoon": "{time} left",
+      "updates.timerReleased": "Released on July 1, 2026",
+      "updates.dateLabel": "Date",
+      "updates.dateValue": "July 1, 2026",
+      "updates.noteLabel": "What is coming",
+      "updates.note": "July event, rewards, and improved score balance.",
       "event.eyebrow": "July Event",
       "event.title": "July Rush",
       "event.close": "Close event",
@@ -461,6 +486,7 @@
       "menu.dailyClaimed": "Recompensa recibida",
       "menu.achievements": "Logros",
       "menu.stats": "Estadísticas",
+      "menu.updates": "Actualizaciones",
       "menu.event": "Evento de julio",
       "menu.eventReady": "Evento: recompensa lista",
       "menu.shop": "Tienda",
@@ -470,6 +496,17 @@
       "pause.resume": "Continuar",
       "gameOver.eyebrow": "Fin del juego",
       "gameOver.lines": "Líneas",
+      "updates.eyebrow": "Actualizaciones",
+      "updates.title": "Próxima actualización",
+      "updates.close": "Cerrar actualizaciones",
+      "updates.statusSoon": "La próxima actualización llega pronto",
+      "updates.statusReleased": "La actualización ya está disponible",
+      "updates.timerSoon": "Faltan {time}",
+      "updates.timerReleased": "Disponible el 1 de julio de 2026",
+      "updates.dateLabel": "Fecha",
+      "updates.dateValue": "1 de julio de 2026",
+      "updates.noteLabel": "Qué llega",
+      "updates.note": "Evento de julio, recompensas y mejor balance de puntos.",
       "event.eyebrow": "Evento de julio",
       "event.title": "Impulso de julio",
       "event.close": "Cerrar evento",
@@ -613,6 +650,7 @@
       "menu.dailyClaimed": "Récompense obtenue",
       "menu.achievements": "Succès",
       "menu.stats": "Statistiques",
+      "menu.updates": "Mises à jour",
       "menu.event": "Événement de juillet",
       "menu.eventReady": "Événement : récompense prête",
       "menu.shop": "Boutique",
@@ -622,6 +660,17 @@
       "pause.resume": "Reprendre",
       "gameOver.eyebrow": "Fin de partie",
       "gameOver.lines": "Lignes",
+      "updates.eyebrow": "Mises à jour",
+      "updates.title": "Prochaine mise à jour",
+      "updates.close": "Fermer les mises à jour",
+      "updates.statusSoon": "La prochaine mise à jour arrive bientôt",
+      "updates.statusReleased": "La mise à jour est disponible",
+      "updates.timerSoon": "Reste {time}",
+      "updates.timerReleased": "Disponible le 1er juillet 2026",
+      "updates.dateLabel": "Date",
+      "updates.dateValue": "1er juillet 2026",
+      "updates.noteLabel": "À venir",
+      "updates.note": "Événement de juillet, récompenses et meilleur équilibre des points.",
       "event.eyebrow": "Événement de juillet",
       "event.title": "Rush de juillet",
       "event.close": "Fermer l'événement",
@@ -765,6 +814,7 @@
       "menu.dailyClaimed": "Recompensa recebida",
       "menu.achievements": "Conquistas",
       "menu.stats": "Estatísticas",
+      "menu.updates": "Atualizações",
       "menu.event": "Evento de julho",
       "menu.eventReady": "Evento: recompensa pronta",
       "menu.shop": "Loja",
@@ -774,6 +824,17 @@
       "pause.resume": "Continuar",
       "gameOver.eyebrow": "Fim de jogo",
       "gameOver.lines": "Linhas",
+      "updates.eyebrow": "Atualizações",
+      "updates.title": "Próxima atualização",
+      "updates.close": "Fechar atualizações",
+      "updates.statusSoon": "A próxima atualização chega em breve",
+      "updates.statusReleased": "A atualização já está disponível",
+      "updates.timerSoon": "Faltam {time}",
+      "updates.timerReleased": "Disponível em 1 de julho de 2026",
+      "updates.dateLabel": "Data",
+      "updates.dateValue": "1 de julho de 2026",
+      "updates.noteLabel": "O que vem",
+      "updates.note": "Evento de julho, recompensas e melhor equilíbrio de pontos.",
       "event.eyebrow": "Evento de julho",
       "event.title": "Arrancada de julho",
       "event.close": "Fechar evento",
@@ -917,6 +978,7 @@
       "menu.dailyClaimed": "Belohnung erhalten",
       "menu.achievements": "Erfolge",
       "menu.stats": "Statistik",
+      "menu.updates": "Updates",
       "menu.event": "Juli-Event",
       "menu.eventReady": "Event: Belohnung bereit",
       "menu.shop": "Shop",
@@ -926,6 +988,17 @@
       "pause.resume": "Weiter",
       "gameOver.eyebrow": "Spiel vorbei",
       "gameOver.lines": "Linien",
+      "updates.eyebrow": "Updates",
+      "updates.title": "Nächstes Update",
+      "updates.close": "Updates schließen",
+      "updates.statusSoon": "Das nächste Update kommt bald",
+      "updates.statusReleased": "Das Update ist verfügbar",
+      "updates.timerSoon": "Noch {time}",
+      "updates.timerReleased": "Verfügbar am 1. Juli 2026",
+      "updates.dateLabel": "Datum",
+      "updates.dateValue": "1. Juli 2026",
+      "updates.noteLabel": "Was kommt",
+      "updates.note": "Juli-Event, Belohnungen und verbesserte Punktebalance.",
       "event.eyebrow": "Juli-Event",
       "event.title": "Juli-Rush",
       "event.close": "Event schließen",
@@ -1069,6 +1142,7 @@
       "menu.dailyClaimed": "Ricompensa ottenuta",
       "menu.achievements": "Obiettivi",
       "menu.stats": "Statistiche",
+      "menu.updates": "Aggiornamenti",
       "menu.event": "Evento di luglio",
       "menu.eventReady": "Evento: premio pronto",
       "menu.shop": "Negozio",
@@ -1078,6 +1152,17 @@
       "pause.resume": "Riprendi",
       "gameOver.eyebrow": "Fine partita",
       "gameOver.lines": "Linee",
+      "updates.eyebrow": "Aggiornamenti",
+      "updates.title": "Prossimo aggiornamento",
+      "updates.close": "Chiudi aggiornamenti",
+      "updates.statusSoon": "Il prossimo aggiornamento arriva presto",
+      "updates.statusReleased": "Aggiornamento disponibile",
+      "updates.timerSoon": "Mancano {time}",
+      "updates.timerReleased": "Disponibile il 1 luglio 2026",
+      "updates.dateLabel": "Data",
+      "updates.dateValue": "1 luglio 2026",
+      "updates.noteLabel": "In arrivo",
+      "updates.note": "Evento di luglio, ricompense e bilanciamento punti migliorato.",
       "event.eyebrow": "Evento di luglio",
       "event.title": "Scatto di luglio",
       "event.close": "Chiudi evento",
@@ -1221,6 +1306,7 @@
       "menu.dailyClaimed": "Нагороду отримано",
       "menu.achievements": "Досягнення",
       "menu.stats": "Статистика",
+      "menu.updates": "Оновлення",
       "menu.event": "Подія липня",
       "menu.eventReady": "Подія: нагорода готова",
       "menu.shop": "Магазин",
@@ -1230,6 +1316,17 @@
       "pause.resume": "Продовжити",
       "gameOver.eyebrow": "Кінець гри",
       "gameOver.lines": "Лінії",
+      "updates.eyebrow": "Оновлення",
+      "updates.title": "Наступне оновлення",
+      "updates.close": "Закрити оновлення",
+      "updates.statusSoon": "Наступне оновлення вже скоро",
+      "updates.statusReleased": "Оновлення вже вийшло",
+      "updates.timerSoon": "Залишилось {time}",
+      "updates.timerReleased": "Вийшло 1 липня 2026",
+      "updates.dateLabel": "Дата",
+      "updates.dateValue": "1 липня 2026",
+      "updates.noteLabel": "Що буде",
+      "updates.note": "Липнева подія, нагороди та покращений баланс очок.",
       "event.eyebrow": "Подія липня",
       "event.title": "Липневий ривок",
       "event.close": "Закрити подію",
@@ -1363,6 +1460,7 @@
     playButton: document.querySelector("#playButton"),
     dailyButton: document.querySelector("#dailyButton"),
     eventButton: document.querySelector("#eventButton"),
+    updatesButton: document.querySelector("#updatesButton"),
     shopButton: document.querySelector("#shopButton"),
     achievementsButton: document.querySelector("#achievementsButton"),
     statsButton: document.querySelector("#statsButton"),
@@ -1406,6 +1504,9 @@
     julyEventProgressText: document.querySelector("#julyEventProgressText"),
     julyEventReward: document.querySelector("#julyEventReward"),
     julyEventGoals: document.querySelector("#julyEventGoals"),
+    nextUpdateStatus: document.querySelector("#nextUpdateStatus"),
+    nextUpdateTimer: document.querySelector("#nextUpdateTimer"),
+    nextUpdateDate: document.querySelector("#nextUpdateDate"),
     menuBestScore: document.querySelector("#menuBestScore"),
     menuDailyStreak: document.querySelector("#menuDailyStreak"),
     modals: {
@@ -1415,6 +1516,7 @@
       settingsModal: document.querySelector("#settingsModal"),
       shopModal: document.querySelector("#shopModal"),
       eventModal: document.querySelector("#eventModal"),
+      updatesModal: document.querySelector("#updatesModal"),
       statsModal: document.querySelector("#statsModal"),
       achievementsModal: document.querySelector("#achievementsModal"),
       dailyModal: document.querySelector("#dailyModal")
@@ -1445,6 +1547,7 @@
   let lastParticleTime = 0;
   let canvasContext = null;
   let julyEventTicker = 0;
+  let updatesTicker = 0;
 
   function createEmptyBoard() {
     return Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(null));
@@ -1633,6 +1736,7 @@
     bindEvents();
     updateAllStaticUi();
     startJulyEventTicker();
+    startUpdatesTicker();
     renderPieces();
     syncBoard();
     openMainMenu();
@@ -1671,6 +1775,9 @@
     dom.settingsButton.addEventListener("click", () => openSettings("mainMenu"));
     if (dom.eventButton) {
       dom.eventButton.addEventListener("click", () => openJulyEvent("mainMenu"));
+    }
+    if (dom.updatesButton) {
+      dom.updatesButton.addEventListener("click", () => openUpdates("mainMenu"));
     }
     if (dom.shopButton) {
       dom.shopButton.addEventListener("click", () => openShop("mainMenu"));
@@ -1822,6 +1929,11 @@
   function openJulyEvent(backTarget) {
     updateJulyEventUi();
     openModal("eventModal", backTarget);
+  }
+
+  function openUpdates(backTarget) {
+    updateUpdatesUi();
+    openModal("updatesModal", backTarget);
   }
 
   function openStats(backTarget) {
@@ -2134,8 +2246,9 @@
     const lines = clearInfo.rows.length + clearInfo.cols.length;
     const config = difficultyConfig();
     const linePoints = lines * config.line;
+    const clearedBlockPoints = clearInfo.indices.length * config.place * 2;
     const comboPoints = lines > 1 ? (lines - 1) * lines * config.combo : 0;
-    const total = linePoints + comboPoints;
+    const total = linePoints + clearedBlockPoints + comboPoints;
     const label = clearScoreLabel(clearInfo);
 
     save.totalLinesCleared += lines;
@@ -2396,6 +2509,7 @@
     updateDailyUi();
     updateShopUi();
     updateJulyEventUi();
+    updateUpdatesUi();
   }
 
   function updateMenuUi() {
@@ -2706,6 +2820,30 @@
       updateJulyEventTimerUi();
       updateEventButton();
     }, 1000);
+  }
+
+  function updateUpdatesUi() {
+    if (!dom.nextUpdateStatus || !dom.nextUpdateTimer || !dom.nextUpdateDate) {
+      return;
+    }
+
+    const now = new Date();
+    dom.nextUpdateDate.textContent = t("updates.dateValue");
+    if (now < NEXT_UPDATE_AT) {
+      dom.nextUpdateStatus.textContent = t("updates.statusSoon");
+      dom.nextUpdateTimer.textContent = t("updates.timerSoon", { time: formatEventDuration(NEXT_UPDATE_AT - now) });
+    } else {
+      dom.nextUpdateStatus.textContent = t("updates.statusReleased");
+      dom.nextUpdateTimer.textContent = t("updates.timerReleased");
+    }
+  }
+
+  function startUpdatesTicker() {
+    if (updatesTicker) {
+      return;
+    }
+    updateUpdatesUi();
+    updatesTicker = window.setInterval(updateUpdatesUi, 1000);
   }
 
   function availableJulyEventGoals(goalScore = null) {
