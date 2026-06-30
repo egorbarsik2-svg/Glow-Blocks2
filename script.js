@@ -6,6 +6,7 @@
   const CLEAR_DELAY = 330;
   const COIN_MILESTONE_STEP = 10000;
   const COINS_PER_MILESTONE = 500;
+  const GOLDEN_BLOCK_REWARD = 100;
   const JULY_EVENT_ID = "july_2026";
   const JULY_EVENT_START = new Date(2026, 6, 1, 0, 0, 0);
   const JULY_EVENT_END = new Date(2026, 7, 1, 0, 0, 0);
@@ -178,7 +179,7 @@
       "updates.dateLabel": "Дата",
       "updates.dateValue": "1 июля 2026",
       "updates.noteLabel": "Что будет",
-      "updates.note": "Июльское событие, награды и улучшенный баланс очков.",
+      "updates.note": "Июльское событие, золотой блок на 100 монет, награды и улучшенный баланс очков.",
       "event.eyebrow": "Событие июля",
       "event.title": "Июльский рывок",
       "event.close": "Закрыть событие",
@@ -220,6 +221,8 @@
       "material.status.need": "Нужно {price}",
       "toast.coins": "Монеты",
       "toast.coinsEarned": "+{amount} монет за {score} очков",
+      "toast.goldenBlock": "Золотой блок",
+      "toast.goldenBlockReward": "+{amount} монет за июльский бонус",
       "toast.materialBought": "Материал куплен и выбран",
       "toast.materialSelected": "Материал выбран",
       "toast.notEnoughCoins": "Не хватает монет",
@@ -342,7 +345,7 @@
       "updates.dateLabel": "Date",
       "updates.dateValue": "July 1, 2026",
       "updates.noteLabel": "What is coming",
-      "updates.note": "July event, rewards, and improved score balance.",
+      "updates.note": "July event, a golden block worth 100 coins, rewards, and improved score balance.",
       "event.eyebrow": "July Event",
       "event.title": "July Rush",
       "event.close": "Close event",
@@ -384,6 +387,8 @@
       "material.status.need": "Need {price}",
       "toast.coins": "Coins",
       "toast.coinsEarned": "+{amount} coins for {score} score",
+      "toast.goldenBlock": "Golden block",
+      "toast.goldenBlockReward": "+{amount} coins for the July bonus",
       "toast.materialBought": "Material bought and selected",
       "toast.materialSelected": "Material selected",
       "toast.notEnoughCoins": "Not enough coins",
@@ -506,7 +511,7 @@
       "updates.dateLabel": "Fecha",
       "updates.dateValue": "1 de julio de 2026",
       "updates.noteLabel": "Qué llega",
-      "updates.note": "Evento de julio, recompensas y mejor balance de puntos.",
+      "updates.note": "Evento de julio, bloque dorado de 100 monedas, recompensas y mejor balance de puntos.",
       "event.eyebrow": "Evento de julio",
       "event.title": "Impulso de julio",
       "event.close": "Cerrar evento",
@@ -548,6 +553,8 @@
       "material.status.need": "Faltan {price}",
       "toast.coins": "Monedas",
       "toast.coinsEarned": "+{amount} monedas por {score} puntos",
+      "toast.goldenBlock": "Bloque dorado",
+      "toast.goldenBlockReward": "+{amount} monedas por el bono de julio",
       "toast.materialBought": "Material comprado y elegido",
       "toast.materialSelected": "Material seleccionado",
       "toast.notEnoughCoins": "No hay suficientes monedas",
@@ -670,7 +677,7 @@
       "updates.dateLabel": "Date",
       "updates.dateValue": "1er juillet 2026",
       "updates.noteLabel": "À venir",
-      "updates.note": "Événement de juillet, récompenses et meilleur équilibre des points.",
+      "updates.note": "Événement de juillet, bloc doré de 100 pièces, récompenses et meilleur équilibre des points.",
       "event.eyebrow": "Événement de juillet",
       "event.title": "Rush de juillet",
       "event.close": "Fermer l'événement",
@@ -712,6 +719,8 @@
       "material.status.need": "Manque {price}",
       "toast.coins": "Pièces",
       "toast.coinsEarned": "+{amount} pièces pour {score} points",
+      "toast.goldenBlock": "Bloc doré",
+      "toast.goldenBlockReward": "+{amount} pièces pour le bonus de juillet",
       "toast.materialBought": "Matériau acheté et sélectionné",
       "toast.materialSelected": "Matériau sélectionné",
       "toast.notEnoughCoins": "Pas assez de pièces",
@@ -834,7 +843,7 @@
       "updates.dateLabel": "Data",
       "updates.dateValue": "1 de julho de 2026",
       "updates.noteLabel": "O que vem",
-      "updates.note": "Evento de julho, recompensas e melhor equilíbrio de pontos.",
+      "updates.note": "Evento de julho, bloco dourado de 100 moedas, recompensas e melhor equilíbrio de pontos.",
       "event.eyebrow": "Evento de julho",
       "event.title": "Arrancada de julho",
       "event.close": "Fechar evento",
@@ -876,6 +885,8 @@
       "material.status.need": "Faltam {price}",
       "toast.coins": "Moedas",
       "toast.coinsEarned": "+{amount} moedas por {score} pontos",
+      "toast.goldenBlock": "Bloco dourado",
+      "toast.goldenBlockReward": "+{amount} moedas pelo bônus de julho",
       "toast.materialBought": "Material comprado e selecionado",
       "toast.materialSelected": "Material selecionado",
       "toast.notEnoughCoins": "Moedas insuficientes",
@@ -998,7 +1009,7 @@
       "updates.dateLabel": "Datum",
       "updates.dateValue": "1. Juli 2026",
       "updates.noteLabel": "Was kommt",
-      "updates.note": "Juli-Event, Belohnungen und verbesserte Punktebalance.",
+      "updates.note": "Juli-Event, goldener Block mit 100 Münzen, Belohnungen und verbesserte Punktebalance.",
       "event.eyebrow": "Juli-Event",
       "event.title": "Juli-Rush",
       "event.close": "Event schließen",
@@ -1040,6 +1051,8 @@
       "material.status.need": "Fehlen {price}",
       "toast.coins": "Münzen",
       "toast.coinsEarned": "+{amount} Münzen für {score} Punkte",
+      "toast.goldenBlock": "Goldener Block",
+      "toast.goldenBlockReward": "+{amount} Münzen für den Juli-Bonus",
       "toast.materialBought": "Material gekauft und ausgewählt",
       "toast.materialSelected": "Material ausgewählt",
       "toast.notEnoughCoins": "Nicht genug Münzen",
@@ -1162,7 +1175,7 @@
       "updates.dateLabel": "Data",
       "updates.dateValue": "1 luglio 2026",
       "updates.noteLabel": "In arrivo",
-      "updates.note": "Evento di luglio, ricompense e bilanciamento punti migliorato.",
+      "updates.note": "Evento di luglio, blocco dorato da 100 monete, ricompense e bilanciamento punti migliorato.",
       "event.eyebrow": "Evento di luglio",
       "event.title": "Scatto di luglio",
       "event.close": "Chiudi evento",
@@ -1204,6 +1217,8 @@
       "material.status.need": "Servono {price}",
       "toast.coins": "Monete",
       "toast.coinsEarned": "+{amount} monete per {score} punti",
+      "toast.goldenBlock": "Blocco dorato",
+      "toast.goldenBlockReward": "+{amount} monete per il bonus di luglio",
       "toast.materialBought": "Materiale comprato e selezionato",
       "toast.materialSelected": "Materiale selezionato",
       "toast.notEnoughCoins": "Monete insufficienti",
@@ -1326,7 +1341,7 @@
       "updates.dateLabel": "Дата",
       "updates.dateValue": "1 липня 2026",
       "updates.noteLabel": "Що буде",
-      "updates.note": "Липнева подія, нагороди та покращений баланс очок.",
+      "updates.note": "Липнева подія, золотий блок на 100 монет, нагороди та покращений баланс очок.",
       "event.eyebrow": "Подія липня",
       "event.title": "Липневий ривок",
       "event.close": "Закрити подію",
@@ -1368,6 +1383,8 @@
       "material.status.need": "Потрібно {price}",
       "toast.coins": "Монети",
       "toast.coinsEarned": "+{amount} монет за {score} очок",
+      "toast.goldenBlock": "Золотий блок",
+      "toast.goldenBlockReward": "+{amount} монет за липневий бонус",
       "toast.materialBought": "Матеріал куплено й вибрано",
       "toast.materialSelected": "Матеріал вибрано",
       "toast.notEnoughCoins": "Не вистачає монет",
@@ -1534,6 +1551,7 @@
     gameOver: false,
     difficulty: "normal",
     coinMilestonesAwarded: 0,
+    goldenBlockIndex: -1,
     drag: null
   };
 
@@ -1754,6 +1772,7 @@
         cell.className = "cell";
         cell.dataset.row = String(row);
         cell.dataset.col = String(col);
+        cell.dataset.index = String(indexFor(row, col));
         cell.setAttribute("role", "gridcell");
         dom.board.appendChild(cell);
         cellEls.push(cell);
@@ -1792,6 +1811,8 @@
     if (dom.julyEventGoals) {
       dom.julyEventGoals.addEventListener("click", handleJulyEventGoalClick);
     }
+    dom.board.addEventListener("click", handleGoldenBlockClick);
+    dom.board.addEventListener("keydown", handleGoldenBlockKeydown);
     dom.muteButton.addEventListener("click", toggleSound);
     if (dom.settingsSoundButton) {
       dom.settingsSoundButton.addEventListener("click", toggleSound);
@@ -1852,10 +1873,12 @@
     state.busy = false;
     state.gameOver = false;
     state.coinMilestonesAwarded = 0;
+    state.goldenBlockIndex = -1;
     state.difficulty = save.settings.difficulty in DIFFICULTIES ? save.settings.difficulty : "normal";
     save.gamesPlayed += 1;
     saveGame();
     syncBoard();
+    spawnGoldenBlock();
     generatePieces();
     updateScoreDisplays(false);
     updateAllStaticUi();
@@ -2217,6 +2240,9 @@
       state.board[targetRow][targetCol] = { color: piece.color, material: piece.material || selectedMaterialId() };
       placedIndices.push(indexFor(targetRow, targetCol));
     });
+    if (placedIndices.includes(state.goldenBlockIndex)) {
+      state.goldenBlockIndex = -1;
+    }
 
     state.pieces[pieceIndex].used = true;
     save.totalBlocksPlaced += 1;
@@ -2384,6 +2410,7 @@
         }
       }
     }
+    syncGoldenBlock();
   }
 
   function animatePlacedCells(indices) {
@@ -2489,6 +2516,7 @@
 
   function updateAllStaticUi() {
     applyTranslations();
+    syncGoldenBlock();
     dom.difficultyBadge.textContent = t(`difficulty.${state.difficulty}.label`);
     dom.highScoreValue.textContent = formatNumber(save.highScore);
     if (dom.coinsValue) {
@@ -2767,6 +2795,98 @@
 
   function isJulyEventActive(date = new Date()) {
     return date >= JULY_EVENT_START && date < JULY_EVENT_END;
+  }
+
+  function isGoldenBlockFeatureActive(date = new Date()) {
+    return isJulyEventActive(date);
+  }
+
+  function randomGoldenBlockIndex() {
+    if (!isGoldenBlockFeatureActive()) {
+      return -1;
+    }
+
+    const emptyIndices = [];
+    for (let row = 0; row < BOARD_SIZE; row += 1) {
+      for (let col = 0; col < BOARD_SIZE; col += 1) {
+        if (!state.board[row][col]) {
+          emptyIndices.push(indexFor(row, col));
+        }
+      }
+    }
+
+    return emptyIndices.length > 0 ? randomFrom(emptyIndices) : -1;
+  }
+
+  function spawnGoldenBlock() {
+    state.goldenBlockIndex = randomGoldenBlockIndex();
+    syncGoldenBlock();
+  }
+
+  function syncGoldenBlock() {
+    cellEls.forEach((cell, index) => {
+      const row = Math.floor(index / BOARD_SIZE);
+      const col = index % BOARD_SIZE;
+      const isGolden = index === state.goldenBlockIndex
+        && isGoldenBlockFeatureActive()
+        && state.board[row][col] === null;
+
+      cell.classList.toggle("golden-bonus", isGolden);
+      cell.tabIndex = isGolden ? 0 : -1;
+      if (isGolden) {
+        cell.setAttribute("aria-label", t("toast.goldenBlock"));
+      } else {
+        cell.removeAttribute("aria-label");
+      }
+    });
+  }
+
+  function handleGoldenBlockClick(event) {
+    const cell = event.target.closest(".cell.golden-bonus");
+    if (!cell || !dom.board.contains(cell)) {
+      return;
+    }
+
+    claimGoldenBlock(Number(cell.dataset.index));
+  }
+
+  function handleGoldenBlockKeydown(event) {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    const cell = event.target.closest(".cell.golden-bonus");
+    if (!cell || !dom.board.contains(cell)) {
+      return;
+    }
+
+    event.preventDefault();
+    claimGoldenBlock(Number(cell.dataset.index));
+  }
+
+  function claimGoldenBlock(index) {
+    if (
+      index !== state.goldenBlockIndex
+      || !state.running
+      || state.paused
+      || state.busy
+      || state.gameOver
+      || !isGoldenBlockFeatureActive()
+    ) {
+      return;
+    }
+
+    state.goldenBlockIndex = -1;
+    save.coins += GOLDEN_BLOCK_REWARD;
+    saveGame();
+    syncGoldenBlock();
+    updateAllStaticUi();
+    showToast(t("toast.goldenBlock"), t("toast.goldenBlockReward", {
+      amount: formatNumber(GOLDEN_BLOCK_REWARD)
+    }));
+    showScorePop(GOLDEN_BLOCK_REWARD, getBoardCenterPoint([index]), t("toast.coins"));
+    spawnClearParticles([index], "#ffd166");
+    playSound("reward");
   }
 
   function isJulyEventUpcoming(date = new Date()) {
@@ -3064,7 +3184,7 @@
     canvasContext.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function spawnClearParticles(indices) {
+  function spawnClearParticles(indices, colorOverride = "") {
     if (!canvasContext) {
       return;
     }
@@ -3073,7 +3193,7 @@
       const cell = cellEls[index];
       const rect = cell.getBoundingClientRect();
       const block = state.board[Math.floor(index / BOARD_SIZE)][index % BOARD_SIZE];
-      const color = block && block.color ? block.color : randomFrom(COLORS);
+      const color = colorOverride || (block && block.color ? block.color : randomFrom(COLORS));
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
 
