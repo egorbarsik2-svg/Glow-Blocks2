@@ -7,10 +7,13 @@
   const COIN_MILESTONE_STEP = 10000;
   const COINS_PER_MILESTONE = 500;
   const GOLDEN_BLOCK_REWARD = 100;
+  const CUSTOM_SKIN_PRICE = 3000;
+  const CUSTOM_SKIN_SIZE = 256;
+  const CUSTOM_SKIN_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "image/bmp"]);
   const JULY_EVENT_ID = "july_2026";
   const JULY_EVENT_START = new Date(2026, 6, 1, 0, 0, 0);
   const JULY_EVENT_END = new Date(2026, 7, 1, 0, 0, 0);
-  const NEXT_UPDATE_AT = new Date(2026, 6, 1, 0, 0, 0);
+  const NEXT_UPDATE_AT = new Date(2026, 5, 5, 0, 0, 0);
   const JULY_EVENT_GOALS = [
     { score: 1000, reward: 100 },
     { score: 3000, reward: 250 },
@@ -125,7 +128,8 @@
     { id: "metal", price: 1000, preview: "#a1a1aa" },
     { id: "crystal", price: 1500, preview: "#a78bfa" },
     { id: "magma", price: 2000, preview: "#fb923c" },
-    { id: "galaxy", price: 3000, preview: "#6366f1" }
+    { id: "galaxy", price: 3000, preview: "#6366f1" },
+    { id: "custom", price: CUSTOM_SKIN_PRICE, preview: "#ffd166" }
   ];
 
   const I18N = {
@@ -175,11 +179,11 @@
       "updates.statusSoon": "Следующее обновление скоро",
       "updates.statusReleased": "Обновление уже вышло",
       "updates.timerSoon": "Осталось {time}",
-      "updates.timerReleased": "Вышло 1 июля 2026",
+      "updates.timerReleased": "Вышло 5 июня 2026",
       "updates.dateLabel": "Дата",
-      "updates.dateValue": "1 июля 2026",
+      "updates.dateValue": "5 июня 2026",
       "updates.noteLabel": "Что будет",
-      "updates.note": "Июльское событие, золотой блок на 100 монет, награды и улучшенный баланс очков.",
+      "updates.note": "Пользовательские фото-скины за 3000 монет и магазин скинов.",
       "event.eyebrow": "Событие июля",
       "event.title": "Июльский рывок",
       "event.close": "Закрыть событие",
@@ -201,7 +205,7 @@
       "event.goalReached": "Цель {score} очков достигнута",
       "event.rewardToast": "+{amount} монет за событие",
       "shop.eyebrow": "Магазин",
-      "shop.title": "Материалы блоков",
+      "shop.title": "Материалы и скины",
       "shop.close": "Закрыть магазин",
       "settings.eyebrow": "Настройки",
       "settings.title": "Параметры игры",
@@ -219,10 +223,18 @@
       "material.status.owned": "Выбрать",
       "material.status.buy": "Купить и выбрать {price}",
       "material.status.need": "Нужно {price}",
+      "skin.uploadButton": "Загрузить свой скин",
+      "skin.uploadHint": "Только фото. Стоимость {price} монет.",
+      "skin.replaceHint": "Загрузить новое фото за {price} монет",
+      "skin.photoOnly": "Можно загрузить только фото: JPG, PNG, WEBP, GIF или BMP.",
+      "skin.processing": "Готовим скин...",
       "toast.coins": "Монеты",
       "toast.coinsEarned": "+{amount} монет за {score} очков",
       "toast.goldenBlock": "Золотой блок",
       "toast.goldenBlockReward": "+{amount} монет за июльский бонус",
+      "toast.skinUploaded": "Скин загружен и выбран",
+      "toast.photoOnly": "Нужна фотография",
+      "toast.skinUploadFailed": "Не удалось загрузить фото",
       "toast.materialBought": "Материал куплен и выбран",
       "toast.materialSelected": "Материал выбран",
       "toast.notEnoughCoins": "Не хватает монет",
@@ -238,6 +250,8 @@
       "material.magma.detail": "Горячая лава и огненные трещины",
       "material.galaxy.name": "Галактика",
       "material.galaxy.detail": "Темный космос со звездным свечением",
+      "material.custom.name": "Свой фото-скин",
+      "material.custom.detail": "Фото на кубиках",
       "difficulty.easy.label": "Легкий",
       "difficulty.easy.hint": "Меньше крупных фигур и мягкий темп",
       "difficulty.normal.label": "Нормальный",
@@ -341,11 +355,11 @@
       "updates.statusSoon": "Next update is coming",
       "updates.statusReleased": "Update is live",
       "updates.timerSoon": "{time} left",
-      "updates.timerReleased": "Released on July 1, 2026",
+      "updates.timerReleased": "Released on June 5, 2026",
       "updates.dateLabel": "Date",
-      "updates.dateValue": "July 1, 2026",
+      "updates.dateValue": "June 5, 2026",
       "updates.noteLabel": "What is coming",
-      "updates.note": "July event, a golden block worth 100 coins, rewards, and improved score balance.",
+      "updates.note": "Custom photo skins for 3,000 coins and a skins shop.",
       "event.eyebrow": "July Event",
       "event.title": "July Rush",
       "event.close": "Close event",
@@ -367,7 +381,7 @@
       "event.goalReached": "{score} score goal reached",
       "event.rewardToast": "+{amount} event coins",
       "shop.eyebrow": "Shop",
-      "shop.title": "Block materials",
+      "shop.title": "Materials and skins",
       "shop.close": "Close shop",
       "settings.eyebrow": "Settings",
       "settings.title": "Game Setup",
@@ -385,10 +399,18 @@
       "material.status.owned": "Select",
       "material.status.buy": "Buy and select {price}",
       "material.status.need": "Need {price}",
+      "skin.uploadButton": "Upload your skin",
+      "skin.uploadHint": "Photos only. Cost: {price} coins.",
+      "skin.replaceHint": "Upload a new photo for {price} coins",
+      "skin.photoOnly": "Only photos are allowed: JPG, PNG, WEBP, GIF, or BMP.",
+      "skin.processing": "Preparing skin...",
       "toast.coins": "Coins",
       "toast.coinsEarned": "+{amount} coins for {score} score",
       "toast.goldenBlock": "Golden block",
       "toast.goldenBlockReward": "+{amount} coins for the July bonus",
+      "toast.skinUploaded": "Skin uploaded and selected",
+      "toast.photoOnly": "Photo required",
+      "toast.skinUploadFailed": "Could not load photo",
       "toast.materialBought": "Material bought and selected",
       "toast.materialSelected": "Material selected",
       "toast.notEnoughCoins": "Not enough coins",
@@ -404,6 +426,8 @@
       "material.magma.detail": "Hot lava and fiery cracks",
       "material.galaxy.name": "Galaxy",
       "material.galaxy.detail": "Dark space with starry glow",
+      "material.custom.name": "Custom photo skin",
+      "material.custom.detail": "Your photo on the blocks",
       "difficulty.easy.label": "Easy",
       "difficulty.easy.hint": "Smaller pieces and a gentler pace",
       "difficulty.normal.label": "Normal",
@@ -507,11 +531,11 @@
       "updates.statusSoon": "La próxima actualización llega pronto",
       "updates.statusReleased": "La actualización ya está disponible",
       "updates.timerSoon": "Faltan {time}",
-      "updates.timerReleased": "Disponible el 1 de julio de 2026",
+      "updates.timerReleased": "Disponible el 5 de junio de 2026",
       "updates.dateLabel": "Fecha",
-      "updates.dateValue": "1 de julio de 2026",
+      "updates.dateValue": "5 de junio de 2026",
       "updates.noteLabel": "Qué llega",
-      "updates.note": "Evento de julio, bloque dorado de 100 monedas, recompensas y mejor balance de puntos.",
+      "updates.note": "Skins de foto personalizados por 3000 monedas y tienda de skins.",
       "event.eyebrow": "Evento de julio",
       "event.title": "Impulso de julio",
       "event.close": "Cerrar evento",
@@ -533,7 +557,7 @@
       "event.goalReached": "Objetivo de {score} puntos alcanzado",
       "event.rewardToast": "+{amount} monedas del evento",
       "shop.eyebrow": "Tienda",
-      "shop.title": "Materiales de bloques",
+      "shop.title": "Materiales y skins",
       "shop.close": "Cerrar tienda",
       "settings.eyebrow": "Ajustes",
       "settings.title": "Configuración",
@@ -551,10 +575,18 @@
       "material.status.owned": "Elegir",
       "material.status.buy": "Comprar y elegir {price}",
       "material.status.need": "Faltan {price}",
+      "skin.uploadButton": "Subir tu skin",
+      "skin.uploadHint": "Solo fotos. Cuesta {price} monedas.",
+      "skin.replaceHint": "Subir una nueva foto por {price} monedas",
+      "skin.photoOnly": "Solo se permiten fotos: JPG, PNG, WEBP, GIF o BMP.",
+      "skin.processing": "Preparando skin...",
       "toast.coins": "Monedas",
       "toast.coinsEarned": "+{amount} monedas por {score} puntos",
       "toast.goldenBlock": "Bloque dorado",
       "toast.goldenBlockReward": "+{amount} monedas por el bono de julio",
+      "toast.skinUploaded": "Skin subida y seleccionada",
+      "toast.photoOnly": "Se necesita una foto",
+      "toast.skinUploadFailed": "No se pudo cargar la foto",
       "toast.materialBought": "Material comprado y elegido",
       "toast.materialSelected": "Material seleccionado",
       "toast.notEnoughCoins": "No hay suficientes monedas",
@@ -570,6 +602,8 @@
       "material.magma.detail": "Lava caliente y grietas ardientes",
       "material.galaxy.name": "Galaxia",
       "material.galaxy.detail": "Espacio oscuro con brillo estelar",
+      "material.custom.name": "Skin de foto",
+      "material.custom.detail": "Tu foto en los bloques",
       "difficulty.easy.label": "Fácil",
       "difficulty.easy.hint": "Piezas más pequeñas y ritmo suave",
       "difficulty.normal.label": "Normal",
@@ -673,11 +707,11 @@
       "updates.statusSoon": "La prochaine mise à jour arrive bientôt",
       "updates.statusReleased": "La mise à jour est disponible",
       "updates.timerSoon": "Reste {time}",
-      "updates.timerReleased": "Disponible le 1er juillet 2026",
+      "updates.timerReleased": "Disponible le 5 juin 2026",
       "updates.dateLabel": "Date",
-      "updates.dateValue": "1er juillet 2026",
+      "updates.dateValue": "5 juin 2026",
       "updates.noteLabel": "À venir",
-      "updates.note": "Événement de juillet, bloc doré de 100 pièces, récompenses et meilleur équilibre des points.",
+      "updates.note": "Skins photo personnalisés pour 3 000 pièces et boutique de skins.",
       "event.eyebrow": "Événement de juillet",
       "event.title": "Rush de juillet",
       "event.close": "Fermer l'événement",
@@ -699,7 +733,7 @@
       "event.goalReached": "Objectif de {score} points atteint",
       "event.rewardToast": "+{amount} pièces d'événement",
       "shop.eyebrow": "Boutique",
-      "shop.title": "Matériaux des blocs",
+      "shop.title": "Matériaux et skins",
       "shop.close": "Fermer la boutique",
       "settings.eyebrow": "Réglages",
       "settings.title": "Configuration",
@@ -717,10 +751,18 @@
       "material.status.owned": "Choisir",
       "material.status.buy": "Acheter et choisir {price}",
       "material.status.need": "Manque {price}",
+      "skin.uploadButton": "Importer votre skin",
+      "skin.uploadHint": "Photos uniquement. Cout : {price} pieces.",
+      "skin.replaceHint": "Importer une nouvelle photo pour {price} pieces",
+      "skin.photoOnly": "Seules les photos sont autorisees : JPG, PNG, WEBP, GIF ou BMP.",
+      "skin.processing": "Preparation du skin...",
       "toast.coins": "Pièces",
       "toast.coinsEarned": "+{amount} pièces pour {score} points",
       "toast.goldenBlock": "Bloc doré",
       "toast.goldenBlockReward": "+{amount} pièces pour le bonus de juillet",
+      "toast.skinUploaded": "Skin importe et selectionne",
+      "toast.photoOnly": "Photo requise",
+      "toast.skinUploadFailed": "Impossible de charger la photo",
       "toast.materialBought": "Matériau acheté et sélectionné",
       "toast.materialSelected": "Matériau sélectionné",
       "toast.notEnoughCoins": "Pas assez de pièces",
@@ -736,6 +778,8 @@
       "material.magma.detail": "Lave chaude et fissures de feu",
       "material.galaxy.name": "Galaxie",
       "material.galaxy.detail": "Espace sombre avec éclat étoilé",
+      "material.custom.name": "Skin photo",
+      "material.custom.detail": "Votre photo sur les blocs",
       "difficulty.easy.label": "Facile",
       "difficulty.easy.hint": "Pièces plus petites et rythme doux",
       "difficulty.normal.label": "Normal",
@@ -839,11 +883,11 @@
       "updates.statusSoon": "A próxima atualização chega em breve",
       "updates.statusReleased": "A atualização já está disponível",
       "updates.timerSoon": "Faltam {time}",
-      "updates.timerReleased": "Disponível em 1 de julho de 2026",
+      "updates.timerReleased": "Disponível em 5 de junho de 2026",
       "updates.dateLabel": "Data",
-      "updates.dateValue": "1 de julho de 2026",
+      "updates.dateValue": "5 de junho de 2026",
       "updates.noteLabel": "O que vem",
-      "updates.note": "Evento de julho, bloco dourado de 100 moedas, recompensas e melhor equilíbrio de pontos.",
+      "updates.note": "Skins de foto personalizados por 3.000 moedas e loja de skins.",
       "event.eyebrow": "Evento de julho",
       "event.title": "Arrancada de julho",
       "event.close": "Fechar evento",
@@ -865,7 +909,7 @@
       "event.goalReached": "Meta de {score} pontos alcançada",
       "event.rewardToast": "+{amount} moedas do evento",
       "shop.eyebrow": "Loja",
-      "shop.title": "Materiais dos blocos",
+      "shop.title": "Materiais e skins",
       "shop.close": "Fechar loja",
       "settings.eyebrow": "Configurações",
       "settings.title": "Configuração do jogo",
@@ -883,10 +927,18 @@
       "material.status.owned": "Selecionar",
       "material.status.buy": "Comprar e selecionar {price}",
       "material.status.need": "Faltam {price}",
+      "skin.uploadButton": "Enviar sua skin",
+      "skin.uploadHint": "Somente fotos. Custa {price} moedas.",
+      "skin.replaceHint": "Enviar nova foto por {price} moedas",
+      "skin.photoOnly": "Somente fotos sao permitidas: JPG, PNG, WEBP, GIF ou BMP.",
+      "skin.processing": "Preparando skin...",
       "toast.coins": "Moedas",
       "toast.coinsEarned": "+{amount} moedas por {score} pontos",
       "toast.goldenBlock": "Bloco dourado",
       "toast.goldenBlockReward": "+{amount} moedas pelo bônus de julho",
+      "toast.skinUploaded": "Skin enviada e selecionada",
+      "toast.photoOnly": "Foto necessaria",
+      "toast.skinUploadFailed": "Nao foi possivel carregar a foto",
       "toast.materialBought": "Material comprado e selecionado",
       "toast.materialSelected": "Material selecionado",
       "toast.notEnoughCoins": "Moedas insuficientes",
@@ -902,6 +954,8 @@
       "material.magma.detail": "Lava quente e rachaduras de fogo",
       "material.galaxy.name": "Galáxia",
       "material.galaxy.detail": "Espaço escuro com brilho estelar",
+      "material.custom.name": "Skin de foto",
+      "material.custom.detail": "Sua foto nos blocos",
       "difficulty.easy.label": "Fácil",
       "difficulty.easy.hint": "Peças menores e ritmo suave",
       "difficulty.normal.label": "Normal",
@@ -1005,11 +1059,11 @@
       "updates.statusSoon": "Das nächste Update kommt bald",
       "updates.statusReleased": "Das Update ist verfügbar",
       "updates.timerSoon": "Noch {time}",
-      "updates.timerReleased": "Verfügbar am 1. Juli 2026",
+      "updates.timerReleased": "Verfügbar am 5. Juni 2026",
       "updates.dateLabel": "Datum",
-      "updates.dateValue": "1. Juli 2026",
+      "updates.dateValue": "5. Juni 2026",
       "updates.noteLabel": "Was kommt",
-      "updates.note": "Juli-Event, goldener Block mit 100 Münzen, Belohnungen und verbesserte Punktebalance.",
+      "updates.note": "Eigene Foto-Skins für 3.000 Münzen und ein Skin-Shop.",
       "event.eyebrow": "Juli-Event",
       "event.title": "Juli-Rush",
       "event.close": "Event schließen",
@@ -1031,7 +1085,7 @@
       "event.goalReached": "{score}-Punkte-Ziel erreicht",
       "event.rewardToast": "+{amount} Event-Münzen",
       "shop.eyebrow": "Shop",
-      "shop.title": "Blockmaterialien",
+      "shop.title": "Materialien und Skins",
       "shop.close": "Shop schließen",
       "settings.eyebrow": "Einstellungen",
       "settings.title": "Spieloptionen",
@@ -1049,10 +1103,18 @@
       "material.status.owned": "Auswählen",
       "material.status.buy": "Kaufen und auswählen {price}",
       "material.status.need": "Fehlen {price}",
+      "skin.uploadButton": "Eigenen Skin hochladen",
+      "skin.uploadHint": "Nur Fotos. Kostet {price} Muenzen.",
+      "skin.replaceHint": "Neues Foto fuer {price} Muenzen hochladen",
+      "skin.photoOnly": "Nur Fotos sind erlaubt: JPG, PNG, WEBP, GIF oder BMP.",
+      "skin.processing": "Skin wird vorbereitet...",
       "toast.coins": "Münzen",
       "toast.coinsEarned": "+{amount} Münzen für {score} Punkte",
       "toast.goldenBlock": "Goldener Block",
       "toast.goldenBlockReward": "+{amount} Münzen für den Juli-Bonus",
+      "toast.skinUploaded": "Skin hochgeladen und ausgewaehlt",
+      "toast.photoOnly": "Foto erforderlich",
+      "toast.skinUploadFailed": "Foto konnte nicht geladen werden",
       "toast.materialBought": "Material gekauft und ausgewählt",
       "toast.materialSelected": "Material ausgewählt",
       "toast.notEnoughCoins": "Nicht genug Münzen",
@@ -1068,6 +1130,8 @@
       "material.magma.detail": "Heiße Lava und feurige Risse",
       "material.galaxy.name": "Galaxie",
       "material.galaxy.detail": "Dunkler Weltraum mit Sternenglanz",
+      "material.custom.name": "Eigener Foto-Skin",
+      "material.custom.detail": "Dein Foto auf den Bloecken",
       "difficulty.easy.label": "Leicht",
       "difficulty.easy.hint": "Kleinere Teile und ruhigeres Tempo",
       "difficulty.normal.label": "Normal",
@@ -1171,11 +1235,11 @@
       "updates.statusSoon": "Il prossimo aggiornamento arriva presto",
       "updates.statusReleased": "Aggiornamento disponibile",
       "updates.timerSoon": "Mancano {time}",
-      "updates.timerReleased": "Disponibile il 1 luglio 2026",
+      "updates.timerReleased": "Disponibile il 5 giugno 2026",
       "updates.dateLabel": "Data",
-      "updates.dateValue": "1 luglio 2026",
+      "updates.dateValue": "5 giugno 2026",
       "updates.noteLabel": "In arrivo",
-      "updates.note": "Evento di luglio, blocco dorato da 100 monete, ricompense e bilanciamento punti migliorato.",
+      "updates.note": "Skin foto personalizzate per 3000 monete e negozio skin.",
       "event.eyebrow": "Evento di luglio",
       "event.title": "Scatto di luglio",
       "event.close": "Chiudi evento",
@@ -1197,7 +1261,7 @@
       "event.goalReached": "Obiettivo {score} punti raggiunto",
       "event.rewardToast": "+{amount} monete evento",
       "shop.eyebrow": "Negozio",
-      "shop.title": "Materiali dei blocchi",
+      "shop.title": "Materiali e skin",
       "shop.close": "Chiudi negozio",
       "settings.eyebrow": "Impostazioni",
       "settings.title": "Configurazione",
@@ -1215,10 +1279,18 @@
       "material.status.owned": "Seleziona",
       "material.status.buy": "Compra e seleziona {price}",
       "material.status.need": "Servono {price}",
+      "skin.uploadButton": "Carica la tua skin",
+      "skin.uploadHint": "Solo foto. Costa {price} monete.",
+      "skin.replaceHint": "Carica una nuova foto per {price} monete",
+      "skin.photoOnly": "Sono consentite solo foto: JPG, PNG, WEBP, GIF o BMP.",
+      "skin.processing": "Preparazione skin...",
       "toast.coins": "Monete",
       "toast.coinsEarned": "+{amount} monete per {score} punti",
       "toast.goldenBlock": "Blocco dorato",
       "toast.goldenBlockReward": "+{amount} monete per il bonus di luglio",
+      "toast.skinUploaded": "Skin caricata e selezionata",
+      "toast.photoOnly": "Serve una foto",
+      "toast.skinUploadFailed": "Impossibile caricare la foto",
       "toast.materialBought": "Materiale comprato e selezionato",
       "toast.materialSelected": "Materiale selezionato",
       "toast.notEnoughCoins": "Monete insufficienti",
@@ -1234,6 +1306,8 @@
       "material.magma.detail": "Lava calda e crepe di fuoco",
       "material.galaxy.name": "Galassia",
       "material.galaxy.detail": "Spazio scuro con bagliore stellare",
+      "material.custom.name": "Skin foto",
+      "material.custom.detail": "La tua foto sui blocchi",
       "difficulty.easy.label": "Facile",
       "difficulty.easy.hint": "Pezzi più piccoli e ritmo più morbido",
       "difficulty.normal.label": "Normale",
@@ -1337,11 +1411,11 @@
       "updates.statusSoon": "Наступне оновлення вже скоро",
       "updates.statusReleased": "Оновлення вже вийшло",
       "updates.timerSoon": "Залишилось {time}",
-      "updates.timerReleased": "Вийшло 1 липня 2026",
+      "updates.timerReleased": "Вийшло 5 червня 2026",
       "updates.dateLabel": "Дата",
-      "updates.dateValue": "1 липня 2026",
+      "updates.dateValue": "5 червня 2026",
       "updates.noteLabel": "Що буде",
-      "updates.note": "Липнева подія, золотий блок на 100 монет, нагороди та покращений баланс очок.",
+      "updates.note": "Власні фото-скіни за 3000 монет і магазин скінів.",
       "event.eyebrow": "Подія липня",
       "event.title": "Липневий ривок",
       "event.close": "Закрити подію",
@@ -1363,7 +1437,7 @@
       "event.goalReached": "Ціль {score} очок досягнута",
       "event.rewardToast": "+{amount} монет за подію",
       "shop.eyebrow": "Магазин",
-      "shop.title": "Матеріали блоків",
+      "shop.title": "Матеріали та скіни",
       "shop.close": "Закрити магазин",
       "settings.eyebrow": "Налаштування",
       "settings.title": "Параметри гри",
@@ -1381,10 +1455,18 @@
       "material.status.owned": "Вибрати",
       "material.status.buy": "Купити й вибрати {price}",
       "material.status.need": "Потрібно {price}",
+      "skin.uploadButton": "Завантажити свій скін",
+      "skin.uploadHint": "Тільки фото. Вартість {price} монет.",
+      "skin.replaceHint": "Завантажити нове фото за {price} монет",
+      "skin.photoOnly": "Можна завантажити тільки фото: JPG, PNG, WEBP, GIF або BMP.",
+      "skin.processing": "Готуємо скін...",
       "toast.coins": "Монети",
       "toast.coinsEarned": "+{amount} монет за {score} очок",
       "toast.goldenBlock": "Золотий блок",
       "toast.goldenBlockReward": "+{amount} монет за липневий бонус",
+      "toast.skinUploaded": "Скін завантажено й вибрано",
+      "toast.photoOnly": "Потрібне фото",
+      "toast.skinUploadFailed": "Не вдалося завантажити фото",
       "toast.materialBought": "Матеріал куплено й вибрано",
       "toast.materialSelected": "Матеріал вибрано",
       "toast.notEnoughCoins": "Не вистачає монет",
@@ -1400,6 +1482,8 @@
       "material.magma.detail": "Гаряча лава та вогняні тріщини",
       "material.galaxy.name": "Галактика",
       "material.galaxy.detail": "Темний космос із зоряним світінням",
+      "material.custom.name": "Свій фото-скін",
+      "material.custom.detail": "Фото на кубиках",
       "difficulty.easy.label": "Легкий",
       "difficulty.easy.hint": "Менше великих фігур і м'якший темп",
       "difficulty.normal.label": "Нормальний",
@@ -1503,6 +1587,7 @@
     shopMaterialHint: document.querySelector("#shopMaterialHint"),
     shopMaterialShop: document.querySelector("#shopMaterialShop"),
     shopWalletCoinsValue: document.querySelector("#shopWalletCoinsValue"),
+    customSkinInput: document.querySelector("#customSkinInput"),
     statHighScore: document.querySelector("#statHighScore"),
     statGamesPlayed: document.querySelector("#statGamesPlayed"),
     statBlocksPlaced: document.querySelector("#statBlocksPlaced"),
@@ -1580,6 +1665,7 @@
       coins: 0,
       ownedMaterials: ["neon"],
       selectedMaterial: "neon",
+      customSkinData: "",
       bestCombo: 0,
       achievements: {},
       events: {
@@ -1608,6 +1694,9 @@
         events: { ...defaults.events, ...(parsed.events || {}) },
         settings: { ...defaults.settings, ...(parsed.settings || {}) }
       };
+      loaded.customSkinData = typeof loaded.customSkinData === "string" && loaded.customSkinData.startsWith("data:image/")
+        ? loaded.customSkinData
+        : "";
       loaded.events[JULY_EVENT_ID] = {
         ...defaults.events[JULY_EVENT_ID],
         ...(loaded.events[JULY_EVENT_ID] || {})
@@ -1631,6 +1720,9 @@
         ? loaded.events[JULY_EVENT_ID].claimedAt
         : "";
       loaded.ownedMaterials = Array.isArray(loaded.ownedMaterials) ? loaded.ownedMaterials.filter((id) => materialIds.has(id)) : ["neon"];
+      if (!loaded.customSkinData) {
+        loaded.ownedMaterials = loaded.ownedMaterials.filter((id) => id !== "custom");
+      }
       if (!loaded.ownedMaterials.includes("neon")) {
         loaded.ownedMaterials.unshift("neon");
       }
@@ -1736,11 +1828,25 @@
   }
 
   function selectedMaterialId() {
+    if (save.selectedMaterial === "custom" && !hasCustomSkin()) {
+      return "neon";
+    }
     return BLOCK_MATERIALS.some((material) => material.id === save.selectedMaterial) ? save.selectedMaterial : "neon";
   }
 
   function isMaterialOwned(id) {
+    if (id === "custom") {
+      return hasCustomSkin();
+    }
     return save.ownedMaterials.includes(id);
+  }
+
+  function hasCustomSkin() {
+    return typeof save.customSkinData === "string" && save.customSkinData.startsWith("data:image/");
+  }
+
+  function customSkinCssValue() {
+    return hasCustomSkin() ? `url(${save.customSkinData})` : "none";
   }
 
   function init() {
@@ -1824,6 +1930,9 @@
     materialShopTargets().forEach((shop) => {
       shop.addEventListener("click", handleMaterialClick);
     });
+    if (dom.customSkinInput) {
+      dom.customSkinInput.addEventListener("change", handleCustomSkinFileChange);
+    }
 
     document.querySelectorAll("[data-close-modal]").forEach((button) => {
       button.addEventListener("click", () => closeModalWithReturn(button.dataset.closeModal));
@@ -2062,6 +2171,9 @@
     pieceEl.style.setProperty("--cols", String(piece.width));
     pieceEl.style.setProperty("--rows", String(piece.height));
     pieceEl.style.setProperty("--piece-color", piece.color);
+    if ((piece.material || selectedMaterialId()) === "custom") {
+      pieceEl.style.setProperty("--skin-image", customSkinCssValue());
+    }
     pieceEl.style.gridTemplateColumns = `repeat(${piece.width}, var(--piece-cell, 28px))`;
     pieceEl.style.gridTemplateRows = `repeat(${piece.height}, var(--piece-cell, 28px))`;
     pieceEl.style.minWidth = `${piece.width * minCellSize + Math.max(0, piece.width - 1) * minGap + minPadding}px`;
@@ -2443,8 +2555,14 @@
         if (block) {
           cell.style.setProperty("--cell-color", block.color);
           cell.dataset.material = block.material || "neon";
+          if ((block.material || "neon") === "custom") {
+            cell.style.setProperty("--skin-image", customSkinCssValue());
+          } else {
+            cell.style.removeProperty("--skin-image");
+          }
         } else {
           cell.style.removeProperty("--cell-color");
+          cell.style.removeProperty("--skin-image");
           delete cell.dataset.material;
         }
       }
@@ -2678,6 +2796,7 @@
       target.innerHTML = "";
 
       BLOCK_MATERIALS.forEach((material) => {
+        const isCustom = material.id === "custom";
         const owned = isMaterialOwned(material.id);
         const active = selectedMaterialId() === material.id;
         const canBuy = save.coins >= material.price;
@@ -2686,26 +2805,52 @@
         card.className = `material-card${owned ? " owned" : " locked"}${active ? " active" : ""}`;
         card.dataset.material = material.id;
         card.style.setProperty("--preview-color", material.preview);
+        if (isCustom && hasCustomSkin()) {
+          card.style.setProperty("--skin-image", customSkinCssValue());
+        }
 
-        const status = active
-          ? t("material.status.selected")
-          : owned
-            ? t("material.status.owned")
-            : canBuy
-              ? t("material.status.buy", { price: formatNumber(material.price) })
-              : t("material.status.need", { price: formatNumber(material.price - save.coins) });
+        const status = isCustom
+          ? customSkinStatus(active, owned, canBuy)
+          : active
+            ? t("material.status.selected")
+            : owned
+              ? t("material.status.owned")
+              : canBuy
+                ? t("material.status.buy", { price: formatNumber(material.price) })
+                : t("material.status.need", { price: formatNumber(material.price - save.coins) });
 
         card.innerHTML = `
           <span class="material-preview" data-material="${material.id}"></span>
           <span class="material-card-copy">
             <strong>${t(`material.${material.id}.name`)}</strong>
-            <span>${t(`material.${material.id}.detail`)}</span>
+            <span>${isCustom ? customSkinDetail(owned) : t(`material.${material.id}.detail`)}</span>
           </span>
           <span class="material-card-status">${status}</span>
         `;
         target.appendChild(card);
       });
     });
+  }
+
+  function customSkinStatus(active, owned, canBuy) {
+    if (active && owned) {
+      return canBuy
+        ? t("skin.replaceHint", { price: formatNumber(CUSTOM_SKIN_PRICE) })
+        : t("material.status.need", { price: formatNumber(CUSTOM_SKIN_PRICE - save.coins) });
+    }
+    if (owned) {
+      return t("material.status.owned");
+    }
+    if (canBuy) {
+      return t("skin.uploadButton");
+    }
+    return t("material.status.need", { price: formatNumber(CUSTOM_SKIN_PRICE - save.coins) });
+  }
+
+  function customSkinDetail(owned) {
+    return owned
+      ? t("skin.replaceHint", { price: formatNumber(CUSTOM_SKIN_PRICE) })
+      : t("skin.uploadHint", { price: formatNumber(CUSTOM_SKIN_PRICE) });
   }
 
   function handleMaterialClick(event) {
@@ -2717,6 +2862,11 @@
     const materialId = card.dataset.material;
     const material = BLOCK_MATERIALS.find((item) => item.id === materialId);
     if (!material) {
+      return;
+    }
+
+    if (materialId === "custom") {
+      handleCustomSkinClick();
       return;
     }
 
@@ -2743,6 +2893,122 @@
     updateAllStaticUi();
     renderPieces();
     syncBoard();
+  }
+
+  function handleCustomSkinClick() {
+    const owned = hasCustomSkin();
+    const active = selectedMaterialId() === "custom";
+
+    if (owned && !active) {
+      save.selectedMaterial = "custom";
+      applySelectedMaterialToGame();
+      saveGame();
+      updateAllStaticUi();
+      renderPieces();
+      syncBoard();
+      showToast(t("toast.materialSelected"), t("material.custom.name"));
+      playSound("tap");
+      return;
+    }
+
+    requestCustomSkinUpload();
+  }
+
+  function requestCustomSkinUpload() {
+    if (save.coins < CUSTOM_SKIN_PRICE) {
+      showToast(t("toast.notEnoughCoins"), t("material.status.need", { price: formatNumber(CUSTOM_SKIN_PRICE - save.coins) }));
+      playSound("error");
+      return;
+    }
+
+    if (!dom.customSkinInput) {
+      showToast(t("toast.skinUploadFailed"), t("skin.photoOnly"));
+      playSound("error");
+      return;
+    }
+
+    dom.customSkinInput.value = "";
+    dom.customSkinInput.click();
+  }
+
+  async function handleCustomSkinFileChange(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) {
+      return;
+    }
+
+    if (!CUSTOM_SKIN_TYPES.has(file.type)) {
+      showToast(t("toast.photoOnly"), t("skin.photoOnly"));
+      playSound("error");
+      return;
+    }
+
+    if (save.coins < CUSTOM_SKIN_PRICE) {
+      showToast(t("toast.notEnoughCoins"), t("material.status.need", { price: formatNumber(CUSTOM_SKIN_PRICE - save.coins) }));
+      playSound("error");
+      return;
+    }
+
+    showStatus(t("skin.processing"));
+
+    try {
+      const skinData = await imageFileToSkinData(file);
+      save.coins -= CUSTOM_SKIN_PRICE;
+      save.customSkinData = skinData;
+      if (!save.ownedMaterials.includes("custom")) {
+        save.ownedMaterials.push("custom");
+      }
+      save.selectedMaterial = "custom";
+      applySelectedMaterialToGame();
+      saveGame();
+      updateAllStaticUi();
+      renderPieces();
+      syncBoard();
+      showToast(t("toast.skinUploaded"), t("material.custom.name"));
+      playSound("reward");
+    } catch (error) {
+      showToast(t("toast.skinUploadFailed"), t("skin.photoOnly"));
+      playSound("error");
+    }
+  }
+
+  async function imageFileToSkinData(file) {
+    const dataUrl = await readFileAsDataUrl(file);
+    const image = await loadImage(dataUrl);
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    const side = CUSTOM_SKIN_SIZE;
+    canvas.width = side;
+    canvas.height = side;
+
+    const scale = Math.max(side / image.width, side / image.height);
+    const width = image.width * scale;
+    const height = image.height * scale;
+    const x = (side - width) / 2;
+    const y = (side - height) / 2;
+
+    context.fillStyle = "#10131a";
+    context.fillRect(0, 0, side, side);
+    context.drawImage(image, x, y, width, height);
+    return canvas.toDataURL("image/jpeg", 0.78);
+  }
+
+  function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => resolve(String(reader.result || "")), { once: true });
+      reader.addEventListener("error", reject, { once: true });
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.addEventListener("load", () => resolve(image), { once: true });
+      image.addEventListener("error", reject, { once: true });
+      image.src = src;
+    });
   }
 
   function applySelectedMaterialToGame() {

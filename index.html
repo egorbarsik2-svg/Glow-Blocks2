@@ -6,10 +6,11 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title>Glow Blocks - офлайн игра</title>
-  <link rel="stylesheet" href="styles.css?v=20260701-1">
+  <link rel="stylesheet" href="styles.css?v=20260701-2">
 </head>
 <body>
   <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
+  <input id="customSkinInput" class="hidden" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" aria-hidden="true">
 
   <div class="app-shell">
     <header class="topbar">
@@ -165,7 +166,7 @@
       <div class="modal-heading">
         <div>
           <p class="eyebrow" data-i18n="shop.eyebrow">Магазин</p>
-          <h2 data-i18n="shop.title">Материалы блоков</h2>
+          <h2 data-i18n="shop.title">Материалы и скины</h2>
         </div>
         <button class="close-button" data-close-modal="shopModal" type="button" aria-label="Закрыть магазин" data-i18n-aria="shop.close">×</button>
       </div>
@@ -239,11 +240,11 @@
       <div class="update-list">
         <div>
           <strong data-i18n="updates.dateLabel">Дата</strong>
-          <span id="nextUpdateDate">1 июля 2026</span>
+          <span id="nextUpdateDate">5 июня 2026</span>
         </div>
         <div>
           <strong data-i18n="updates.noteLabel">Что будет</strong>
-          <span data-i18n="updates.note">Июльское событие, золотой блок на 100 монет, награды и улучшенный баланс очков.</span>
+          <span data-i18n="updates.note">Пользовательские фото-скины за 3000 монет и магазин скинов.</span>
         </div>
       </div>
       <div class="modal-actions">
@@ -314,6 +315,6 @@
     </div>
   </section>
 
-  <script src="script.js?v=20260701-1"></script>
+  <script src="script.js?v=20260701-2"></script>
 </body>
 </html>
