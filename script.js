@@ -2127,12 +2127,17 @@
       offsetY: event.clientY - sourceRect.top,
       grabX,
       grabY,
+      boardRect: dom.board.getBoundingClientRect(),
       row: -1,
       col: -1,
-      valid: false
+      valid: false,
+      pointerX: event.clientX,
+      pointerY: event.clientY,
+      frame: 0,
+      previewKey: ""
     };
 
-    moveDrag(event);
+    updateDragPosition(state.drag, event.clientX, event.clientY);
     window.addEventListener("pointermove", moveDrag, { passive: false });
     window.addEventListener("pointerup", endDrag);
     window.addEventListener("pointercancel", cancelDrag);
@@ -2145,13 +2150,39 @@
 
     event.preventDefault();
     const drag = state.drag;
-    drag.ghost.style.transform = `translate3d(${event.clientX - drag.offsetX}px, ${event.clientY - drag.offsetY}px, 0)`;
+    drag.pointerX = event.clientX;
+    drag.pointerY = event.clientY;
 
-    const anchor = getBoardAnchor(event.clientX, event.clientY, drag);
+    if (!drag.frame) {
+      drag.frame = requestAnimationFrame(flushDragMove);
+    }
+  }
+
+  function flushDragMove() {
+    const drag = state.drag;
+    if (!drag) {
+      return;
+    }
+
+    drag.frame = 0;
+    updateDragPosition(drag, drag.pointerX, drag.pointerY);
+  }
+
+  function updateDragPosition(drag, clientX, clientY) {
+    drag.ghost.style.transform = `translate3d(${clientX - drag.offsetX}px, ${clientY - drag.offsetY}px, 0)`;
+
+    const anchor = getBoardAnchor(clientX, clientY, drag);
+    const valid = canPlacePiece(drag.piece, anchor.row, anchor.col);
+    const previewKey = `${anchor.row}:${anchor.col}:${valid ? 1 : 0}`;
+
     drag.row = anchor.row;
     drag.col = anchor.col;
-    drag.valid = canPlacePiece(drag.piece, drag.row, drag.col);
-    renderPreview(drag.piece, drag.row, drag.col, drag.valid);
+    drag.valid = valid;
+
+    if (drag.previewKey !== previewKey) {
+      drag.previewKey = previewKey;
+      renderPreview(drag.piece, drag.row, drag.col, drag.valid);
+    }
   }
 
   function endDrag(event) {
@@ -2161,6 +2192,11 @@
 
     event.preventDefault();
     const drag = state.drag;
+    if (drag.frame) {
+      cancelAnimationFrame(drag.frame);
+      drag.frame = 0;
+    }
+    updateDragPosition(drag, event.clientX, event.clientY);
     const shouldPlace = drag.valid && !state.busy && !state.paused && state.running;
     const piece = drag.piece;
     const row = drag.row;
@@ -2188,6 +2224,9 @@
     if (state.drag.source) {
       state.drag.source.classList.remove("drag-source");
     }
+    if (state.drag.frame) {
+      cancelAnimationFrame(state.drag.frame);
+    }
     if (state.drag.ghost) {
       state.drag.ghost.remove();
     }
@@ -2199,7 +2238,7 @@
   }
 
   function getBoardAnchor(clientX, clientY, drag) {
-    const rect = dom.board.getBoundingClientRect();
+    const rect = drag.boardRect || dom.board.getBoundingClientRect();
     const localX = clientX - rect.left;
     const localY = clientY - rect.top;
     const col = Math.floor(localX / (rect.width / BOARD_SIZE)) - drag.grabX;
@@ -2308,7 +2347,7 @@
 
     state.busy = false;
     saveGame();
-    updateAllStaticUi();
+    updateRuntimeUi();
     checkAchievements();
     checkGameOver();
   }
@@ -2440,7 +2479,7 @@
     animateNumber(dom.highScoreValue, previousHigh, save.highScore);
     pulseScoreCard();
     showScorePop(points, point, label);
-    updateAllStaticUi();
+    updateRuntimeUi();
     checkAchievements();
   }
 
@@ -2514,11 +2553,7 @@
     }
   }
 
-  function updateAllStaticUi() {
-    applyTranslations();
-    syncGoldenBlock();
-    dom.difficultyBadge.textContent = t(`difficulty.${state.difficulty}.label`);
-    dom.highScoreValue.textContent = formatNumber(save.highScore);
+  function updateWalletUi() {
     if (dom.coinsValue) {
       dom.coinsValue.textContent = formatNumber(save.coins);
     }
@@ -2528,6 +2563,33 @@
     if (dom.shopWalletCoinsValue) {
       dom.shopWalletCoinsValue.textContent = formatNumber(save.coins);
     }
+  }
+
+  function isModalActive(id) {
+    return Boolean(dom.modals[id] && dom.modals[id].classList.contains("active"));
+  }
+
+  function updateRuntimeUi() {
+    syncGoldenBlock();
+    updateWalletUi();
+    updateEventButton();
+    if (isModalActive("eventModal")) {
+      updateJulyEventUi();
+    }
+    if (isModalActive("statsModal")) {
+      updateStatsUi();
+    }
+    if (isModalActive("gameOverModal")) {
+      updateGameOverUi();
+    }
+  }
+
+  function updateAllStaticUi() {
+    applyTranslations();
+    syncGoldenBlock();
+    dom.difficultyBadge.textContent = t(`difficulty.${state.difficulty}.label`);
+    dom.highScoreValue.textContent = formatNumber(save.highScore);
+    updateWalletUi();
     dom.menuBestScore.textContent = formatNumber(save.highScore);
     dom.menuDailyStreak.textContent = formatNumber(save.dailyStreak);
     updatePauseButton();
@@ -2879,8 +2941,7 @@
     state.goldenBlockIndex = -1;
     save.coins += GOLDEN_BLOCK_REWARD;
     saveGame();
-    syncGoldenBlock();
-    updateAllStaticUi();
+    updateRuntimeUi();
     showToast(t("toast.goldenBlock"), t("toast.goldenBlockReward", {
       amount: formatNumber(GOLDEN_BLOCK_REWARD)
     }));
@@ -3197,7 +3258,7 @@
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
 
-      for (let i = 0; i < 5; i += 1) {
+      for (let i = 0; i < 3; i += 1) {
         const angle = Math.random() * Math.PI * 2;
         const speed = 1.4 + Math.random() * 4.2;
         particles.push({
@@ -3206,8 +3267,8 @@
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed - 1.5,
           size: 2 + Math.random() * 4,
-          life: 520 + Math.random() * 260,
-          maxLife: 780,
+          life: 420 + Math.random() * 220,
+          maxLife: 640,
           color,
           spin: (Math.random() - 0.5) * 0.18,
           rotation: Math.random() * Math.PI
@@ -3248,7 +3309,7 @@
       canvasContext.translate(particle.x, particle.y);
       canvasContext.rotate(particle.rotation);
       canvasContext.fillStyle = particle.color;
-      canvasContext.shadowBlur = 16;
+      canvasContext.shadowBlur = 8;
       canvasContext.shadowColor = particle.color;
       canvasContext.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
       canvasContext.restore();
