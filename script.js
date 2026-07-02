@@ -1793,6 +1793,7 @@
     coinMilestonesAwarded: 0,
     goldenBlockIndex: -1,
     selectedLeaderboardId: "",
+    performanceLite: false,
     drag: null
   };
 
@@ -1801,12 +1802,14 @@
   let modalBackTarget = null;
   let audioContext = null;
   let cellEls = [];
+  let previewCells = [];
   let particles = [];
   let particleFrame = 0;
   let lastParticleTime = 0;
   let canvasContext = null;
   let julyEventTicker = 0;
   let updatesTicker = 0;
+  let resizeFrame = 0;
 
   function createEmptyBoard() {
     return Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(null));
@@ -2051,6 +2054,7 @@
     state.difficulty = save.settings.difficulty in DIFFICULTIES ? save.settings.difficulty : "normal";
     save.settings.language = Object.prototype.hasOwnProperty.call(I18N, save.settings.language) ? save.settings.language : "ru";
     canvasContext = dom.particleCanvas ? dom.particleCanvas.getContext("2d") : null;
+    updatePerformanceMode();
     buildLanguageOptions();
     applyTranslations();
     buildBoard();
@@ -2207,7 +2211,48 @@
       }
     }, { once: true });
 
-    window.addEventListener("resize", resizeParticleCanvas);
+    window.addEventListener("resize", handleViewportChange);
+  }
+
+  function isCoarseCompactViewport() {
+    return Boolean(
+      window.matchMedia
+      && window.matchMedia("(pointer: coarse)").matches
+      && window.matchMedia("(max-width: 1100px)").matches
+    );
+  }
+
+  function prefersReducedMotion() {
+    return Boolean(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+
+  function shouldUseLiteMode() {
+    const memory = Number(navigator.deviceMemory || 0);
+    const lowMemory = memory > 0 && memory <= 4 && window.matchMedia && window.matchMedia("(max-width: 1200px)").matches;
+    const saveData = Boolean(navigator.connection && navigator.connection.saveData);
+    return prefersReducedMotion() || saveData || isCoarseCompactViewport() || lowMemory;
+  }
+
+  function updatePerformanceMode() {
+    const lite = shouldUseLiteMode();
+    state.performanceLite = lite;
+    document.body.classList.toggle("performance-lite", lite);
+
+    if (lite) {
+      stopParticles();
+    }
+  }
+
+  function handleViewportChange() {
+    if (resizeFrame) {
+      return;
+    }
+
+    resizeFrame = requestAnimationFrame(() => {
+      resizeFrame = 0;
+      updatePerformanceMode();
+      resizeParticleCanvas();
+    });
   }
 
   function handlePlay() {
@@ -2527,6 +2572,7 @@
       pointerX: event.clientX,
       pointerY: event.clientY,
       frame: 0,
+      anchorKey: "",
       previewKey: ""
     };
 
@@ -2565,9 +2611,11 @@
     drag.ghost.style.transform = `translate3d(${clientX - drag.offsetX}px, ${clientY - drag.offsetY}px, 0)`;
 
     const anchor = getBoardAnchor(clientX, clientY, drag);
-    const valid = canPlacePiece(drag.piece, anchor.row, anchor.col);
+    const anchorKey = `${anchor.row}:${anchor.col}`;
+    const valid = drag.anchorKey === anchorKey ? drag.valid : canPlacePiece(drag.piece, anchor.row, anchor.col);
     const previewKey = `${anchor.row}:${anchor.col}:${valid ? 1 : 0}`;
 
+    drag.anchorKey = anchorKey;
     drag.row = anchor.row;
     drag.col = anchor.col;
     drag.valid = valid;
@@ -2647,13 +2695,20 @@
       const targetRow = row + cell.y;
       const targetCol = col + cell.x;
       if (isInside(targetRow, targetCol)) {
-        getCellEl(targetRow, targetCol).classList.add(previewClass);
+        const target = getCellEl(targetRow, targetCol);
+        target.classList.add(previewClass);
+        previewCells.push(target);
       }
     });
   }
 
   function clearPreview() {
-    cellEls.forEach((cell) => cell.classList.remove("preview-ok", "preview-bad"));
+    if (!previewCells.length) {
+      return;
+    }
+
+    previewCells.forEach((cell) => cell.classList.remove("preview-ok", "preview-bad"));
+    previewCells = [];
   }
 
   function placePiece(piece, pieceIndex, row, col) {
@@ -2859,6 +2914,14 @@
   }
 
   function animatePlacedCells(indices) {
+    if (state.performanceLite) {
+      indices.forEach((index) => cellEls[index].classList.add("placed"));
+      window.setTimeout(() => {
+        indices.forEach((index) => cellEls[index].classList.remove("placed"));
+      }, 130);
+      return;
+    }
+
     indices.forEach((index, offset) => {
       const cell = cellEls[index];
       window.setTimeout(() => {
@@ -2909,6 +2972,11 @@
 
   function animateNumber(element, from, to) {
     cancelAnimationFrame(element._countFrame || 0);
+    if (state.performanceLite || prefersReducedMotion() || Math.floor(from) === Math.floor(to)) {
+      element.textContent = formatNumber(to);
+      return;
+    }
+
     const duration = 420;
     const start = performance.now();
     const easeOut = (value) => 1 - Math.pow(1 - value, 3);
@@ -2929,6 +2997,10 @@
   }
 
   function pulseScoreCard() {
+    if (state.performanceLite) {
+      return;
+    }
+
     const card = dom.scoreValue.closest(".score-card");
     card.classList.remove("score-bump");
     void card.offsetWidth;
@@ -2937,6 +3009,10 @@
   }
 
   function showScorePop(points, point, label) {
+    if (state.performanceLite && points < difficultyConfig().line) {
+      return;
+    }
+
     const fallback = dom.scoreValue.getBoundingClientRect();
     const x = point && typeof point.x === "number" ? point.x : fallback.left + fallback.width / 2;
     const y = point && typeof point.y === "number" ? point.y : fallback.top + fallback.height / 2;
@@ -4293,18 +4369,26 @@
       return;
     }
 
-    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    if (state.performanceLite) {
+      dom.particleCanvas.width = 1;
+      dom.particleCanvas.height = 1;
+      canvasContext.clearRect(0, 0, 1, 1);
+      return;
+    }
+
+    const dpr = Math.max(1, Math.min(1.5, window.devicePixelRatio || 1));
     dom.particleCanvas.width = Math.floor(window.innerWidth * dpr);
     dom.particleCanvas.height = Math.floor(window.innerHeight * dpr);
     canvasContext.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   function spawnClearParticles(indices, colorOverride = "") {
-    if (!canvasContext) {
+    if (!canvasContext || state.performanceLite) {
       return;
     }
 
-    indices.forEach((index) => {
+    const particleIndices = indices.slice(0, 18);
+    particleIndices.forEach((index) => {
       const cell = cellEls[index];
       const rect = cell.getBoundingClientRect();
       const block = state.board[Math.floor(index / BOARD_SIZE)][index % BOARD_SIZE];
@@ -4312,23 +4396,27 @@
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
 
-      for (let i = 0; i < 3; i += 1) {
+      for (let i = 0; i < 2; i += 1) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = 1.4 + Math.random() * 4.2;
+        const speed = 1.2 + Math.random() * 3.2;
         particles.push({
           x,
           y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed - 1.5,
           size: 2 + Math.random() * 4,
-          life: 420 + Math.random() * 220,
-          maxLife: 640,
+          life: 340 + Math.random() * 170,
+          maxLife: 510,
           color,
           spin: (Math.random() - 0.5) * 0.18,
           rotation: Math.random() * Math.PI
         });
       }
     });
+
+    if (particles.length > 80) {
+      particles = particles.slice(-80);
+    }
 
     if (!particleFrame) {
       lastParticleTime = performance.now();
@@ -4337,8 +4425,8 @@
   }
 
   function tickParticles(now) {
-    if (!canvasContext) {
-      particleFrame = 0;
+    if (!canvasContext || state.performanceLite) {
+      stopParticles();
       return;
     }
 
@@ -4363,7 +4451,7 @@
       canvasContext.translate(particle.x, particle.y);
       canvasContext.rotate(particle.rotation);
       canvasContext.fillStyle = particle.color;
-      canvasContext.shadowBlur = 8;
+      canvasContext.shadowBlur = 0;
       canvasContext.shadowColor = particle.color;
       canvasContext.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
       canvasContext.restore();
@@ -4374,6 +4462,17 @@
       particleFrame = requestAnimationFrame(tickParticles);
     } else {
       particleFrame = 0;
+      canvasContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+  }
+
+  function stopParticles() {
+    if (particleFrame) {
+      cancelAnimationFrame(particleFrame);
+      particleFrame = 0;
+    }
+    particles = [];
+    if (canvasContext) {
       canvasContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
     }
   }

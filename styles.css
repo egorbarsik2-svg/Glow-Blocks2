@@ -466,6 +466,7 @@ button:disabled {
   pointer-events: none;
   opacity: 0.92;
   transform-origin: top left;
+  will-change: transform;
   filter: drop-shadow(0 26px 34px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 24px color-mix(in srgb, var(--piece-color) 42%, transparent));
 }
 
@@ -1530,6 +1531,63 @@ h2 {
   will-change: transform, opacity;
 }
 
+body.performance-lite::before {
+  display: none;
+}
+
+body.performance-lite .particle-canvas,
+body.performance-lite .dock-glow {
+  display: none;
+}
+
+body.performance-lite .score-card,
+body.performance-lite .control-button,
+body.performance-lite .menu-button,
+body.performance-lite .primary-button,
+body.performance-lite .modal-panel {
+  backdrop-filter: none;
+}
+
+body.performance-lite .board-frame,
+body.performance-lite .piece-dock,
+body.performance-lite .modal-panel,
+body.performance-lite .toast {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+}
+
+body.performance-lite .cell,
+body.performance-lite .piece-cell,
+body.performance-lite .piece,
+body.performance-lite .piece-slot,
+body.performance-lite .score-card,
+body.performance-lite .control-button,
+body.performance-lite .menu-button,
+body.performance-lite .primary-button {
+  transition-duration: 80ms;
+}
+
+body.performance-lite .cell.filled,
+body.performance-lite .cell.golden-bonus,
+body.performance-lite .piece-cell.filled,
+body.performance-lite .material-preview,
+body.performance-lite .cell.preview-ok:not(.filled),
+body.performance-lite .cell.preview-bad {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+body.performance-lite .piece:hover {
+  transform: none;
+  filter: none;
+}
+
+body.performance-lite .piece.drag-ghost {
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.38));
+}
+
+body.performance-lite .score-pop {
+  animation-duration: 420ms;
+}
+
 .hidden {
   display: none !important;
 }
@@ -1621,6 +1679,41 @@ h2 {
     --board-size: min(90vw, 480px, 48svh);
     --piece-cell: clamp(18px, 3.8svh, 30px);
     --cell-gap: clamp(3px, 0.7vw, 6px);
+  }
+
+  body::before,
+  .dock-glow {
+    display: none;
+  }
+
+  .score-card,
+  .control-button,
+  .menu-button,
+  .primary-button,
+  .modal-panel {
+    backdrop-filter: none;
+  }
+
+  .piece:hover,
+  .control-button:hover,
+  .menu-button:hover,
+  .primary-button:hover,
+  .segmented button:hover,
+  .close-button:hover {
+    transform: none;
+    filter: none;
+  }
+
+  .board-frame,
+  .piece-dock {
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
+  }
+
+  .cell.filled,
+  .piece-cell.filled {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+      inset 0 -6px 10px rgba(0, 0, 0, 0.12);
   }
 
   .app-shell {
