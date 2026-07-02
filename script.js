@@ -13,7 +13,8 @@
   const JULY_EVENT_ID = "july_2026";
   const JULY_EVENT_START = new Date(2026, 6, 1, 0, 0, 0);
   const JULY_EVENT_END = new Date(2026, 7, 1, 0, 0, 0);
-  const NEXT_UPDATE_AT = new Date(2026, 5, 5, 0, 0, 0);
+  const TOPS_RELEASE_AT = new Date(2026, 6, 5, 0, 0, 0);
+  const NEXT_UPDATE_AT = TOPS_RELEASE_AT;
   const JULY_EVENT_GOALS = [
     { score: 1000, reward: 100 },
     { score: 3000, reward: 250 },
@@ -132,6 +133,19 @@
     { id: "custom", price: CUSTOM_SKIN_PRICE, preview: "#ffd166" }
   ];
 
+  const GLOBAL_LEADERBOARD = [
+    { name: "PixelMax", score: 482750, date: "30.06.2026" },
+    { name: "Astra", score: 456320, date: "28.06.2026" },
+    { name: "NeonPro", score: 431900, date: "25.06.2026" },
+    { name: "CrystalX", score: 408640, date: "22.06.2026" },
+    { name: "Lumen", score: 392180, date: "19.06.2026" },
+    { name: "BlockAce", score: 371520, date: "15.06.2026" },
+    { name: "GlowStar", score: 348900, date: "12.06.2026" },
+    { name: "SkyLine", score: 326450, date: "09.06.2026" },
+    { name: "Matrix", score: 301770, date: "06.06.2026" },
+    { name: "Nova", score: 286300, date: "05.06.2026" }
+  ];
+
   const I18N = {
     ru: {
       "app.title": "Glow Blocks - офлайн игра",
@@ -167,6 +181,7 @@
       "menu.event": "Событие июля",
       "menu.eventReady": "Событие: награда готова",
       "menu.shop": "Магазин",
+      "menu.leaderboard": "Топы",
       "menu.settings": "Настройки",
       "pause.eyebrow": "Пауза",
       "pause.title": "Передышка",
@@ -179,11 +194,18 @@
       "updates.statusSoon": "Следующее обновление скоро",
       "updates.statusReleased": "Обновление уже вышло",
       "updates.timerSoon": "Осталось {time}",
-      "updates.timerReleased": "Вышло 5 июня 2026",
+      "updates.timerReleased": "Вышло 5 июля 2026",
       "updates.dateLabel": "Дата",
-      "updates.dateValue": "5 июня 2026",
+      "updates.dateValue": "5 июля 2026",
       "updates.noteLabel": "Что будет",
-      "updates.note": "Пользовательские фото-скины за 3000 монет и магазин скинов.",
+      "updates.note": "Добавление новых функций: топы игроков с лучшими счетами.",
+      "leaderboard.eyebrow": "Топы",
+      "leaderboard.title": "Лучшие счета",
+      "leaderboard.close": "Закрыть топы",
+      "leaderboard.name": "Имя игрока",
+      "leaderboard.nameHint": "Это имя будет записываться в топ после игры.",
+      "leaderboard.empty": "Пока нет результатов",
+      "leaderboard.locked": "Топы откроются 5 июля 2026",
       "event.eyebrow": "Событие июля",
       "event.title": "Июльский рывок",
       "event.close": "Закрыть событие",
@@ -343,6 +365,7 @@
       "menu.event": "July Event",
       "menu.eventReady": "Event: reward ready",
       "menu.shop": "Shop",
+      "menu.leaderboard": "Top scores",
       "menu.settings": "Settings",
       "pause.eyebrow": "Paused",
       "pause.title": "Take Five",
@@ -355,11 +378,18 @@
       "updates.statusSoon": "Next update is coming",
       "updates.statusReleased": "Update is live",
       "updates.timerSoon": "{time} left",
-      "updates.timerReleased": "Released on June 5, 2026",
+      "updates.timerReleased": "Released on July 5, 2026",
       "updates.dateLabel": "Date",
-      "updates.dateValue": "June 5, 2026",
+      "updates.dateValue": "July 5, 2026",
       "updates.noteLabel": "What is coming",
-      "updates.note": "Custom photo skins for 3,000 coins and a skins shop.",
+      "updates.note": "New features: player top scores and leaderboards.",
+      "leaderboard.eyebrow": "Top scores",
+      "leaderboard.title": "Best scores",
+      "leaderboard.close": "Close top scores",
+      "leaderboard.name": "Player name",
+      "leaderboard.nameHint": "This name is saved to the leaderboard after a game.",
+      "leaderboard.empty": "No results yet",
+      "leaderboard.locked": "Top scores open on July 5, 2026",
       "event.eyebrow": "July Event",
       "event.title": "July Rush",
       "event.close": "Close event",
@@ -519,6 +549,7 @@
       "menu.event": "Evento de julio",
       "menu.eventReady": "Evento: recompensa lista",
       "menu.shop": "Tienda",
+      "menu.leaderboard": "Tops",
       "menu.settings": "Ajustes",
       "pause.eyebrow": "Pausa",
       "pause.title": "Descanso",
@@ -531,11 +562,18 @@
       "updates.statusSoon": "La próxima actualización llega pronto",
       "updates.statusReleased": "La actualización ya está disponible",
       "updates.timerSoon": "Faltan {time}",
-      "updates.timerReleased": "Disponible el 5 de junio de 2026",
+      "updates.timerReleased": "Disponible el 5 de julio de 2026",
       "updates.dateLabel": "Fecha",
-      "updates.dateValue": "5 de junio de 2026",
+      "updates.dateValue": "5 de julio de 2026",
       "updates.noteLabel": "Qué llega",
-      "updates.note": "Skins de foto personalizados por 3000 monedas y tienda de skins.",
+      "updates.note": "Nuevas funciones: tops de jugadores con mejores puntuaciones.",
+      "leaderboard.eyebrow": "Tops",
+      "leaderboard.title": "Mejores puntuaciones",
+      "leaderboard.close": "Cerrar tops",
+      "leaderboard.name": "Nombre del jugador",
+      "leaderboard.nameHint": "Este nombre se guarda en el top al terminar una partida.",
+      "leaderboard.empty": "Todavía no hay resultados",
+      "leaderboard.locked": "Los tops se abren el 5 de julio de 2026",
       "event.eyebrow": "Evento de julio",
       "event.title": "Impulso de julio",
       "event.close": "Cerrar evento",
@@ -695,6 +733,7 @@
       "menu.event": "Événement de juillet",
       "menu.eventReady": "Événement : récompense prête",
       "menu.shop": "Boutique",
+      "menu.leaderboard": "Tops",
       "menu.settings": "Réglages",
       "pause.eyebrow": "Pause",
       "pause.title": "Petite pause",
@@ -707,11 +746,18 @@
       "updates.statusSoon": "La prochaine mise à jour arrive bientôt",
       "updates.statusReleased": "La mise à jour est disponible",
       "updates.timerSoon": "Reste {time}",
-      "updates.timerReleased": "Disponible le 5 juin 2026",
+      "updates.timerReleased": "Disponible le 5 juillet 2026",
       "updates.dateLabel": "Date",
-      "updates.dateValue": "5 juin 2026",
+      "updates.dateValue": "5 juillet 2026",
       "updates.noteLabel": "À venir",
-      "updates.note": "Skins photo personnalisés pour 3 000 pièces et boutique de skins.",
+      "updates.note": "Nouvelles fonctions : meilleurs scores des joueurs.",
+      "leaderboard.eyebrow": "Tops",
+      "leaderboard.title": "Meilleurs scores",
+      "leaderboard.close": "Fermer les tops",
+      "leaderboard.name": "Nom du joueur",
+      "leaderboard.nameHint": "Ce nom est enregistre dans les tops apres une partie.",
+      "leaderboard.empty": "Aucun resultat pour le moment",
+      "leaderboard.locked": "Les tops ouvrent le 5 juillet 2026",
       "event.eyebrow": "Événement de juillet",
       "event.title": "Rush de juillet",
       "event.close": "Fermer l'événement",
@@ -871,6 +917,7 @@
       "menu.event": "Evento de julho",
       "menu.eventReady": "Evento: recompensa pronta",
       "menu.shop": "Loja",
+      "menu.leaderboard": "Tops",
       "menu.settings": "Configurações",
       "pause.eyebrow": "Pausado",
       "pause.title": "Pausa rápida",
@@ -883,11 +930,18 @@
       "updates.statusSoon": "A próxima atualização chega em breve",
       "updates.statusReleased": "A atualização já está disponível",
       "updates.timerSoon": "Faltam {time}",
-      "updates.timerReleased": "Disponível em 5 de junho de 2026",
+      "updates.timerReleased": "Disponível em 5 de julho de 2026",
       "updates.dateLabel": "Data",
-      "updates.dateValue": "5 de junho de 2026",
+      "updates.dateValue": "5 de julho de 2026",
       "updates.noteLabel": "O que vem",
-      "updates.note": "Skins de foto personalizados por 3.000 moedas e loja de skins.",
+      "updates.note": "Novas funções: tops de jogadores com maiores pontuações.",
+      "leaderboard.eyebrow": "Tops",
+      "leaderboard.title": "Melhores pontuações",
+      "leaderboard.close": "Fechar tops",
+      "leaderboard.name": "Nome do jogador",
+      "leaderboard.nameHint": "Este nome sera salvo no top depois da partida.",
+      "leaderboard.empty": "Ainda nao ha resultados",
+      "leaderboard.locked": "Os tops abrem em 5 de julho de 2026",
       "event.eyebrow": "Evento de julho",
       "event.title": "Arrancada de julho",
       "event.close": "Fechar evento",
@@ -1047,6 +1101,7 @@
       "menu.event": "Juli-Event",
       "menu.eventReady": "Event: Belohnung bereit",
       "menu.shop": "Shop",
+      "menu.leaderboard": "Topliste",
       "menu.settings": "Einstellungen",
       "pause.eyebrow": "Pausiert",
       "pause.title": "Kurze Pause",
@@ -1059,11 +1114,18 @@
       "updates.statusSoon": "Das nächste Update kommt bald",
       "updates.statusReleased": "Das Update ist verfügbar",
       "updates.timerSoon": "Noch {time}",
-      "updates.timerReleased": "Verfügbar am 5. Juni 2026",
+      "updates.timerReleased": "Verfügbar am 5. Juli 2026",
       "updates.dateLabel": "Datum",
-      "updates.dateValue": "5. Juni 2026",
+      "updates.dateValue": "5. Juli 2026",
       "updates.noteLabel": "Was kommt",
-      "updates.note": "Eigene Foto-Skins für 3.000 Münzen und ein Skin-Shop.",
+      "updates.note": "Neue Funktionen: Topliste der besten Spielerpunkte.",
+      "leaderboard.eyebrow": "Topliste",
+      "leaderboard.title": "Beste Punkte",
+      "leaderboard.close": "Topliste schliessen",
+      "leaderboard.name": "Spielername",
+      "leaderboard.nameHint": "Dieser Name wird nach dem Spiel in der Topliste gespeichert.",
+      "leaderboard.empty": "Noch keine Ergebnisse",
+      "leaderboard.locked": "Die Topliste öffnet am 5. Juli 2026",
       "event.eyebrow": "Juli-Event",
       "event.title": "Juli-Rush",
       "event.close": "Event schließen",
@@ -1223,6 +1285,7 @@
       "menu.event": "Evento di luglio",
       "menu.eventReady": "Evento: premio pronto",
       "menu.shop": "Negozio",
+      "menu.leaderboard": "Top",
       "menu.settings": "Impostazioni",
       "pause.eyebrow": "Pausa",
       "pause.title": "Pausa breve",
@@ -1235,11 +1298,18 @@
       "updates.statusSoon": "Il prossimo aggiornamento arriva presto",
       "updates.statusReleased": "Aggiornamento disponibile",
       "updates.timerSoon": "Mancano {time}",
-      "updates.timerReleased": "Disponibile il 5 giugno 2026",
+      "updates.timerReleased": "Disponibile il 5 luglio 2026",
       "updates.dateLabel": "Data",
-      "updates.dateValue": "5 giugno 2026",
+      "updates.dateValue": "5 luglio 2026",
       "updates.noteLabel": "In arrivo",
-      "updates.note": "Skin foto personalizzate per 3000 monete e negozio skin.",
+      "updates.note": "Nuove funzioni: top giocatori con punteggi migliori.",
+      "leaderboard.eyebrow": "Top",
+      "leaderboard.title": "Migliori punteggi",
+      "leaderboard.close": "Chiudi top",
+      "leaderboard.name": "Nome giocatore",
+      "leaderboard.nameHint": "Questo nome viene salvato nella top dopo una partita.",
+      "leaderboard.empty": "Ancora nessun risultato",
+      "leaderboard.locked": "Le top aprono il 5 luglio 2026",
       "event.eyebrow": "Evento di luglio",
       "event.title": "Scatto di luglio",
       "event.close": "Chiudi evento",
@@ -1399,6 +1469,7 @@
       "menu.event": "Подія липня",
       "menu.eventReady": "Подія: нагорода готова",
       "menu.shop": "Магазин",
+      "menu.leaderboard": "Топи",
       "menu.settings": "Налаштування",
       "pause.eyebrow": "Пауза",
       "pause.title": "Перепочинок",
@@ -1411,11 +1482,18 @@
       "updates.statusSoon": "Наступне оновлення вже скоро",
       "updates.statusReleased": "Оновлення вже вийшло",
       "updates.timerSoon": "Залишилось {time}",
-      "updates.timerReleased": "Вийшло 5 червня 2026",
+      "updates.timerReleased": "Вийшло 5 липня 2026",
       "updates.dateLabel": "Дата",
-      "updates.dateValue": "5 червня 2026",
+      "updates.dateValue": "5 липня 2026",
       "updates.noteLabel": "Що буде",
-      "updates.note": "Власні фото-скіни за 3000 монет і магазин скінів.",
+      "updates.note": "Додавання нових функцій: топи гравців із найкращими рахунками.",
+      "leaderboard.eyebrow": "Топи",
+      "leaderboard.title": "Найкращі рахунки",
+      "leaderboard.close": "Закрити топи",
+      "leaderboard.name": "Ім'я гравця",
+      "leaderboard.nameHint": "Це ім'я буде записано в топ після гри.",
+      "leaderboard.empty": "Поки немає результатів",
+      "leaderboard.locked": "Топи відкриються 5 липня 2026",
       "event.eyebrow": "Подія липня",
       "event.title": "Липневий ривок",
       "event.close": "Закрити подію",
@@ -1565,6 +1643,7 @@
     shopButton: document.querySelector("#shopButton"),
     achievementsButton: document.querySelector("#achievementsButton"),
     statsButton: document.querySelector("#statsButton"),
+    leaderboardButton: document.querySelector("#leaderboardButton"),
     settingsButton: document.querySelector("#settingsButton"),
     resumeButton: document.querySelector("#resumeButton"),
     pauseRestartButton: document.querySelector("#pauseRestartButton"),
@@ -1592,6 +1671,7 @@
     statGamesPlayed: document.querySelector("#statGamesPlayed"),
     statBlocksPlaced: document.querySelector("#statBlocksPlaced"),
     statLinesCleared: document.querySelector("#statLinesCleared"),
+    leaderboardList: document.querySelector("#leaderboardList"),
     achievementList: document.querySelector("#achievementList"),
     dailyTitle: document.querySelector("#dailyTitle"),
     dailyRewardAmount: document.querySelector("#dailyRewardAmount"),
@@ -1617,6 +1697,7 @@
       gameOverModal: document.querySelector("#gameOverModal"),
       settingsModal: document.querySelector("#settingsModal"),
       shopModal: document.querySelector("#shopModal"),
+      leaderboardModal: document.querySelector("#leaderboardModal"),
       eventModal: document.querySelector("#eventModal"),
       updatesModal: document.querySelector("#updatesModal"),
       statsModal: document.querySelector("#statsModal"),
@@ -1907,6 +1988,9 @@
     if (dom.shopButton) {
       dom.shopButton.addEventListener("click", () => openShop("mainMenu"));
     }
+    if (dom.leaderboardButton) {
+      dom.leaderboardButton.addEventListener("click", () => openLeaderboard("mainMenu"));
+    }
     dom.statsButton.addEventListener("click", () => openStats("mainMenu"));
     dom.achievementsButton.addEventListener("click", () => openAchievements("mainMenu"));
     dom.dailyButton.addEventListener("click", () => openDaily("mainMenu"));
@@ -2056,6 +2140,16 @@
   function openShop(backTarget) {
     updateShopUi();
     openModal("shopModal", backTarget);
+  }
+
+  function openLeaderboard(backTarget) {
+    if (!isTopsReleased()) {
+      showToast(t("menu.leaderboard"), t("leaderboard.locked"));
+      playSound("error");
+      return;
+    }
+    updateLeaderboardUi();
+    openModal("leaderboardModal", backTarget);
   }
 
   function openJulyEvent(backTarget) {
@@ -2697,6 +2791,9 @@
     if (isModalActive("statsModal")) {
       updateStatsUi();
     }
+    if (isModalActive("leaderboardModal")) {
+      updateLeaderboardUi();
+    }
     if (isModalActive("gameOverModal")) {
       updateGameOverUi();
     }
@@ -2716,6 +2813,8 @@
     updateStatsUi();
     updateDailyUi();
     updateShopUi();
+    updateLeaderboardAccessUi();
+    updateLeaderboardUi();
     updateJulyEventUi();
     updateUpdatesUi();
   }
@@ -2727,6 +2826,7 @@
     const canClaim = canClaimDaily();
     dom.dailyButton.textContent = canClaim ? t("menu.dailyReady") : t("menu.dailyClaimed");
     updateEventButton();
+    updateLeaderboardAccessUi();
   }
 
   function updateSettingsUi() {
@@ -2774,6 +2874,66 @@
     dom.statGamesPlayed.textContent = formatNumber(save.gamesPlayed);
     dom.statBlocksPlaced.textContent = formatNumber(save.totalBlocksPlaced);
     dom.statLinesCleared.textContent = formatNumber(save.totalLinesCleared);
+  }
+
+  function isTopsReleased(date = new Date()) {
+    return date >= TOPS_RELEASE_AT;
+  }
+
+  function updateLeaderboardAccessUi() {
+    if (!dom.leaderboardButton) {
+      return;
+    }
+    dom.leaderboardButton.classList.toggle("hidden", !isTopsReleased());
+  }
+
+  function updateLeaderboardUi() {
+    if (!dom.leaderboardList) {
+      return;
+    }
+
+    dom.leaderboardList.innerHTML = "";
+
+    if (!isTopsReleased()) {
+      const item = document.createElement("div");
+      item.className = "leaderboard-empty";
+      item.textContent = t("leaderboard.locked");
+      dom.leaderboardList.appendChild(item);
+      return;
+    }
+
+    if (!GLOBAL_LEADERBOARD.length) {
+      const item = document.createElement("div");
+      item.className = "leaderboard-empty";
+      item.textContent = t("leaderboard.empty");
+      dom.leaderboardList.appendChild(item);
+      return;
+    }
+
+    GLOBAL_LEADERBOARD.forEach((entry, index) => {
+      const row = document.createElement("div");
+      row.className = "leaderboard-row";
+      row.innerHTML = `
+        <span class="leaderboard-rank">${index + 1}</span>
+        <span class="leaderboard-name">${escapeHtml(entry.name || "Игрок")}</span>
+        <strong>${formatNumber(entry.score)}</strong>
+        <small>${formatLeaderboardMeta(entry)}</small>
+      `;
+      dom.leaderboardList.appendChild(row);
+    });
+  }
+
+  function formatLeaderboardMeta(entry) {
+    return entry.date || "";
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
 
   function updateGameOverUi() {
@@ -3290,7 +3450,10 @@
       return;
     }
     updateUpdatesUi();
-    updatesTicker = window.setInterval(updateUpdatesUi, 1000);
+    updatesTicker = window.setInterval(() => {
+      updateUpdatesUi();
+      updateLeaderboardAccessUi();
+    }, 1000);
   }
 
   function availableJulyEventGoals(goalScore = null) {

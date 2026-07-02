@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title>Glow Blocks - офлайн игра</title>
-  <link rel="stylesheet" href="styles.css?v=20260701-2">
+  <link rel="stylesheet" href="styles.css?v=20260702-1">
 </head>
 <body>
   <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
@@ -74,6 +74,7 @@
         <button class="menu-button" id="shopButton" type="button" data-i18n="menu.shop">Магазин</button>
         <button class="menu-button" id="achievementsButton" type="button" data-i18n="menu.achievements">Достижения</button>
         <button class="menu-button" id="statsButton" type="button" data-i18n="menu.stats">Статистика</button>
+        <button class="menu-button hidden" id="leaderboardButton" type="button" data-i18n="menu.leaderboard">Топы</button>
         <button class="menu-button" id="settingsButton" type="button" data-i18n="menu.settings">Настройки</button>
       </div>
     </div>
@@ -240,11 +241,11 @@
       <div class="update-list">
         <div>
           <strong data-i18n="updates.dateLabel">Дата</strong>
-          <span id="nextUpdateDate">5 июня 2026</span>
+          <span id="nextUpdateDate">5 июля 2026</span>
         </div>
         <div>
           <strong data-i18n="updates.noteLabel">Что будет</strong>
-          <span data-i18n="updates.note">Пользовательские фото-скины за 3000 монет и магазин скинов.</span>
+          <span data-i18n="updates.note">Добавление новых функций: топы игроков с лучшими счетами.</span>
         </div>
       </div>
       <div class="modal-actions">
@@ -283,6 +284,19 @@
     </div>
   </section>
 
+  <section class="modal" id="leaderboardModal" aria-modal="true" role="dialog">
+    <div class="modal-panel">
+      <div class="modal-heading">
+        <div>
+          <p class="eyebrow" data-i18n="leaderboard.eyebrow">Топы</p>
+          <h2 data-i18n="leaderboard.title">Лучшие счета</h2>
+        </div>
+        <button class="close-button" data-close-modal="leaderboardModal" type="button" aria-label="Закрыть топы" data-i18n-aria="leaderboard.close">×</button>
+      </div>
+      <div id="leaderboardList" class="leaderboard-list"></div>
+    </div>
+  </section>
+
   <section class="modal" id="achievementsModal" aria-modal="true" role="dialog">
     <div class="modal-panel wide-panel">
       <div class="modal-heading">
@@ -315,6 +329,6 @@
     </div>
   </section>
 
-  <script src="script.js?v=20260701-2"></script>
+  <script src="script.js?v=20260702-1"></script>
 </body>
 </html>

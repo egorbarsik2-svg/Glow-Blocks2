@@ -1216,6 +1216,62 @@ h2 {
   font-size: clamp(1.8rem, 6vw, 3.2rem);
 }
 
+.leaderboard-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.leaderboard-row,
+.leaderboard-empty {
+  display: grid;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.leaderboard-row {
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+}
+
+.leaderboard-rank {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(255, 209, 102, 0.16);
+  color: var(--gold);
+  font-weight: 950;
+}
+
+.leaderboard-name {
+  min-width: 0;
+  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-row strong {
+  color: var(--green);
+  font-size: 1.05rem;
+}
+
+.leaderboard-row small {
+  grid-column: 2 / 4;
+  color: var(--muted);
+}
+
+.leaderboard-empty {
+  color: var(--muted);
+  text-align: center;
+}
+
 .achievement-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
