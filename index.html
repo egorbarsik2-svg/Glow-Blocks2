@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title>Glow Blocks - офлайн игра</title>
-  <link rel="stylesheet" href="styles.css?v=20260702-1">
+  <link rel="stylesheet" href="styles.css?v=20260702-6">
 </head>
 <body>
   <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
@@ -75,6 +75,7 @@
         <button class="menu-button" id="achievementsButton" type="button" data-i18n="menu.achievements">Достижения</button>
         <button class="menu-button" id="statsButton" type="button" data-i18n="menu.stats">Статистика</button>
         <button class="menu-button hidden" id="leaderboardButton" type="button" data-i18n="menu.leaderboard">Топы</button>
+        <button class="menu-button" id="developerButton" type="button" data-i18n="menu.developer">Разработчик</button>
         <button class="menu-button" id="settingsButton" type="button" data-i18n="menu.settings">Настройки</button>
       </div>
     </div>
@@ -294,6 +295,83 @@
         <button class="close-button" data-close-modal="leaderboardModal" type="button" aria-label="Закрыть топы" data-i18n-aria="leaderboard.close">×</button>
       </div>
       <div id="leaderboardList" class="leaderboard-list"></div>
+      <div id="leaderboardDetail" class="leaderboard-detail hidden"></div>
+    </div>
+  </section>
+
+  <section class="modal" id="developerLoginModal" aria-modal="true" role="dialog">
+    <div class="modal-panel small-panel">
+      <p class="eyebrow" data-i18n="developer.eyebrow">Разработчик</p>
+      <h2 data-i18n="developer.loginTitle">Вход разработчика</h2>
+      <div class="settings-stack">
+        <label class="setting-row">
+          <div>
+            <strong data-i18n="developer.codeLabel">Код доступа</strong>
+            <span data-i18n="developer.codeHint">Код вводится только один раз.</span>
+          </div>
+          <input class="select-control" id="developerCodeInput" type="password" autocomplete="off">
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="primary-button" id="developerUnlockButton" type="button" data-i18n="developer.unlock">Войти</button>
+        <button class="menu-button" data-close-modal="developerLoginModal" type="button" data-i18n="common.close">Закрыть</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="developerModal" aria-modal="true" role="dialog">
+    <div class="modal-panel wide-panel">
+      <div class="modal-heading">
+        <div>
+          <p class="eyebrow" data-i18n="developer.eyebrow">Разработчик</p>
+          <h2 data-i18n="developer.title">Настройки разработчика</h2>
+        </div>
+        <button class="close-button" data-close-modal="developerModal" type="button" aria-label="Закрыть разработчика" data-i18n-aria="developer.close">×</button>
+      </div>
+      <div class="developer-grid">
+        <label class="dev-control">
+          <span data-i18n="developer.score">Счет</span>
+          <input class="select-control" id="devScoreInput" type="number" min="0" step="1">
+          <button class="menu-button" id="devSetScoreButton" type="button" data-i18n="developer.apply">Применить</button>
+        </label>
+        <label class="dev-control">
+          <span data-i18n="developer.highScore">Рекорд</span>
+          <input class="select-control" id="devHighScoreInput" type="number" min="0" step="1">
+          <button class="menu-button" id="devSetHighScoreButton" type="button" data-i18n="developer.apply">Применить</button>
+        </label>
+        <label class="dev-control">
+          <span data-i18n="developer.coins">Монеты</span>
+          <input class="select-control" id="devCoinsInput" type="number" min="0" step="1">
+          <button class="menu-button" id="devSetCoinsButton" type="button" data-i18n="developer.apply">Применить</button>
+        </label>
+        <label class="dev-control">
+          <span data-i18n="developer.material">Материал</span>
+          <select class="select-control" id="devMaterialSelect"></select>
+          <button class="menu-button" id="devApplyMaterialButton" type="button" data-i18n="developer.apply">Применить</button>
+        </label>
+      </div>
+      <div class="developer-actions">
+        <button class="menu-button" id="devUnlockMaterialsButton" type="button" data-i18n="developer.unlockMaterials">Открыть материалы</button>
+        <button class="menu-button" id="devClearBoardButton" type="button" data-i18n="developer.clearBoard">Очистить поле</button>
+        <button class="menu-button" id="devNewPiecesButton" type="button" data-i18n="developer.newPieces">Новые фигуры</button>
+        <button class="menu-button" id="devSpawnGoldButton" type="button" data-i18n="developer.goldBlock">Золотой блок</button>
+      </div>
+      <div class="settings-stack">
+        <label class="setting-row">
+          <div>
+            <strong data-i18n="developer.openTops">Открыть топы сейчас</strong>
+            <span data-i18n="developer.openTopsHint">Показывает кнопку топов до 5 июля.</span>
+          </div>
+          <button class="toggle-button" id="devLeaderboardToggle" type="button" aria-pressed="false"><span></span></button>
+        </label>
+        <label class="setting-row">
+          <div>
+            <strong data-i18n="developer.freeShop">Бесплатный магазин</strong>
+            <span data-i18n="developer.freeShopHint">Материалы покупаются без монет.</span>
+          </div>
+          <button class="toggle-button" id="devFreeShopToggle" type="button" aria-pressed="false"><span></span></button>
+        </label>
+      </div>
     </div>
   </section>
 
@@ -329,6 +407,6 @@
     </div>
   </section>
 
-  <script src="script.js?v=20260702-1"></script>
+  <script src="script.js?v=20260702-6"></script>
 </body>
 </html>

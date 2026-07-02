@@ -9,7 +9,10 @@
   const GOLDEN_BLOCK_REWARD = 100;
   const CUSTOM_SKIN_PRICE = 3000;
   const CUSTOM_SKIN_SIZE = 256;
+  const ADMIN_COIN_GRANT = 100000000;
+  const COIN_REPORT_LIMIT = 1000000000;
   const CUSTOM_SKIN_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "image/bmp"]);
+  const DEVELOPER_CODE = "GLOW-DEV-2702";
   const JULY_EVENT_ID = "july_2026";
   const JULY_EVENT_START = new Date(2026, 6, 1, 0, 0, 0);
   const JULY_EVENT_END = new Date(2026, 7, 1, 0, 0, 0);
@@ -133,19 +136,6 @@
     { id: "custom", price: CUSTOM_SKIN_PRICE, preview: "#ffd166" }
   ];
 
-  const GLOBAL_LEADERBOARD = [
-    { name: "PixelMax", score: 482750, date: "30.06.2026" },
-    { name: "Astra", score: 456320, date: "28.06.2026" },
-    { name: "NeonPro", score: 431900, date: "25.06.2026" },
-    { name: "CrystalX", score: 408640, date: "22.06.2026" },
-    { name: "Lumen", score: 392180, date: "19.06.2026" },
-    { name: "BlockAce", score: 371520, date: "15.06.2026" },
-    { name: "GlowStar", score: 348900, date: "12.06.2026" },
-    { name: "SkyLine", score: 326450, date: "09.06.2026" },
-    { name: "Matrix", score: 301770, date: "06.06.2026" },
-    { name: "Nova", score: 286300, date: "05.06.2026" }
-  ];
-
   const I18N = {
     ru: {
       "app.title": "Glow Blocks - офлайн игра",
@@ -182,6 +172,7 @@
       "menu.eventReady": "Событие: награда готова",
       "menu.shop": "Магазин",
       "menu.leaderboard": "Топы",
+      "menu.developer": "Разработчик",
       "menu.settings": "Настройки",
       "pause.eyebrow": "Пауза",
       "pause.title": "Передышка",
@@ -204,8 +195,56 @@
       "leaderboard.close": "Закрыть топы",
       "leaderboard.name": "Имя игрока",
       "leaderboard.nameHint": "Это имя будет записываться в топ после игры.",
-      "leaderboard.empty": "Пока нет результатов",
+      "leaderboard.empty": "Пока нет настоящих игроков в топе",
       "leaderboard.locked": "Топы откроются 5 июля 2026",
+      "leaderboard.player": "Игрок",
+      "leaderboard.developer": "Разработчик",
+      "leaderboard.details": "Статистика",
+      "leaderboard.type": "Тип",
+      "leaderboard.date": "Дата",
+      "leaderboard.lines": "Линии",
+      "leaderboard.blocks": "Фигуры",
+      "leaderboard.difficulty": "Сложность",
+      "leaderboard.status": "Статус",
+      "leaderboard.active": "Активен",
+      "leaderboard.banned": "Забанен",
+      "leaderboard.ban": "Забанить",
+      "leaderboard.unban": "Разбанить",
+      "leaderboard.admin": "Админ",
+      "leaderboard.makeAdmin": "Сделать админом",
+      "leaderboard.removeAdmin": "Убрать админа",
+      "leaderboard.coins": "Монеты",
+      "leaderboard.reported": "Отчет разработчику",
+      "leaderboard.reportedHint": "У игрока больше 1 000 000 000 монет. Разработчик может проверить профиль и забанить.",
+      "leaderboard.giveAdminCoins": "Выдать админу монеты",
+      "leaderboard.selectHint": "Нажмите на игрока, чтобы посмотреть статистику",
+      "developer.eyebrow": "Режим разработчика",
+      "developer.loginTitle": "Вход разработчика",
+      "developer.codeLabel": "Код доступа",
+      "developer.codeHint": "Код вводится только один раз и сохраняется в браузере.",
+      "developer.unlock": "Войти",
+      "developer.title": "Настройки разработчика",
+      "developer.close": "Закрыть разработчика",
+      "developer.score": "Счет",
+      "developer.highScore": "Рекорд",
+      "developer.coins": "Монеты",
+      "developer.material": "Материал",
+      "developer.apply": "Применить",
+      "developer.unlockMaterials": "Открыть материалы",
+      "developer.clearBoard": "Очистить поле",
+      "developer.newPieces": "Новые фигуры",
+      "developer.goldBlock": "Золотой блок",
+      "developer.openTops": "Открыть топы сейчас",
+      "developer.openTopsHint": "Показывает кнопку топов до 5 июля.",
+      "developer.freeShop": "Бесплатный магазин",
+      "developer.freeShopHint": "Материалы покупаются без монет.",
+      "toast.developerUnlocked": "Режим разработчика открыт",
+      "toast.developerWrongCode": "Неверный код",
+      "toast.developerApplied": "Применено",
+      "toast.adminPromoted": "Игрок стал админом",
+      "toast.adminRemoved": "Админ снят",
+      "toast.adminCoinsAdded": "+{amount} монет админу",
+      "toast.leaderboardReport": "Отчет отправлен разработчику",
       "event.eyebrow": "Событие июля",
       "event.title": "Июльский рывок",
       "event.close": "Закрыть событие",
@@ -388,8 +427,10 @@
       "leaderboard.close": "Close top scores",
       "leaderboard.name": "Player name",
       "leaderboard.nameHint": "This name is saved to the leaderboard after a game.",
-      "leaderboard.empty": "No results yet",
+      "leaderboard.empty": "No real players in the top yet",
       "leaderboard.locked": "Top scores open on July 5, 2026",
+      "leaderboard.player": "Player",
+      "leaderboard.developer": "Developer",
       "event.eyebrow": "July Event",
       "event.title": "July Rush",
       "event.close": "Close event",
@@ -572,8 +613,10 @@
       "leaderboard.close": "Cerrar tops",
       "leaderboard.name": "Nombre del jugador",
       "leaderboard.nameHint": "Este nombre se guarda en el top al terminar una partida.",
-      "leaderboard.empty": "Todavía no hay resultados",
+      "leaderboard.empty": "Todavía no hay jugadores reales en el top",
       "leaderboard.locked": "Los tops se abren el 5 de julio de 2026",
+      "leaderboard.player": "Jugador",
+      "leaderboard.developer": "Desarrollador",
       "event.eyebrow": "Evento de julio",
       "event.title": "Impulso de julio",
       "event.close": "Cerrar evento",
@@ -756,8 +799,10 @@
       "leaderboard.close": "Fermer les tops",
       "leaderboard.name": "Nom du joueur",
       "leaderboard.nameHint": "Ce nom est enregistre dans les tops apres une partie.",
-      "leaderboard.empty": "Aucun resultat pour le moment",
+      "leaderboard.empty": "Aucun vrai joueur dans le top pour le moment",
       "leaderboard.locked": "Les tops ouvrent le 5 juillet 2026",
+      "leaderboard.player": "Joueur",
+      "leaderboard.developer": "Developpeur",
       "event.eyebrow": "Événement de juillet",
       "event.title": "Rush de juillet",
       "event.close": "Fermer l'événement",
@@ -940,8 +985,10 @@
       "leaderboard.close": "Fechar tops",
       "leaderboard.name": "Nome do jogador",
       "leaderboard.nameHint": "Este nome sera salvo no top depois da partida.",
-      "leaderboard.empty": "Ainda nao ha resultados",
+      "leaderboard.empty": "Ainda nao ha jogadores reais no top",
       "leaderboard.locked": "Os tops abrem em 5 de julho de 2026",
+      "leaderboard.player": "Jogador",
+      "leaderboard.developer": "Desenvolvedor",
       "event.eyebrow": "Evento de julho",
       "event.title": "Arrancada de julho",
       "event.close": "Fechar evento",
@@ -1124,8 +1171,10 @@
       "leaderboard.close": "Topliste schliessen",
       "leaderboard.name": "Spielername",
       "leaderboard.nameHint": "Dieser Name wird nach dem Spiel in der Topliste gespeichert.",
-      "leaderboard.empty": "Noch keine Ergebnisse",
+      "leaderboard.empty": "Noch keine echten Spieler in der Topliste",
       "leaderboard.locked": "Die Topliste öffnet am 5. Juli 2026",
+      "leaderboard.player": "Spieler",
+      "leaderboard.developer": "Entwickler",
       "event.eyebrow": "Juli-Event",
       "event.title": "Juli-Rush",
       "event.close": "Event schließen",
@@ -1308,8 +1357,10 @@
       "leaderboard.close": "Chiudi top",
       "leaderboard.name": "Nome giocatore",
       "leaderboard.nameHint": "Questo nome viene salvato nella top dopo una partita.",
-      "leaderboard.empty": "Ancora nessun risultato",
+      "leaderboard.empty": "Ancora nessun giocatore reale nella top",
       "leaderboard.locked": "Le top aprono il 5 luglio 2026",
+      "leaderboard.player": "Giocatore",
+      "leaderboard.developer": "Sviluppatore",
       "event.eyebrow": "Evento di luglio",
       "event.title": "Scatto di luglio",
       "event.close": "Chiudi evento",
@@ -1492,8 +1543,10 @@
       "leaderboard.close": "Закрити топи",
       "leaderboard.name": "Ім'я гравця",
       "leaderboard.nameHint": "Це ім'я буде записано в топ після гри.",
-      "leaderboard.empty": "Поки немає результатів",
+      "leaderboard.empty": "Поки немає справжніх гравців у топі",
       "leaderboard.locked": "Топи відкриються 5 липня 2026",
+      "leaderboard.player": "Гравець",
+      "leaderboard.developer": "Розробник",
       "event.eyebrow": "Подія липня",
       "event.title": "Липневий ривок",
       "event.close": "Закрити подію",
@@ -1644,6 +1697,7 @@
     achievementsButton: document.querySelector("#achievementsButton"),
     statsButton: document.querySelector("#statsButton"),
     leaderboardButton: document.querySelector("#leaderboardButton"),
+    developerButton: document.querySelector("#developerButton"),
     settingsButton: document.querySelector("#settingsButton"),
     resumeButton: document.querySelector("#resumeButton"),
     pauseRestartButton: document.querySelector("#pauseRestartButton"),
@@ -1672,6 +1726,23 @@
     statBlocksPlaced: document.querySelector("#statBlocksPlaced"),
     statLinesCleared: document.querySelector("#statLinesCleared"),
     leaderboardList: document.querySelector("#leaderboardList"),
+    leaderboardDetail: document.querySelector("#leaderboardDetail"),
+    developerCodeInput: document.querySelector("#developerCodeInput"),
+    developerUnlockButton: document.querySelector("#developerUnlockButton"),
+    devScoreInput: document.querySelector("#devScoreInput"),
+    devHighScoreInput: document.querySelector("#devHighScoreInput"),
+    devCoinsInput: document.querySelector("#devCoinsInput"),
+    devMaterialSelect: document.querySelector("#devMaterialSelect"),
+    devSetScoreButton: document.querySelector("#devSetScoreButton"),
+    devSetHighScoreButton: document.querySelector("#devSetHighScoreButton"),
+    devSetCoinsButton: document.querySelector("#devSetCoinsButton"),
+    devApplyMaterialButton: document.querySelector("#devApplyMaterialButton"),
+    devUnlockMaterialsButton: document.querySelector("#devUnlockMaterialsButton"),
+    devClearBoardButton: document.querySelector("#devClearBoardButton"),
+    devNewPiecesButton: document.querySelector("#devNewPiecesButton"),
+    devSpawnGoldButton: document.querySelector("#devSpawnGoldButton"),
+    devLeaderboardToggle: document.querySelector("#devLeaderboardToggle"),
+    devFreeShopToggle: document.querySelector("#devFreeShopToggle"),
     achievementList: document.querySelector("#achievementList"),
     dailyTitle: document.querySelector("#dailyTitle"),
     dailyRewardAmount: document.querySelector("#dailyRewardAmount"),
@@ -1698,6 +1769,8 @@
       settingsModal: document.querySelector("#settingsModal"),
       shopModal: document.querySelector("#shopModal"),
       leaderboardModal: document.querySelector("#leaderboardModal"),
+      developerLoginModal: document.querySelector("#developerLoginModal"),
+      developerModal: document.querySelector("#developerModal"),
       eventModal: document.querySelector("#eventModal"),
       updatesModal: document.querySelector("#updatesModal"),
       statsModal: document.querySelector("#statsModal"),
@@ -1711,6 +1784,7 @@
     pieces: [],
     score: 0,
     linesThisGame: 0,
+    blocksThisGame: 0,
     running: false,
     paused: false,
     busy: false,
@@ -1718,6 +1792,7 @@
     difficulty: "normal",
     coinMilestonesAwarded: 0,
     goldenBlockIndex: -1,
+    selectedLeaderboardId: "",
     drag: null
   };
 
@@ -1740,6 +1815,7 @@
   function loadSave() {
     const defaults = {
       highScore: 0,
+      leaderboard: [],
       gamesPlayed: 0,
       totalBlocksPlaced: 0,
       totalLinesCleared: 0,
@@ -1747,6 +1823,11 @@
       ownedMaterials: ["neon"],
       selectedMaterial: "neon",
       customSkinData: "",
+      developerUnlocked: false,
+      devOverrides: {
+        leaderboardUnlocked: false,
+        freeShop: false
+      },
       bestCombo: 0,
       achievements: {},
       events: {
@@ -1773,8 +1854,12 @@
         ...parsed,
         achievements: { ...defaults.achievements, ...(parsed.achievements || {}) },
         events: { ...defaults.events, ...(parsed.events || {}) },
+        devOverrides: { ...defaults.devOverrides, ...(parsed.devOverrides || {}) },
         settings: { ...defaults.settings, ...(parsed.settings || {}) }
       };
+      loaded.developerUnlocked = Boolean(loaded.developerUnlocked);
+      loaded.devOverrides.leaderboardUnlocked = Boolean(loaded.devOverrides.leaderboardUnlocked);
+      loaded.devOverrides.freeShop = Boolean(loaded.devOverrides.freeShop);
       loaded.customSkinData = typeof loaded.customSkinData === "string" && loaded.customSkinData.startsWith("data:image/")
         ? loaded.customSkinData
         : "";
@@ -1784,6 +1869,26 @@
       };
       const materialIds = new Set(BLOCK_MATERIALS.map((material) => material.id));
       loaded.coins = Number.isFinite(Number(loaded.coins)) ? Math.max(0, Math.floor(Number(loaded.coins))) : 0;
+      loaded.leaderboard = Array.isArray(loaded.leaderboard)
+        ? loaded.leaderboard
+          .map((entry, index) => ({
+            id: typeof entry.id === "string" && entry.id ? entry.id : createLeaderboardId(index),
+            type: entry.type === "developer" ? "developer" : "player",
+            score: Number.isFinite(Number(entry.score)) ? Math.max(0, Math.floor(Number(entry.score))) : 0,
+            date: typeof entry.date === "string" ? entry.date : "",
+            lines: Number.isFinite(Number(entry.lines)) ? Math.max(0, Math.floor(Number(entry.lines))) : 0,
+            blocks: Number.isFinite(Number(entry.blocks)) ? Math.max(0, Math.floor(Number(entry.blocks))) : 0,
+            coins: Number.isFinite(Number(entry.coins)) ? Math.max(0, Math.floor(Number(entry.coins))) : 0,
+            difficulty: typeof entry.difficulty === "string" && entry.difficulty in DIFFICULTIES ? entry.difficulty : "normal",
+            banned: Boolean(entry.banned),
+            admin: Boolean(entry.admin),
+            reported: Boolean(entry.reported)
+          }))
+          .filter((entry) => entry.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 20)
+        : [];
+      refreshLeaderboardReports(loaded.leaderboard);
       loaded.events[JULY_EVENT_ID].score = Number.isFinite(Number(loaded.events[JULY_EVENT_ID].score))
         ? Math.max(0, Math.floor(Number(loaded.events[JULY_EVENT_ID].score)))
         : 0;
@@ -1886,6 +1991,10 @@
     return `${year}-${month}-${day}`;
   }
 
+  function createLeaderboardId(seed = "") {
+    return `lb-${Date.now().toString(36)}-${String(seed)}-${Math.random().toString(36).slice(2, 8)}`;
+  }
+
   function randomFrom(list) {
     return list[Math.floor(Math.random() * list.length)];
   }
@@ -1928,6 +2037,14 @@
 
   function customSkinCssValue() {
     return hasCustomSkin() ? `url(${save.customSkinData})` : "none";
+  }
+
+  function isDeveloperFreeShop() {
+    return Boolean(save.developerUnlocked && save.devOverrides && save.devOverrides.freeShop);
+  }
+
+  function customSkinPrice() {
+    return isDeveloperFreeShop() ? 0 : CUSTOM_SKIN_PRICE;
   }
 
   function init() {
@@ -1991,6 +2108,15 @@
     if (dom.leaderboardButton) {
       dom.leaderboardButton.addEventListener("click", () => openLeaderboard("mainMenu"));
     }
+    if (dom.leaderboardList) {
+      dom.leaderboardList.addEventListener("click", handleLeaderboardClick);
+    }
+    if (dom.leaderboardDetail) {
+      dom.leaderboardDetail.addEventListener("click", handleLeaderboardDetailClick);
+    }
+    if (dom.developerButton) {
+      dom.developerButton.addEventListener("click", () => openDeveloperEntry("mainMenu"));
+    }
     dom.statsButton.addEventListener("click", () => openStats("mainMenu"));
     dom.achievementsButton.addEventListener("click", () => openAchievements("mainMenu"));
     dom.dailyButton.addEventListener("click", () => openDaily("mainMenu"));
@@ -2016,6 +2142,46 @@
     });
     if (dom.customSkinInput) {
       dom.customSkinInput.addEventListener("change", handleCustomSkinFileChange);
+    }
+    if (dom.developerUnlockButton) {
+      dom.developerUnlockButton.addEventListener("click", unlockDeveloperMode);
+    }
+    if (dom.developerCodeInput) {
+      dom.developerCodeInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          unlockDeveloperMode();
+        }
+      });
+    }
+    if (dom.devSetScoreButton) {
+      dom.devSetScoreButton.addEventListener("click", applyDeveloperScore);
+    }
+    if (dom.devSetHighScoreButton) {
+      dom.devSetHighScoreButton.addEventListener("click", applyDeveloperHighScore);
+    }
+    if (dom.devSetCoinsButton) {
+      dom.devSetCoinsButton.addEventListener("click", applyDeveloperCoins);
+    }
+    if (dom.devApplyMaterialButton) {
+      dom.devApplyMaterialButton.addEventListener("click", applyDeveloperMaterial);
+    }
+    if (dom.devUnlockMaterialsButton) {
+      dom.devUnlockMaterialsButton.addEventListener("click", unlockDeveloperMaterials);
+    }
+    if (dom.devClearBoardButton) {
+      dom.devClearBoardButton.addEventListener("click", clearDeveloperBoard);
+    }
+    if (dom.devNewPiecesButton) {
+      dom.devNewPiecesButton.addEventListener("click", generateDeveloperPieces);
+    }
+    if (dom.devSpawnGoldButton) {
+      dom.devSpawnGoldButton.addEventListener("click", spawnDeveloperGoldBlock);
+    }
+    if (dom.devLeaderboardToggle) {
+      dom.devLeaderboardToggle.addEventListener("click", () => toggleDeveloperOverride("leaderboardUnlocked"));
+    }
+    if (dom.devFreeShopToggle) {
+      dom.devFreeShopToggle.addEventListener("click", () => toggleDeveloperOverride("freeShop"));
     }
 
     document.querySelectorAll("[data-close-modal]").forEach((button) => {
@@ -2061,6 +2227,7 @@
     state.pieces = [];
     state.score = 0;
     state.linesThisGame = 0;
+    state.blocksThisGame = 0;
     state.running = true;
     state.paused = false;
     state.busy = false;
@@ -2150,6 +2317,26 @@
     }
     updateLeaderboardUi();
     openModal("leaderboardModal", backTarget);
+  }
+
+  function openDeveloperEntry(backTarget) {
+    if (save.developerUnlocked) {
+      openDeveloperPanel(backTarget);
+      return;
+    }
+
+    if (dom.developerCodeInput) {
+      dom.developerCodeInput.value = "";
+    }
+    openModal("developerLoginModal", backTarget);
+    if (dom.developerCodeInput) {
+      window.setTimeout(() => dom.developerCodeInput.focus(), 80);
+    }
+  }
+
+  function openDeveloperPanel(backTarget) {
+    updateDeveloperUi();
+    openModal("developerModal", backTarget);
   }
 
   function openJulyEvent(backTarget) {
@@ -2491,6 +2678,7 @@
 
     state.pieces[pieceIndex].used = true;
     save.totalBlocksPlaced += 1;
+    state.blocksThisGame += 1;
     syncBoard();
     animatePlacedCells(placedIndices);
     renderPieces();
@@ -2598,6 +2786,12 @@
       state.running = false;
       state.paused = false;
       clearDrag();
+      addLeaderboardEntry(state.score, "player", {
+        lines: state.linesThisGame,
+        blocks: state.blocksThisGame,
+        difficulty: state.difficulty,
+        coins: save.coins
+      });
       updateGameOverUi();
       openModal("gameOverModal");
       showStatus(t("status.gameOver"));
@@ -2815,6 +3009,7 @@
     updateShopUi();
     updateLeaderboardAccessUi();
     updateLeaderboardUi();
+    updateDeveloperUi();
     updateJulyEventUi();
     updateUpdatesUi();
   }
@@ -2877,7 +3072,7 @@
   }
 
   function isTopsReleased(date = new Date()) {
-    return date >= TOPS_RELEASE_AT;
+    return Boolean(save.devOverrides && save.devOverrides.leaderboardUnlocked) || date >= TOPS_RELEASE_AT;
   }
 
   function updateLeaderboardAccessUi() {
@@ -2892,6 +3087,10 @@
       return;
     }
 
+    if (refreshLeaderboardReports()) {
+      saveGame();
+    }
+
     dom.leaderboardList.innerHTML = "";
 
     if (!isTopsReleased()) {
@@ -2899,32 +3098,255 @@
       item.className = "leaderboard-empty";
       item.textContent = t("leaderboard.locked");
       dom.leaderboardList.appendChild(item);
+      renderLeaderboardDetail(null);
       return;
     }
 
-    if (!GLOBAL_LEADERBOARD.length) {
+    if (!save.leaderboard.length) {
       const item = document.createElement("div");
       item.className = "leaderboard-empty";
       item.textContent = t("leaderboard.empty");
       dom.leaderboardList.appendChild(item);
+      renderLeaderboardDetail(null);
       return;
     }
 
-    GLOBAL_LEADERBOARD.forEach((entry, index) => {
-      const row = document.createElement("div");
-      row.className = "leaderboard-row";
+    if (!save.leaderboard.some((entry) => entry.id === state.selectedLeaderboardId)) {
+      state.selectedLeaderboardId = "";
+    }
+
+    save.leaderboard.forEach((entry, index) => {
+      const row = document.createElement("button");
+      const classes = ["leaderboard-row"];
+      const meta = [formatLeaderboardMeta(entry), ...leaderboardEntryBadges(entry)].filter(Boolean).join(" / ");
+      if (entry.banned) {
+        classes.push("banned");
+      }
+      if (entry.admin && entry.type !== "developer") {
+        classes.push("admin");
+      }
+      if (entry.reported) {
+        classes.push("reported");
+      }
+      if (entry.id === state.selectedLeaderboardId) {
+        classes.push("selected");
+      }
+      row.type = "button";
+      row.className = classes.join(" ");
+      row.dataset.leaderboardId = entry.id;
       row.innerHTML = `
         <span class="leaderboard-rank">${index + 1}</span>
-        <span class="leaderboard-name">${escapeHtml(entry.name || "Игрок")}</span>
+        <span class="leaderboard-name">${escapeHtml(leaderboardEntryLabel(entry))}</span>
         <strong>${formatNumber(entry.score)}</strong>
-        <small>${formatLeaderboardMeta(entry)}</small>
+        <small>${escapeHtml(meta)}</small>
       `;
       dom.leaderboardList.appendChild(row);
     });
+
+    renderLeaderboardDetail(leaderboardEntryById(state.selectedLeaderboardId));
   }
 
   function formatLeaderboardMeta(entry) {
     return entry.date || "";
+  }
+
+  function leaderboardEntryLabel(entry) {
+    if (entry.type === "developer") {
+      return t("leaderboard.developer");
+    }
+    return entry.admin ? t("leaderboard.admin") : t("leaderboard.player");
+  }
+
+  function leaderboardEntryBadges(entry) {
+    return [
+      entry.admin && entry.type !== "developer" ? t("leaderboard.admin") : "",
+      entry.banned ? t("leaderboard.banned") : "",
+      entry.reported ? t("leaderboard.reported") : ""
+    ].filter(Boolean);
+  }
+
+  function leaderboardStatusText(entry) {
+    const status = [entry.banned ? t("leaderboard.banned") : t("leaderboard.active")];
+    if (entry.admin && entry.type !== "developer") {
+      status.push(t("leaderboard.admin"));
+    }
+    if (entry.reported) {
+      status.push(t("leaderboard.reported"));
+    }
+    return status.join(" / ");
+  }
+
+  function refreshLeaderboardReports(entries = save.leaderboard) {
+    if (!Array.isArray(entries)) {
+      return false;
+    }
+
+    let changed = false;
+    entries.forEach((entry) => {
+      const coins = Number.isFinite(Number(entry.coins)) ? Math.max(0, Math.floor(Number(entry.coins))) : 0;
+      const shouldReport = entry.type !== "developer" && coins > COIN_REPORT_LIMIT;
+      if (entry.coins !== coins) {
+        entry.coins = coins;
+        changed = true;
+      }
+      if (entry.type === "developer" && entry.admin) {
+        entry.admin = false;
+        changed = true;
+      }
+      if (entry.reported !== shouldReport) {
+        entry.reported = shouldReport;
+        changed = true;
+      }
+    });
+
+    return changed;
+  }
+
+  function leaderboardEntryById(id) {
+    return save.leaderboard.find((entry) => entry.id === id) || null;
+  }
+
+  function handleLeaderboardClick(event) {
+    const row = event.target.closest("[data-leaderboard-id]");
+    if (!row) {
+      return;
+    }
+    state.selectedLeaderboardId = row.dataset.leaderboardId;
+    updateLeaderboardUi();
+  }
+
+  function renderLeaderboardDetail(entry) {
+    if (!dom.leaderboardDetail) {
+      return;
+    }
+
+    if (!entry) {
+      dom.leaderboardDetail.classList.add("hidden");
+      dom.leaderboardDetail.innerHTML = "";
+      return;
+    }
+
+    const canModerate = save.developerUnlocked && entry.type !== "developer";
+    const action = entry.banned ? t("leaderboard.unban") : t("leaderboard.ban");
+    const adminAction = entry.admin ? t("leaderboard.removeAdmin") : t("leaderboard.makeAdmin");
+    const reportMarkup = entry.reported
+      ? `<div class="leaderboard-report"><strong>${t("leaderboard.reported")}</strong><span>${t("leaderboard.reportedHint")}</span></div>`
+      : "";
+    dom.leaderboardDetail.classList.remove("hidden");
+    dom.leaderboardDetail.innerHTML = `
+      <div class="leaderboard-detail-head">
+        <strong>${t("leaderboard.details")}</strong>
+        <span>${escapeHtml(leaderboardEntryLabel(entry))}</span>
+      </div>
+      <div class="leaderboard-stats">
+        ${leaderboardStat(t("score.current"), formatNumber(entry.score))}
+        ${leaderboardStat(t("leaderboard.date"), entry.date || "-")}
+        ${leaderboardStat(t("leaderboard.type"), leaderboardEntryLabel(entry))}
+        ${leaderboardStat(t("leaderboard.coins"), formatNumber(entry.coins || 0))}
+        ${leaderboardStat(t("leaderboard.lines"), formatNumber(entry.lines || 0))}
+        ${leaderboardStat(t("leaderboard.blocks"), formatNumber(entry.blocks || 0))}
+        ${leaderboardStat(t("leaderboard.difficulty"), t(`difficulty.${entry.difficulty || "normal"}.label`))}
+        ${leaderboardStat(t("leaderboard.status"), leaderboardStatusText(entry))}
+      </div>
+      ${reportMarkup}
+      <div class="leaderboard-detail-actions">
+        ${canModerate ? `<button class="menu-button leaderboard-ban-button" type="button" data-ban-entry="${entry.id}">${action}</button>` : ""}
+        ${canModerate ? `<button class="menu-button" type="button" data-admin-entry="${entry.id}">${adminAction}</button>` : ""}
+        ${entry.admin && entry.type !== "developer" && !entry.banned ? `<button class="menu-button" type="button" data-admin-coins="${entry.id}">${t("leaderboard.giveAdminCoins")}</button>` : ""}
+      </div>
+    `;
+  }
+
+  function leaderboardStat(label, value) {
+    return `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`;
+  }
+
+  function handleLeaderboardDetailClick(event) {
+    const adminCoinButton = event.target.closest("[data-admin-coins]");
+    if (adminCoinButton) {
+      const entry = leaderboardEntryById(adminCoinButton.dataset.adminCoins);
+      if (!entry || !entry.admin || entry.type === "developer" || entry.banned) {
+        return;
+      }
+
+      const wasReported = entry.reported;
+      entry.coins = Math.min(Number.MAX_SAFE_INTEGER, (Number(entry.coins) || 0) + ADMIN_COIN_GRANT);
+      refreshLeaderboardReports();
+      saveGame();
+      updateLeaderboardUi();
+      const message = entry.reported && !wasReported ? t("toast.leaderboardReport") : t("leaderboard.coins");
+      showToast(t("toast.adminCoinsAdded", { amount: formatNumber(ADMIN_COIN_GRANT) }), message);
+      playSound("reward");
+      return;
+    }
+
+    const adminButton = event.target.closest("[data-admin-entry]");
+    if (adminButton) {
+      if (!save.developerUnlocked) {
+        return;
+      }
+
+      const entry = leaderboardEntryById(adminButton.dataset.adminEntry);
+      if (!entry || entry.type === "developer") {
+        return;
+      }
+
+      entry.admin = !entry.admin;
+      refreshLeaderboardReports();
+      saveGame();
+      updateLeaderboardUi();
+      showToast(t("toast.developerApplied"), entry.admin ? t("toast.adminPromoted") : t("toast.adminRemoved"));
+      playSound("tap");
+      return;
+    }
+
+    const banButton = event.target.closest("[data-ban-entry]");
+    if (!banButton || !save.developerUnlocked) {
+      return;
+    }
+
+    const entry = leaderboardEntryById(banButton.dataset.banEntry);
+    if (!entry || entry.type === "developer") {
+      return;
+    }
+
+    entry.banned = !entry.banned;
+    saveGame();
+    updateLeaderboardUi();
+    showToast(t("toast.developerApplied"), entry.banned ? t("leaderboard.ban") : t("leaderboard.unban"));
+    playSound("tap");
+  }
+
+  function addLeaderboardEntry(score, type = "player", stats = {}) {
+    const safeScore = Number.isFinite(Number(score)) ? Math.max(0, Math.floor(Number(score))) : 0;
+    if (safeScore <= 0) {
+      return;
+    }
+
+    const safeType = type === "developer" ? "developer" : "player";
+    if (safeType === "developer") {
+      save.leaderboard = save.leaderboard.filter((entry) => entry.type !== "developer");
+    }
+
+    save.leaderboard.push({
+      id: createLeaderboardId(),
+      type: safeType,
+      score: safeScore,
+      date: localDateKey(),
+      lines: Number.isFinite(Number(stats.lines)) ? Math.max(0, Math.floor(Number(stats.lines))) : 0,
+      blocks: Number.isFinite(Number(stats.blocks)) ? Math.max(0, Math.floor(Number(stats.blocks))) : 0,
+      coins: Number.isFinite(Number(stats.coins)) ? Math.max(0, Math.floor(Number(stats.coins))) : save.coins,
+      difficulty: typeof stats.difficulty === "string" && stats.difficulty in DIFFICULTIES ? stats.difficulty : state.difficulty,
+      banned: false,
+      admin: false,
+      reported: false
+    });
+    refreshLeaderboardReports();
+    save.leaderboard = save.leaderboard
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 20);
+    saveGame();
+    updateLeaderboardUi();
   }
 
   function escapeHtml(value) {
@@ -2934,6 +3356,205 @@
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
+  }
+
+  function normalizedDeveloperCode(value) {
+    return String(value || "").trim().toUpperCase();
+  }
+
+  function unlockDeveloperMode() {
+    const value = dom.developerCodeInput ? dom.developerCodeInput.value : "";
+    if (normalizedDeveloperCode(value) !== DEVELOPER_CODE) {
+      showToast(t("toast.developerWrongCode"), t("developer.codeLabel"));
+      playSound("error");
+      return;
+    }
+
+    save.developerUnlocked = true;
+    saveGame();
+    showToast(t("toast.developerUnlocked"), t("developer.title"));
+    playSound("reward");
+    openDeveloperPanel("mainMenu");
+  }
+
+  function ensureDeveloperUnlocked() {
+    if (save.developerUnlocked) {
+      return true;
+    }
+    showToast(t("toast.developerWrongCode"), t("developer.codeLabel"));
+    playSound("error");
+    return false;
+  }
+
+  function updateDeveloperUi() {
+    if (!save.developerUnlocked || !dom.devScoreInput) {
+      return;
+    }
+
+    dom.devScoreInput.value = String(state.score);
+    dom.devHighScoreInput.value = String(save.highScore);
+    dom.devCoinsInput.value = String(save.coins);
+    renderDeveloperMaterialOptions();
+    setDeveloperToggle(dom.devLeaderboardToggle, Boolean(save.devOverrides && save.devOverrides.leaderboardUnlocked));
+    setDeveloperToggle(dom.devFreeShopToggle, Boolean(save.devOverrides && save.devOverrides.freeShop));
+  }
+
+  function renderDeveloperMaterialOptions() {
+    if (!dom.devMaterialSelect) {
+      return;
+    }
+
+    const current = selectedMaterialId();
+    dom.devMaterialSelect.innerHTML = "";
+    BLOCK_MATERIALS.forEach((material) => {
+      if (material.id === "custom" && !hasCustomSkin()) {
+        return;
+      }
+      const option = document.createElement("option");
+      option.value = material.id;
+      option.textContent = t(`material.${material.id}.name`);
+      dom.devMaterialSelect.appendChild(option);
+    });
+    dom.devMaterialSelect.value = current === "custom" && !hasCustomSkin() ? "neon" : current;
+  }
+
+  function setDeveloperToggle(button, enabled) {
+    if (!button) {
+      return;
+    }
+    button.classList.toggle("active", enabled);
+    button.setAttribute("aria-pressed", String(enabled));
+  }
+
+  function developerNumber(input, fallback = 0) {
+    const value = Number(input && input.value);
+    return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : fallback;
+  }
+
+  function applyDeveloperScore() {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+    state.score = developerNumber(dom.devScoreInput, state.score);
+    save.highScore = Math.max(save.highScore, state.score);
+    saveGame();
+    updateScoreDisplays(false);
+    addLeaderboardEntry(state.score, "developer", {
+      lines: state.linesThisGame,
+      blocks: state.blocksThisGame,
+      difficulty: state.difficulty,
+      coins: save.coins
+    });
+    updateAllStaticUi();
+    showToast(t("toast.developerApplied"), t("developer.score"));
+    checkAchievements();
+  }
+
+  function applyDeveloperHighScore() {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+    save.highScore = developerNumber(dom.devHighScoreInput, save.highScore);
+    saveGame();
+    updateScoreDisplays(false);
+    updateAllStaticUi();
+    showToast(t("toast.developerApplied"), t("developer.highScore"));
+    checkAchievements();
+  }
+
+  function applyDeveloperCoins() {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+    save.coins = developerNumber(dom.devCoinsInput, save.coins);
+    saveGame();
+    updateAllStaticUi();
+    showToast(t("toast.developerApplied"), t("developer.coins"));
+  }
+
+  function applyDeveloperMaterial() {
+    if (!ensureDeveloperUnlocked() || !dom.devMaterialSelect) {
+      return;
+    }
+
+    const material = dom.devMaterialSelect.value;
+    if (material === "custom" && !hasCustomSkin()) {
+      showToast(t("toast.skinUploadFailed"), t("skin.photoOnly"));
+      playSound("error");
+      return;
+    }
+
+    if (!save.ownedMaterials.includes(material)) {
+      save.ownedMaterials.push(material);
+    }
+    save.selectedMaterial = material;
+    applySelectedMaterialToGame();
+    saveGame();
+    updateAllStaticUi();
+    renderPieces();
+    syncBoard();
+    showToast(t("toast.developerApplied"), t(`material.${material}.name`));
+    playSound("tap");
+  }
+
+  function unlockDeveloperMaterials() {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+    const materialIds = BLOCK_MATERIALS
+      .filter((material) => material.id !== "custom")
+      .map((material) => material.id);
+    save.ownedMaterials = [...new Set([...save.ownedMaterials, ...materialIds])];
+    saveGame();
+    updateAllStaticUi();
+    showToast(t("toast.developerApplied"), t("developer.unlockMaterials"));
+    playSound("reward");
+  }
+
+  function clearDeveloperBoard() {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+    state.board = createEmptyBoard();
+    state.busy = false;
+    state.gameOver = false;
+    syncBoard();
+    updateAllStaticUi();
+    showToast(t("toast.developerApplied"), t("developer.clearBoard"));
+  }
+
+  function generateDeveloperPieces() {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+    state.busy = false;
+    if (!state.running) {
+      state.running = true;
+      state.paused = false;
+      state.gameOver = false;
+    }
+    generatePieces();
+    updateAllStaticUi();
+    showToast(t("toast.developerApplied"), t("developer.newPieces"));
+  }
+
+  function spawnDeveloperGoldBlock() {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+    spawnGoldenBlock(true);
+    showToast(t("toast.developerApplied"), t("developer.goldBlock"));
+    playSound("reward");
+  }
+
+  function toggleDeveloperOverride(key) {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+    save.devOverrides[key] = !save.devOverrides[key];
+    saveGame();
+    updateAllStaticUi();
+    showToast(t("toast.developerApplied"), key === "freeShop" ? t("developer.freeShop") : t("developer.openTops"));
   }
 
   function updateGameOverUi() {
@@ -2959,7 +3580,7 @@
         const isCustom = material.id === "custom";
         const owned = isMaterialOwned(material.id);
         const active = selectedMaterialId() === material.id;
-        const canBuy = save.coins >= material.price;
+        const canBuy = isDeveloperFreeShop() || save.coins >= material.price;
         const card = document.createElement("button");
         card.type = "button";
         card.className = `material-card${owned ? " owned" : " locked"}${active ? " active" : ""}`;
@@ -2995,7 +3616,7 @@
   function customSkinStatus(active, owned, canBuy) {
     if (active && owned) {
       return canBuy
-        ? t("skin.replaceHint", { price: formatNumber(CUSTOM_SKIN_PRICE) })
+        ? t("skin.replaceHint", { price: formatNumber(customSkinPrice()) })
         : t("material.status.need", { price: formatNumber(CUSTOM_SKIN_PRICE - save.coins) });
     }
     if (owned) {
@@ -3009,8 +3630,8 @@
 
   function customSkinDetail(owned) {
     return owned
-      ? t("skin.replaceHint", { price: formatNumber(CUSTOM_SKIN_PRICE) })
-      : t("skin.uploadHint", { price: formatNumber(CUSTOM_SKIN_PRICE) });
+      ? t("skin.replaceHint", { price: formatNumber(customSkinPrice()) })
+      : t("skin.uploadHint", { price: formatNumber(customSkinPrice()) });
   }
 
   function handleMaterialClick(event) {
@@ -3031,13 +3652,15 @@
     }
 
     if (!isMaterialOwned(materialId)) {
-      if (save.coins < material.price) {
+      if (!isDeveloperFreeShop() && save.coins < material.price) {
         showToast(t("toast.notEnoughCoins"), t("material.status.need", { price: formatNumber(material.price - save.coins) }));
         playSound("error");
         return;
       }
 
-      save.coins -= material.price;
+      if (!isDeveloperFreeShop()) {
+        save.coins -= material.price;
+      }
       save.ownedMaterials.push(materialId);
       save.selectedMaterial = materialId;
       showToast(t("toast.materialBought"), t(`material.${materialId}.name`));
@@ -3075,7 +3698,8 @@
   }
 
   function requestCustomSkinUpload() {
-    if (save.coins < CUSTOM_SKIN_PRICE) {
+    const price = customSkinPrice();
+    if (save.coins < price) {
       showToast(t("toast.notEnoughCoins"), t("material.status.need", { price: formatNumber(CUSTOM_SKIN_PRICE - save.coins) }));
       playSound("error");
       return;
@@ -3103,7 +3727,8 @@
       return;
     }
 
-    if (save.coins < CUSTOM_SKIN_PRICE) {
+    const price = customSkinPrice();
+    if (save.coins < price) {
       showToast(t("toast.notEnoughCoins"), t("material.status.need", { price: formatNumber(CUSTOM_SKIN_PRICE - save.coins) }));
       playSound("error");
       return;
@@ -3113,7 +3738,7 @@
 
     try {
       const skinData = await imageFileToSkinData(file);
-      save.coins -= CUSTOM_SKIN_PRICE;
+      save.coins -= price;
       save.customSkinData = skinData;
       if (!save.ownedMaterials.includes("custom")) {
         save.ownedMaterials.push("custom");
@@ -3289,8 +3914,8 @@
     return isJulyEventActive(date);
   }
 
-  function randomGoldenBlockIndex() {
-    if (!isGoldenBlockFeatureActive()) {
+  function randomGoldenBlockIndex(force = false) {
+    if (!force && !isGoldenBlockFeatureActive()) {
       return -1;
     }
 
@@ -3306,8 +3931,8 @@
     return emptyIndices.length > 0 ? randomFrom(emptyIndices) : -1;
   }
 
-  function spawnGoldenBlock() {
-    state.goldenBlockIndex = randomGoldenBlockIndex();
+  function spawnGoldenBlock(force = false) {
+    state.goldenBlockIndex = randomGoldenBlockIndex(force);
     syncGoldenBlock();
   }
 
@@ -3316,7 +3941,7 @@
       const row = Math.floor(index / BOARD_SIZE);
       const col = index % BOARD_SIZE;
       const isGolden = index === state.goldenBlockIndex
-        && isGoldenBlockFeatureActive()
+        && (isGoldenBlockFeatureActive() || save.developerUnlocked)
         && state.board[row][col] === null;
 
       cell.classList.toggle("golden-bonus", isGolden);
@@ -3359,7 +3984,7 @@
       || state.paused
       || state.busy
       || state.gameOver
-      || !isGoldenBlockFeatureActive()
+      || (!isGoldenBlockFeatureActive() && !save.developerUnlocked)
     ) {
       return;
     }
