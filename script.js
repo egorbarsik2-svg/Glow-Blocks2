@@ -11,6 +11,8 @@
   const CUSTOM_SKIN_SIZE = 256;
   const ADMIN_COIN_GRANT = 100000000;
   const COIN_REPORT_LIMIT = 1000000000;
+  const CLICKER_GOAL = 100000;
+  const CLICKER_SAVE_STEP = 25;
   const CUSTOM_SKIN_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "image/bmp"]);
   const DEVELOPER_CODE = "GLOW-DEV-2702";
   const JULY_EVENT_ID = "july_2026";
@@ -25,6 +27,16 @@
     { score: 10000, reward: 1000 }
   ];
   const JULY_EVENT_MAX_GOAL = JULY_EVENT_GOALS[JULY_EVENT_GOALS.length - 1].score;
+  const BOT_LEADERBOARD = [
+    { id: "bot-1", type: "bot", score: 148600, date: "2026-07-05", lines: 182, blocks: 430, coins: 7200, difficulty: "hard", banned: false, admin: false, reported: false },
+    { id: "bot-2", type: "bot", score: 121400, date: "2026-07-05", lines: 151, blocks: 386, coins: 6100, difficulty: "hard", banned: false, admin: false, reported: false },
+    { id: "bot-3", type: "bot", score: 98750, date: "2026-07-05", lines: 126, blocks: 321, coins: 4900, difficulty: "normal", banned: false, admin: false, reported: false },
+    { id: "bot-4", type: "bot", score: 82400, date: "2026-07-05", lines: 103, blocks: 278, coins: 4100, difficulty: "normal", banned: false, admin: false, reported: false },
+    { id: "bot-5", type: "bot", score: 67550, date: "2026-07-05", lines: 88, blocks: 231, coins: 3200, difficulty: "normal", banned: false, admin: false, reported: false },
+    { id: "bot-6", type: "bot", score: 51200, date: "2026-07-05", lines: 69, blocks: 196, coins: 2600, difficulty: "easy", banned: false, admin: false, reported: false },
+    { id: "bot-7", type: "bot", score: 38400, date: "2026-07-05", lines: 48, blocks: 144, coins: 1900, difficulty: "easy", banned: false, admin: false, reported: false },
+    { id: "bot-8", type: "bot", score: 24600, date: "2026-07-05", lines: 31, blocks: 102, coins: 1200, difficulty: "easy", banned: false, admin: false, reported: false }
+  ];
 
   const COLORS = [
     "#2dd4bf",
@@ -163,6 +175,7 @@
       "menu.best": "Рекорд",
       "menu.streak": "Серия",
       "menu.play": "Играть",
+      "menu.clicker": "Клик-режим",
       "menu.dailyReady": "Ежедневная награда",
       "menu.dailyClaimed": "Награда получена",
       "menu.achievements": "Достижения",
@@ -189,7 +202,7 @@
       "updates.dateLabel": "Дата",
       "updates.dateValue": "5 июля 2026",
       "updates.noteLabel": "Что будет",
-      "updates.note": "Добавление новых функций: топы игроков с лучшими счетами.",
+      "updates.note": "Добавление новых функций: топы игроков и режим на 100 000 кликов.",
       "leaderboard.eyebrow": "Топы",
       "leaderboard.title": "Лучшие счета",
       "leaderboard.close": "Закрыть топы",
@@ -197,7 +210,11 @@
       "leaderboard.nameHint": "Это имя будет записываться в топ после игры.",
       "leaderboard.empty": "Пока нет настоящих игроков в топе",
       "leaderboard.locked": "Топы откроются 5 июля 2026",
+      "leaderboard.tabReal": "Без ботов",
+      "leaderboard.tabBots": "С ботами",
       "leaderboard.player": "Игрок",
+      "leaderboard.bot": "Бот",
+      "leaderboard.you": "Ты здесь",
       "leaderboard.developer": "Разработчик",
       "leaderboard.details": "Статистика",
       "leaderboard.type": "Тип",
@@ -218,6 +235,14 @@
       "leaderboard.reportedHint": "У игрока больше 1 000 000 000 монет. Разработчик может проверить профиль и забанить.",
       "leaderboard.giveAdminCoins": "Выдать админу монеты",
       "leaderboard.selectHint": "Нажмите на игрока, чтобы посмотреть статистику",
+      "clicker.eyebrow": "Режим 5 июля",
+      "clicker.title": "Клик-режим",
+      "clicker.close": "Закрыть клик-режим",
+      "clicker.tap": "Кликать круг",
+      "clicker.progress": "Кликай круг и доберись до 100 000.",
+      "clicker.complete": "Цель выполнена",
+      "clicker.you": "Ты",
+      "clicker.locked": "Клик-режим откроется 5 июля 2026",
       "developer.eyebrow": "Режим разработчика",
       "developer.loginTitle": "Вход разработчика",
       "developer.codeLabel": "Код доступа",
@@ -396,6 +421,7 @@
       "menu.best": "Best",
       "menu.streak": "Streak",
       "menu.play": "Play",
+      "menu.clicker": "Click Mode",
       "menu.dailyReady": "Daily Reward",
       "menu.dailyClaimed": "Daily Claimed",
       "menu.achievements": "Achievements",
@@ -429,7 +455,11 @@
       "leaderboard.nameHint": "This name is saved to the leaderboard after a game.",
       "leaderboard.empty": "No real players in the top yet",
       "leaderboard.locked": "Top scores open on July 5, 2026",
+      "leaderboard.tabReal": "No bots",
+      "leaderboard.tabBots": "With bots",
       "leaderboard.player": "Player",
+      "leaderboard.bot": "Bot",
+      "leaderboard.you": "You are here",
       "leaderboard.developer": "Developer",
       "event.eyebrow": "July Event",
       "event.title": "July Rush",
@@ -582,6 +612,7 @@
       "menu.best": "Récord",
       "menu.streak": "Racha",
       "menu.play": "Jugar",
+      "menu.clicker": "Modo clics",
       "menu.dailyReady": "Recompensa diaria",
       "menu.dailyClaimed": "Recompensa recibida",
       "menu.achievements": "Logros",
@@ -615,7 +646,11 @@
       "leaderboard.nameHint": "Este nombre se guarda en el top al terminar una partida.",
       "leaderboard.empty": "Todavía no hay jugadores reales en el top",
       "leaderboard.locked": "Los tops se abren el 5 de julio de 2026",
+      "leaderboard.tabReal": "Sin bots",
+      "leaderboard.tabBots": "Con bots",
       "leaderboard.player": "Jugador",
+      "leaderboard.bot": "Bot",
+      "leaderboard.you": "Estas aqui",
       "leaderboard.developer": "Desarrollador",
       "event.eyebrow": "Evento de julio",
       "event.title": "Impulso de julio",
@@ -768,6 +803,7 @@
       "menu.best": "Record",
       "menu.streak": "Série",
       "menu.play": "Jouer",
+      "menu.clicker": "Mode clics",
       "menu.dailyReady": "Récompense quotidienne",
       "menu.dailyClaimed": "Récompense obtenue",
       "menu.achievements": "Succès",
@@ -801,7 +837,11 @@
       "leaderboard.nameHint": "Ce nom est enregistre dans les tops apres une partie.",
       "leaderboard.empty": "Aucun vrai joueur dans le top pour le moment",
       "leaderboard.locked": "Les tops ouvrent le 5 juillet 2026",
+      "leaderboard.tabReal": "Sans bots",
+      "leaderboard.tabBots": "Avec bots",
       "leaderboard.player": "Joueur",
+      "leaderboard.bot": "Bot",
+      "leaderboard.you": "Vous etes ici",
       "leaderboard.developer": "Developpeur",
       "event.eyebrow": "Événement de juillet",
       "event.title": "Rush de juillet",
@@ -954,6 +994,7 @@
       "menu.best": "Recorde",
       "menu.streak": "Sequência",
       "menu.play": "Jogar",
+      "menu.clicker": "Modo de cliques",
       "menu.dailyReady": "Recompensa diária",
       "menu.dailyClaimed": "Recompensa recebida",
       "menu.achievements": "Conquistas",
@@ -987,7 +1028,11 @@
       "leaderboard.nameHint": "Este nome sera salvo no top depois da partida.",
       "leaderboard.empty": "Ainda nao ha jogadores reais no top",
       "leaderboard.locked": "Os tops abrem em 5 de julho de 2026",
+      "leaderboard.tabReal": "Sem bots",
+      "leaderboard.tabBots": "Com bots",
       "leaderboard.player": "Jogador",
+      "leaderboard.bot": "Bot",
+      "leaderboard.you": "Voce esta aqui",
       "leaderboard.developer": "Desenvolvedor",
       "event.eyebrow": "Evento de julho",
       "event.title": "Arrancada de julho",
@@ -1140,6 +1185,7 @@
       "menu.best": "Bestwert",
       "menu.streak": "Serie",
       "menu.play": "Spielen",
+      "menu.clicker": "Klickmodus",
       "menu.dailyReady": "Tägliche Belohnung",
       "menu.dailyClaimed": "Belohnung erhalten",
       "menu.achievements": "Erfolge",
@@ -1173,7 +1219,11 @@
       "leaderboard.nameHint": "Dieser Name wird nach dem Spiel in der Topliste gespeichert.",
       "leaderboard.empty": "Noch keine echten Spieler in der Topliste",
       "leaderboard.locked": "Die Topliste öffnet am 5. Juli 2026",
+      "leaderboard.tabReal": "Ohne Bots",
+      "leaderboard.tabBots": "Mit Bots",
       "leaderboard.player": "Spieler",
+      "leaderboard.bot": "Bot",
+      "leaderboard.you": "Du bist hier",
       "leaderboard.developer": "Entwickler",
       "event.eyebrow": "Juli-Event",
       "event.title": "Juli-Rush",
@@ -1326,6 +1376,7 @@
       "menu.best": "Record",
       "menu.streak": "Serie",
       "menu.play": "Gioca",
+      "menu.clicker": "Modalita clic",
       "menu.dailyReady": "Ricompensa giornaliera",
       "menu.dailyClaimed": "Ricompensa ottenuta",
       "menu.achievements": "Obiettivi",
@@ -1359,7 +1410,11 @@
       "leaderboard.nameHint": "Questo nome viene salvato nella top dopo una partita.",
       "leaderboard.empty": "Ancora nessun giocatore reale nella top",
       "leaderboard.locked": "Le top aprono il 5 luglio 2026",
+      "leaderboard.tabReal": "Senza bot",
+      "leaderboard.tabBots": "Con bot",
       "leaderboard.player": "Giocatore",
+      "leaderboard.bot": "Bot",
+      "leaderboard.you": "Sei qui",
       "leaderboard.developer": "Sviluppatore",
       "event.eyebrow": "Evento di luglio",
       "event.title": "Scatto di luglio",
@@ -1512,6 +1567,7 @@
       "menu.best": "Рекорд",
       "menu.streak": "Серія",
       "menu.play": "Грати",
+      "menu.clicker": "Клік-режим",
       "menu.dailyReady": "Щоденна нагорода",
       "menu.dailyClaimed": "Нагороду отримано",
       "menu.achievements": "Досягнення",
@@ -1545,7 +1601,11 @@
       "leaderboard.nameHint": "Це ім'я буде записано в топ після гри.",
       "leaderboard.empty": "Поки немає справжніх гравців у топі",
       "leaderboard.locked": "Топи відкриються 5 липня 2026",
+      "leaderboard.tabReal": "Без ботів",
+      "leaderboard.tabBots": "З ботами",
       "leaderboard.player": "Гравець",
+      "leaderboard.bot": "Бот",
+      "leaderboard.you": "Ти тут",
       "leaderboard.developer": "Розробник",
       "event.eyebrow": "Подія липня",
       "event.title": "Липневий ривок",
@@ -1694,6 +1754,7 @@
     eventButton: document.querySelector("#eventButton"),
     updatesButton: document.querySelector("#updatesButton"),
     shopButton: document.querySelector("#shopButton"),
+    clickerButton: document.querySelector("#clickerButton"),
     achievementsButton: document.querySelector("#achievementsButton"),
     statsButton: document.querySelector("#statsButton"),
     leaderboardButton: document.querySelector("#leaderboardButton"),
@@ -1725,8 +1786,14 @@
     statGamesPlayed: document.querySelector("#statGamesPlayed"),
     statBlocksPlaced: document.querySelector("#statBlocksPlaced"),
     statLinesCleared: document.querySelector("#statLinesCleared"),
+    leaderboardTabs: document.querySelector("#leaderboardTabs"),
     leaderboardList: document.querySelector("#leaderboardList"),
     leaderboardDetail: document.querySelector("#leaderboardDetail"),
+    clickerCircle: document.querySelector("#clickerCircle"),
+    clickerProgressValue: document.querySelector("#clickerProgressValue"),
+    clickerGoalValue: document.querySelector("#clickerGoalValue"),
+    clickerProgressFill: document.querySelector("#clickerProgressFill"),
+    clickerHint: document.querySelector("#clickerHint"),
     developerCodeInput: document.querySelector("#developerCodeInput"),
     developerUnlockButton: document.querySelector("#developerUnlockButton"),
     devScoreInput: document.querySelector("#devScoreInput"),
@@ -1769,6 +1836,7 @@
       settingsModal: document.querySelector("#settingsModal"),
       shopModal: document.querySelector("#shopModal"),
       leaderboardModal: document.querySelector("#leaderboardModal"),
+      clickerModal: document.querySelector("#clickerModal"),
       developerLoginModal: document.querySelector("#developerLoginModal"),
       developerModal: document.querySelector("#developerModal"),
       eventModal: document.querySelector("#eventModal"),
@@ -1792,8 +1860,10 @@
     difficulty: "normal",
     coinMilestonesAwarded: 0,
     goldenBlockIndex: -1,
+    leaderboardTab: "real",
     selectedLeaderboardId: "",
     performanceLite: false,
+    clickerClicksSinceSave: 0,
     drag: null
   };
 
@@ -1810,6 +1880,7 @@
   let julyEventTicker = 0;
   let updatesTicker = 0;
   let resizeFrame = 0;
+  let clickerSaveTimer = 0;
 
   function createEmptyBoard() {
     return Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(null));
@@ -1819,6 +1890,10 @@
     const defaults = {
       highScore: 0,
       leaderboard: [],
+      clicker: {
+        clicks: 0,
+        completedAt: ""
+      },
       gamesPlayed: 0,
       totalBlocksPlaced: 0,
       totalLinesCleared: 0,
@@ -1857,6 +1932,7 @@
         ...parsed,
         achievements: { ...defaults.achievements, ...(parsed.achievements || {}) },
         events: { ...defaults.events, ...(parsed.events || {}) },
+        clicker: { ...defaults.clicker, ...(parsed.clicker || {}) },
         devOverrides: { ...defaults.devOverrides, ...(parsed.devOverrides || {}) },
         settings: { ...defaults.settings, ...(parsed.settings || {}) }
       };
@@ -1872,6 +1948,11 @@
       };
       const materialIds = new Set(BLOCK_MATERIALS.map((material) => material.id));
       loaded.coins = Number.isFinite(Number(loaded.coins)) ? Math.max(0, Math.floor(Number(loaded.coins))) : 0;
+      loaded.clicker.clicks = Number.isFinite(Number(loaded.clicker.clicks))
+        ? Math.max(0, Math.min(CLICKER_GOAL, Math.floor(Number(loaded.clicker.clicks))))
+        : 0;
+      loaded.clicker.completedAt = typeof loaded.clicker.completedAt === "string" ? loaded.clicker.completedAt : "";
+      delete loaded.clicker.leaderboard;
       loaded.leaderboard = Array.isArray(loaded.leaderboard)
         ? loaded.leaderboard
           .map((entry, index) => ({
@@ -2109,14 +2190,23 @@
     if (dom.shopButton) {
       dom.shopButton.addEventListener("click", () => openShop("mainMenu"));
     }
+    if (dom.clickerButton) {
+      dom.clickerButton.addEventListener("click", () => openClicker("mainMenu"));
+    }
     if (dom.leaderboardButton) {
       dom.leaderboardButton.addEventListener("click", () => openLeaderboard("mainMenu"));
+    }
+    if (dom.leaderboardTabs) {
+      dom.leaderboardTabs.addEventListener("click", handleLeaderboardTabClick);
     }
     if (dom.leaderboardList) {
       dom.leaderboardList.addEventListener("click", handleLeaderboardClick);
     }
     if (dom.leaderboardDetail) {
       dom.leaderboardDetail.addEventListener("click", handleLeaderboardDetailClick);
+    }
+    if (dom.clickerCircle) {
+      dom.clickerCircle.addEventListener("click", handleClickerClick);
     }
     if (dom.developerButton) {
       dom.developerButton.addEventListener("click", () => openDeveloperEntry("mainMenu"));
@@ -2212,6 +2302,7 @@
     }, { once: true });
 
     window.addEventListener("resize", handleViewportChange);
+    window.addEventListener("beforeunload", flushClickerSave);
   }
 
   function isCoarseCompactViewport() {
@@ -2364,6 +2455,17 @@
     openModal("leaderboardModal", backTarget);
   }
 
+  function openClicker(backTarget) {
+    if (!isTopsReleased()) {
+      showToast(t("menu.clicker"), t("clicker.locked"));
+      playSound("error");
+      return;
+    }
+
+    updateClickerUi();
+    openModal("clickerModal", backTarget);
+  }
+
   function openDeveloperEntry(backTarget) {
     if (save.developerUnlocked) {
       openDeveloperPanel(backTarget);
@@ -2418,6 +2520,10 @@
   }
 
   function closeModalWithReturn(id) {
+    if (id === "clickerModal") {
+      flushClickerSave();
+    }
+
     if (dom.modals[id]) {
       dom.modals[id].classList.remove("active");
     }
@@ -3064,6 +3170,9 @@
     if (isModalActive("leaderboardModal")) {
       updateLeaderboardUi();
     }
+    if (isModalActive("clickerModal")) {
+      updateClickerUi();
+    }
     if (isModalActive("gameOverModal")) {
       updateGameOverUi();
     }
@@ -3085,6 +3194,8 @@
     updateShopUi();
     updateLeaderboardAccessUi();
     updateLeaderboardUi();
+    updateClickerAccessUi();
+    updateClickerUi();
     updateDeveloperUi();
     updateJulyEventUi();
     updateUpdatesUi();
@@ -3098,6 +3209,7 @@
     dom.dailyButton.textContent = canClaim ? t("menu.dailyReady") : t("menu.dailyClaimed");
     updateEventButton();
     updateLeaderboardAccessUi();
+    updateClickerAccessUi();
   }
 
   function updateSettingsUi() {
@@ -3158,6 +3270,81 @@
     dom.leaderboardButton.classList.toggle("hidden", !isTopsReleased());
   }
 
+  function updateClickerAccessUi() {
+    if (!dom.clickerButton) {
+      return;
+    }
+    dom.clickerButton.classList.toggle("hidden", !isTopsReleased());
+  }
+
+  function updateClickerUi() {
+    if (!dom.clickerProgressValue || !dom.clickerGoalValue || !dom.clickerCircle) {
+      return;
+    }
+
+    const clicks = Math.max(0, Math.min(CLICKER_GOAL, Number(save.clicker.clicks) || 0));
+    const progress = Math.min(1, clicks / CLICKER_GOAL);
+    dom.clickerProgressValue.textContent = formatNumber(clicks);
+    dom.clickerGoalValue.textContent = formatNumber(CLICKER_GOAL);
+    dom.clickerCircle.style.setProperty("--clicker-progress", `${progress * 360}deg`);
+    dom.clickerCircle.classList.toggle("complete", clicks >= CLICKER_GOAL);
+    dom.clickerCircle.disabled = clicks >= CLICKER_GOAL;
+    if (dom.clickerProgressFill) {
+      dom.clickerProgressFill.style.width = `${progress * 100}%`;
+    }
+    if (dom.clickerHint) {
+      dom.clickerHint.textContent = clicks >= CLICKER_GOAL ? t("clicker.complete") : t("clicker.progress");
+    }
+  }
+
+  function handleClickerClick() {
+    if (!isTopsReleased()) {
+      showToast(t("menu.clicker"), t("clicker.locked"));
+      playSound("error");
+      return;
+    }
+    if (save.clicker.clicks >= CLICKER_GOAL) {
+      showToast(t("menu.clicker"), t("clicker.complete"));
+      return;
+    }
+
+    save.clicker.clicks = Math.min(CLICKER_GOAL, (Number(save.clicker.clicks) || 0) + 1);
+    state.clickerClicksSinceSave += 1;
+    if (save.clicker.clicks >= CLICKER_GOAL && !save.clicker.completedAt) {
+      save.clicker.completedAt = localDateKey();
+      showToast(t("menu.clicker"), t("clicker.complete"));
+      playSound("reward");
+    } else if (save.clicker.clicks % 500 === 0) {
+      playSound("tap");
+    }
+
+    updateClickerUi();
+    if (state.clickerClicksSinceSave >= CLICKER_SAVE_STEP || save.clicker.clicks >= CLICKER_GOAL) {
+      flushClickerSave();
+    } else {
+      scheduleClickerSave();
+    }
+  }
+
+  function scheduleClickerSave() {
+    if (clickerSaveTimer) {
+      return;
+    }
+
+    clickerSaveTimer = window.setTimeout(flushClickerSave, 650);
+  }
+
+  function flushClickerSave() {
+    if (clickerSaveTimer) {
+      clearTimeout(clickerSaveTimer);
+      clickerSaveTimer = 0;
+    }
+    if (state.clickerClicksSinceSave > 0) {
+      state.clickerClicksSinceSave = 0;
+      saveGame();
+    }
+  }
+
   function updateLeaderboardUi() {
     if (!dom.leaderboardList) {
       return;
@@ -3167,6 +3354,7 @@
       saveGame();
     }
 
+    updateLeaderboardTabs();
     dom.leaderboardList.innerHTML = "";
 
     if (!isTopsReleased()) {
@@ -3178,7 +3366,9 @@
       return;
     }
 
-    if (!save.leaderboard.length) {
+    const entries = leaderboardEntriesForCurrentTab();
+
+    if (!entries.length) {
       const item = document.createElement("div");
       item.className = "leaderboard-empty";
       item.textContent = t("leaderboard.empty");
@@ -3187,14 +3377,18 @@
       return;
     }
 
-    if (!save.leaderboard.some((entry) => entry.id === state.selectedLeaderboardId)) {
+    if (!entries.some((entry) => entry.id === state.selectedLeaderboardId)) {
       state.selectedLeaderboardId = "";
     }
 
-    save.leaderboard.forEach((entry, index) => {
+    const highlightedEntryId = highlightedLeaderboardEntryId(entries);
+    entries.forEach((entry, index) => {
       const row = document.createElement("button");
       const classes = ["leaderboard-row"];
       const meta = [formatLeaderboardMeta(entry), ...leaderboardEntryBadges(entry)].filter(Boolean).join(" / ");
+      if (entry.id === highlightedEntryId) {
+        classes.push("you");
+      }
       if (entry.banned) {
         classes.push("banned");
       }
@@ -3226,15 +3420,53 @@
     return entry.date || "";
   }
 
+  function leaderboardEntriesForCurrentTab() {
+    const realEntries = Array.isArray(save.leaderboard) ? save.leaderboard : [];
+    if (state.leaderboardTab !== "bots") {
+      return realEntries;
+    }
+
+    return [...realEntries, ...BOT_LEADERBOARD]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 20);
+  }
+
+  function highlightedLeaderboardEntryId(entries) {
+    const playerEntries = entries.filter((entry) => entry.type === "player" && !entry.banned);
+    if (!playerEntries.length) {
+      return "";
+    }
+
+    return playerEntries
+      .slice()
+      .sort((a, b) => b.score - a.score)[0].id;
+  }
+
+  function updateLeaderboardTabs() {
+    if (!dom.leaderboardTabs) {
+      return;
+    }
+
+    dom.leaderboardTabs.querySelectorAll("[data-leaderboard-tab]").forEach((button) => {
+      const active = button.dataset.leaderboardTab === state.leaderboardTab;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-selected", active ? "true" : "false");
+    });
+  }
+
   function leaderboardEntryLabel(entry) {
     if (entry.type === "developer") {
       return t("leaderboard.developer");
+    }
+    if (entry.type === "bot") {
+      return t("leaderboard.bot");
     }
     return entry.admin ? t("leaderboard.admin") : t("leaderboard.player");
   }
 
   function leaderboardEntryBadges(entry) {
     return [
+      entry.id === highlightedLeaderboardEntryId(leaderboardEntriesForCurrentTab()) ? t("leaderboard.you") : "",
       entry.admin && entry.type !== "developer" ? t("leaderboard.admin") : "",
       entry.banned ? t("leaderboard.banned") : "",
       entry.reported ? t("leaderboard.reported") : ""
@@ -3243,6 +3475,9 @@
 
   function leaderboardStatusText(entry) {
     const status = [entry.banned ? t("leaderboard.banned") : t("leaderboard.active")];
+    if (entry.id === highlightedLeaderboardEntryId(leaderboardEntriesForCurrentTab())) {
+      status.push(t("leaderboard.you"));
+    }
     if (entry.admin && entry.type !== "developer") {
       status.push(t("leaderboard.admin"));
     }
@@ -3260,7 +3495,7 @@
     let changed = false;
     entries.forEach((entry) => {
       const coins = Number.isFinite(Number(entry.coins)) ? Math.max(0, Math.floor(Number(entry.coins))) : 0;
-      const shouldReport = entry.type !== "developer" && coins > COIN_REPORT_LIMIT;
+      const shouldReport = entry.type === "player" && coins > COIN_REPORT_LIMIT;
       if (entry.coins !== coins) {
         entry.coins = coins;
         changed = true;
@@ -3279,7 +3514,28 @@
   }
 
   function leaderboardEntryById(id) {
+    return leaderboardEntriesForCurrentTab().find((entry) => entry.id === id) || null;
+  }
+
+  function editableLeaderboardEntryById(id) {
     return save.leaderboard.find((entry) => entry.id === id) || null;
+  }
+
+  function handleLeaderboardTabClick(event) {
+    const button = event.target.closest("[data-leaderboard-tab]");
+    if (!button) {
+      return;
+    }
+
+    const tab = button.dataset.leaderboardTab === "bots" ? "bots" : "real";
+    if (state.leaderboardTab === tab) {
+      return;
+    }
+
+    state.leaderboardTab = tab;
+    state.selectedLeaderboardId = "";
+    updateLeaderboardUi();
+    playSound("tap");
   }
 
   function handleLeaderboardClick(event) {
@@ -3302,7 +3558,7 @@
       return;
     }
 
-    const canModerate = save.developerUnlocked && entry.type !== "developer";
+    const canModerate = save.developerUnlocked && entry.type === "player";
     const action = entry.banned ? t("leaderboard.unban") : t("leaderboard.ban");
     const adminAction = entry.admin ? t("leaderboard.removeAdmin") : t("leaderboard.makeAdmin");
     const reportMarkup = entry.reported
@@ -3328,7 +3584,7 @@
       <div class="leaderboard-detail-actions">
         ${canModerate ? `<button class="menu-button leaderboard-ban-button" type="button" data-ban-entry="${entry.id}">${action}</button>` : ""}
         ${canModerate ? `<button class="menu-button" type="button" data-admin-entry="${entry.id}">${adminAction}</button>` : ""}
-        ${entry.admin && entry.type !== "developer" && !entry.banned ? `<button class="menu-button" type="button" data-admin-coins="${entry.id}">${t("leaderboard.giveAdminCoins")}</button>` : ""}
+        ${entry.admin && entry.type === "player" && !entry.banned ? `<button class="menu-button" type="button" data-admin-coins="${entry.id}">${t("leaderboard.giveAdminCoins")}</button>` : ""}
       </div>
     `;
   }
@@ -3340,8 +3596,8 @@
   function handleLeaderboardDetailClick(event) {
     const adminCoinButton = event.target.closest("[data-admin-coins]");
     if (adminCoinButton) {
-      const entry = leaderboardEntryById(adminCoinButton.dataset.adminCoins);
-      if (!entry || !entry.admin || entry.type === "developer" || entry.banned) {
+      const entry = editableLeaderboardEntryById(adminCoinButton.dataset.adminCoins);
+      if (!entry || !entry.admin || entry.type !== "player" || entry.banned) {
         return;
       }
 
@@ -3362,8 +3618,8 @@
         return;
       }
 
-      const entry = leaderboardEntryById(adminButton.dataset.adminEntry);
-      if (!entry || entry.type === "developer") {
+      const entry = editableLeaderboardEntryById(adminButton.dataset.adminEntry);
+      if (!entry || entry.type !== "player") {
         return;
       }
 
@@ -3381,8 +3637,8 @@
       return;
     }
 
-    const entry = leaderboardEntryById(banButton.dataset.banEntry);
-    if (!entry || entry.type === "developer") {
+    const entry = editableLeaderboardEntryById(banButton.dataset.banEntry);
+    if (!entry || entry.type !== "player") {
       return;
     }
 

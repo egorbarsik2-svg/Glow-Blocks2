@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title>Glow Blocks - офлайн игра</title>
-  <link rel="stylesheet" href="styles.css?v=20260702-7">
+  <link rel="stylesheet" href="styles.css?v=20260703-4">
 </head>
 <body>
   <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
@@ -68,6 +68,7 @@
       </div>
       <div class="menu-grid">
         <button class="primary-button" id="playButton" type="button">Играть</button>
+        <button class="menu-button hidden" id="clickerButton" type="button" data-i18n="menu.clicker">Клик-режим</button>
         <button class="menu-button" id="dailyButton" type="button">Ежедневная награда</button>
         <button class="menu-button" id="eventButton" type="button" data-i18n="menu.event">Событие июля</button>
         <button class="menu-button" id="updatesButton" type="button" data-i18n="menu.updates">Обновления</button>
@@ -294,8 +295,34 @@
         </div>
         <button class="close-button" data-close-modal="leaderboardModal" type="button" aria-label="Закрыть топы" data-i18n-aria="leaderboard.close">×</button>
       </div>
+      <div class="segmented leaderboard-tabs" id="leaderboardTabs" role="tablist" aria-label="Вкладки топов">
+        <button class="active" type="button" data-leaderboard-tab="real" role="tab" aria-selected="true" data-i18n="leaderboard.tabReal">Без ботов</button>
+        <button type="button" data-leaderboard-tab="bots" role="tab" aria-selected="false" data-i18n="leaderboard.tabBots">С ботами</button>
+      </div>
       <div id="leaderboardList" class="leaderboard-list"></div>
       <div id="leaderboardDetail" class="leaderboard-detail hidden"></div>
+    </div>
+  </section>
+
+  <section class="modal" id="clickerModal" aria-modal="true" role="dialog">
+    <div class="modal-panel clicker-panel">
+      <div class="modal-heading">
+        <div>
+          <p class="eyebrow" data-i18n="clicker.eyebrow">Режим 5 июля</p>
+          <h2 data-i18n="clicker.title">Клик-режим</h2>
+        </div>
+        <button class="close-button" data-close-modal="clickerModal" type="button" aria-label="Закрыть клик-режим" data-i18n-aria="clicker.close">×</button>
+      </div>
+      <div class="clicker-stage">
+        <button class="clicker-circle" id="clickerCircle" type="button" aria-label="Кликать круг" data-i18n-aria="clicker.tap">
+          <span id="clickerProgressValue">0</span>
+          <small>/<span id="clickerGoalValue">100 000</span></small>
+        </button>
+        <div class="clicker-progress-track" aria-hidden="true">
+          <span id="clickerProgressFill"></span>
+        </div>
+        <p class="clicker-hint" id="clickerHint" data-i18n="clicker.progress">Кликай круг и доберись до 100 000.</p>
+      </div>
     </div>
   </section>
 
@@ -407,6 +434,6 @@
     </div>
   </section>
 
-  <script src="script.js?v=20260702-7"></script>
+  <script src="script.js?v=20260703-4"></script>
 </body>
 </html>
