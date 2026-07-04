@@ -3,6 +3,7 @@
 
   const BOARD_SIZE = 8;
   const STORAGE_KEY = "glowBlocksSaveV1";
+  const LANGUAGE_CHANNEL = "glowBlocksLanguageSync";
   const CLEAR_DELAY = 330;
   const COIN_MILESTONE_STEP = 10000;
   const COINS_PER_MILESTONE = 500;
@@ -461,6 +462,26 @@
       "leaderboard.bot": "Bot",
       "leaderboard.you": "You are here",
       "leaderboard.developer": "Developer",
+      "developer.eyebrow": "Developer Mode",
+      "developer.loginTitle": "Developer Login",
+      "developer.codeLabel": "Access code",
+      "developer.codeHint": "Enter the code once. It is saved in this browser.",
+      "developer.unlock": "Enter",
+      "developer.title": "Developer Settings",
+      "developer.close": "Close developer",
+      "developer.score": "Score",
+      "developer.highScore": "Best score",
+      "developer.coins": "Coins",
+      "developer.material": "Material",
+      "developer.apply": "Apply",
+      "developer.unlockMaterials": "Unlock materials",
+      "developer.clearBoard": "Clear board",
+      "developer.newPieces": "New pieces",
+      "developer.goldBlock": "Golden block",
+      "developer.openTops": "Open tops now",
+      "developer.openTopsHint": "Shows the tops button before July 5.",
+      "developer.freeShop": "Free shop",
+      "developer.freeShopHint": "Materials can be bought without coins.",
       "event.eyebrow": "July Event",
       "event.title": "July Rush",
       "event.close": "Close event",
@@ -652,6 +673,26 @@
       "leaderboard.bot": "Bot",
       "leaderboard.you": "Estas aqui",
       "leaderboard.developer": "Desarrollador",
+      "developer.eyebrow": "Modo desarrollador",
+      "developer.loginTitle": "Entrada de desarrollador",
+      "developer.codeLabel": "Codigo de acceso",
+      "developer.codeHint": "El codigo se introduce una vez y se guarda en el navegador.",
+      "developer.unlock": "Entrar",
+      "developer.title": "Ajustes de desarrollador",
+      "developer.close": "Cerrar desarrollador",
+      "developer.score": "Puntuacion",
+      "developer.highScore": "Record",
+      "developer.coins": "Monedas",
+      "developer.material": "Material",
+      "developer.apply": "Aplicar",
+      "developer.unlockMaterials": "Abrir materiales",
+      "developer.clearBoard": "Limpiar tablero",
+      "developer.newPieces": "Nuevas piezas",
+      "developer.goldBlock": "Bloque dorado",
+      "developer.openTops": "Abrir tops ahora",
+      "developer.openTopsHint": "Muestra el boton de tops antes del 5 de julio.",
+      "developer.freeShop": "Tienda gratis",
+      "developer.freeShopHint": "Los materiales se compran sin monedas.",
       "event.eyebrow": "Evento de julio",
       "event.title": "Impulso de julio",
       "event.close": "Cerrar evento",
@@ -843,6 +884,26 @@
       "leaderboard.bot": "Bot",
       "leaderboard.you": "Vous etes ici",
       "leaderboard.developer": "Developpeur",
+      "developer.eyebrow": "Mode developpeur",
+      "developer.loginTitle": "Connexion developpeur",
+      "developer.codeLabel": "Code d'acces",
+      "developer.codeHint": "Le code est saisi une fois et reste dans le navigateur.",
+      "developer.unlock": "Entrer",
+      "developer.title": "Reglages developpeur",
+      "developer.close": "Fermer developpeur",
+      "developer.score": "Score",
+      "developer.highScore": "Record",
+      "developer.coins": "Pieces",
+      "developer.material": "Materiau",
+      "developer.apply": "Appliquer",
+      "developer.unlockMaterials": "Debloquer les materiaux",
+      "developer.clearBoard": "Vider le plateau",
+      "developer.newPieces": "Nouvelles pieces",
+      "developer.goldBlock": "Bloc dore",
+      "developer.openTops": "Ouvrir les tops",
+      "developer.openTopsHint": "Affiche le bouton des tops avant le 5 juillet.",
+      "developer.freeShop": "Boutique gratuite",
+      "developer.freeShopHint": "Les materiaux s'achetent sans pieces.",
       "event.eyebrow": "Événement de juillet",
       "event.title": "Rush de juillet",
       "event.close": "Fermer l'événement",
@@ -1034,6 +1095,26 @@
       "leaderboard.bot": "Bot",
       "leaderboard.you": "Voce esta aqui",
       "leaderboard.developer": "Desenvolvedor",
+      "developer.eyebrow": "Modo desenvolvedor",
+      "developer.loginTitle": "Entrada do desenvolvedor",
+      "developer.codeLabel": "Codigo de acesso",
+      "developer.codeHint": "O codigo e digitado uma vez e salvo no navegador.",
+      "developer.unlock": "Entrar",
+      "developer.title": "Configuracoes do desenvolvedor",
+      "developer.close": "Fechar desenvolvedor",
+      "developer.score": "Pontuacao",
+      "developer.highScore": "Recorde",
+      "developer.coins": "Moedas",
+      "developer.material": "Material",
+      "developer.apply": "Aplicar",
+      "developer.unlockMaterials": "Abrir materiais",
+      "developer.clearBoard": "Limpar tabuleiro",
+      "developer.newPieces": "Novas pecas",
+      "developer.goldBlock": "Bloco dourado",
+      "developer.openTops": "Abrir tops agora",
+      "developer.openTopsHint": "Mostra o botao dos tops antes de 5 de julho.",
+      "developer.freeShop": "Loja gratis",
+      "developer.freeShopHint": "Materiais podem ser comprados sem moedas.",
       "event.eyebrow": "Evento de julho",
       "event.title": "Arrancada de julho",
       "event.close": "Fechar evento",
@@ -1225,6 +1306,26 @@
       "leaderboard.bot": "Bot",
       "leaderboard.you": "Du bist hier",
       "leaderboard.developer": "Entwickler",
+      "developer.eyebrow": "Entwicklermodus",
+      "developer.loginTitle": "Entwickler-Login",
+      "developer.codeLabel": "Zugangscode",
+      "developer.codeHint": "Der Code wird einmal eingegeben und im Browser gespeichert.",
+      "developer.unlock": "Eintreten",
+      "developer.title": "Entwickler-Einstellungen",
+      "developer.close": "Entwickler schliessen",
+      "developer.score": "Punkte",
+      "developer.highScore": "Rekord",
+      "developer.coins": "Munzen",
+      "developer.material": "Material",
+      "developer.apply": "Anwenden",
+      "developer.unlockMaterials": "Materialien freischalten",
+      "developer.clearBoard": "Feld leeren",
+      "developer.newPieces": "Neue Figuren",
+      "developer.goldBlock": "Goldblock",
+      "developer.openTops": "Topliste jetzt offnen",
+      "developer.openTopsHint": "Zeigt den Toplisten-Button vor dem 5. Juli.",
+      "developer.freeShop": "Gratis-Shop",
+      "developer.freeShopHint": "Materialien werden ohne Munzen gekauft.",
       "event.eyebrow": "Juli-Event",
       "event.title": "Juli-Rush",
       "event.close": "Event schließen",
@@ -1416,6 +1517,26 @@
       "leaderboard.bot": "Bot",
       "leaderboard.you": "Sei qui",
       "leaderboard.developer": "Sviluppatore",
+      "developer.eyebrow": "Modalita sviluppatore",
+      "developer.loginTitle": "Accesso sviluppatore",
+      "developer.codeLabel": "Codice di accesso",
+      "developer.codeHint": "Il codice si inserisce una volta e resta nel browser.",
+      "developer.unlock": "Entra",
+      "developer.title": "Impostazioni sviluppatore",
+      "developer.close": "Chiudi sviluppatore",
+      "developer.score": "Punteggio",
+      "developer.highScore": "Record",
+      "developer.coins": "Monete",
+      "developer.material": "Materiale",
+      "developer.apply": "Applica",
+      "developer.unlockMaterials": "Sblocca materiali",
+      "developer.clearBoard": "Pulisci campo",
+      "developer.newPieces": "Nuovi pezzi",
+      "developer.goldBlock": "Blocco dorato",
+      "developer.openTops": "Apri top ora",
+      "developer.openTopsHint": "Mostra il pulsante top prima del 5 luglio.",
+      "developer.freeShop": "Negozio gratis",
+      "developer.freeShopHint": "I materiali si comprano senza monete.",
       "event.eyebrow": "Evento di luglio",
       "event.title": "Scatto di luglio",
       "event.close": "Chiudi evento",
@@ -1607,6 +1728,26 @@
       "leaderboard.bot": "Бот",
       "leaderboard.you": "Ти тут",
       "leaderboard.developer": "Розробник",
+      "developer.eyebrow": "Режим розробника",
+      "developer.loginTitle": "Вхід розробника",
+      "developer.codeLabel": "Код доступу",
+      "developer.codeHint": "Код вводиться один раз і зберігається у браузері.",
+      "developer.unlock": "Увійти",
+      "developer.title": "Налаштування розробника",
+      "developer.close": "Закрити розробника",
+      "developer.score": "Рахунок",
+      "developer.highScore": "Рекорд",
+      "developer.coins": "Монети",
+      "developer.material": "Матеріал",
+      "developer.apply": "Застосувати",
+      "developer.unlockMaterials": "Відкрити матеріали",
+      "developer.clearBoard": "Очистити поле",
+      "developer.newPieces": "Нові фігури",
+      "developer.goldBlock": "Золотий блок",
+      "developer.openTops": "Відкрити топи зараз",
+      "developer.openTopsHint": "Показує кнопку топів до 5 липня.",
+      "developer.freeShop": "Безкоштовний магазин",
+      "developer.freeShopHint": "Матеріали купуються без монет.",
       "event.eyebrow": "Подія липня",
       "event.title": "Липневий ривок",
       "event.close": "Закрити подію",
@@ -1881,6 +2022,7 @@
   let updatesTicker = 0;
   let resizeFrame = 0;
   let clickerSaveTimer = 0;
+  let languageChannel = null;
 
   function createEmptyBoard() {
     return Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(null));
@@ -2005,6 +2147,14 @@
 
   function saveGame() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+  }
+
+  function readStoredSave() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    } catch (error) {
+      return {};
+    }
   }
 
   function currentLanguageCode() {
@@ -2136,6 +2286,7 @@
     save.settings.language = Object.prototype.hasOwnProperty.call(I18N, save.settings.language) ? save.settings.language : "ru";
     canvasContext = dom.particleCanvas ? dom.particleCanvas.getContext("2d") : null;
     updatePerformanceMode();
+    setupLanguageSync();
     buildLanguageOptions();
     applyTranslations();
     buildBoard();
@@ -2303,6 +2454,7 @@
 
     window.addEventListener("resize", handleViewportChange);
     window.addEventListener("beforeunload", flushClickerSave);
+    window.addEventListener("storage", handleStorageSync);
   }
 
   function isCoarseCompactViewport() {
@@ -4171,11 +4323,63 @@
 
     save.settings.language = language;
     saveGame();
+    refreshLanguageUi();
+    broadcastLanguageChange(language);
+    showToast(t("toast.language"), languageMeta(language).name);
+    playSound("tap");
+  }
+
+  function setupLanguageSync() {
+    if (!("BroadcastChannel" in window)) {
+      return;
+    }
+
+    try {
+      languageChannel = new BroadcastChannel(LANGUAGE_CHANNEL);
+      languageChannel.addEventListener("message", (event) => {
+        const language = event.data && event.data.language;
+        applyExternalLanguage(language);
+      });
+    } catch (error) {
+      languageChannel = null;
+    }
+  }
+
+  function broadcastLanguageChange(language) {
+    if (!languageChannel) {
+      return;
+    }
+
+    languageChannel.postMessage({ language });
+  }
+
+  function refreshLanguageUi() {
     updateAllStaticUi();
     updateMenuUi();
     renderAchievements();
+    if (isModalActive("developerModal") || isModalActive("developerLoginModal")) {
+      updateDeveloperUi();
+    }
+  }
+
+  function applyExternalLanguage(language) {
+    if (!Object.prototype.hasOwnProperty.call(I18N, language) || language === save.settings.language) {
+      return;
+    }
+
+    save.settings.language = language;
+    refreshLanguageUi();
     showToast(t("toast.language"), languageMeta(language).name);
-    playSound("tap");
+  }
+
+  function handleStorageSync(event) {
+    if (event.key !== STORAGE_KEY || !event.newValue) {
+      return;
+    }
+
+    const incoming = readStoredSave();
+    const language = incoming && incoming.settings ? incoming.settings.language : "";
+    applyExternalLanguage(language);
   }
 
   function toggleSound() {
