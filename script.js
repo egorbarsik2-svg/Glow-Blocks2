@@ -4,6 +4,11 @@
   const BOARD_SIZE = 8;
   const STORAGE_KEY = "glowBlocksSaveV1";
   const LANGUAGE_CHANNEL = "glowBlocksLanguageSync";
+  const ONLINE_LEADERBOARD_URL = "";
+  const ONLINE_LEADERBOARD_PATH = "glowBlocksLeaderboard";
+  const ONLINE_LEADERBOARD_LIMIT = 50;
+  const ONLINE_LEADERBOARD_REFRESH_MS = 30000;
+  const ONLINE_LEADERBOARD_TIMEOUT_MS = 6500;
   const CLEAR_DELAY = 330;
   const COIN_MILESTONE_STEP = 10000;
   const COINS_PER_MILESTONE = 500;
@@ -2061,6 +2066,111 @@
     }
   });
 
+  const ONLINE_LEADERBOARD_TRANSLATIONS = {
+    ru: {
+      "leaderboard.onlineDisabled": "Онлайн-топ не подключен. Сейчас показан локальный топ.",
+      "leaderboard.onlineLoading": "Загружаем онлайн-топ...",
+      "leaderboard.onlineReady": "Онлайн-топ включен. Рекорды видны на разных устройствах.",
+      "leaderboard.onlineError": "Онлайн-топ недоступен. Показан локальный топ.",
+      "developer.onlineTop": "Онлайн-топ",
+      "developer.onlineTopHint": "Вставь Firebase Realtime Database URL, чтобы рекорды были видны на всех устройствах.",
+      "developer.onlineTopSave": "Сохранить",
+      "developer.onlineTopSaved": "Онлайн-топ подключен",
+      "developer.onlineTopCleared": "Онлайн-топ отключен",
+      "developer.onlineTopInvalid": "Нужен Firebase HTTPS URL"
+    },
+    en: {
+      "leaderboard.onlineDisabled": "Online top is not connected. Showing local scores.",
+      "leaderboard.onlineLoading": "Loading online top...",
+      "leaderboard.onlineReady": "Online top is enabled. Scores are visible across devices.",
+      "leaderboard.onlineError": "Online top is unavailable. Showing local scores.",
+      "developer.onlineTop": "Online top",
+      "developer.onlineTopHint": "Paste a Firebase Realtime Database URL so scores are visible on all devices.",
+      "developer.onlineTopSave": "Save",
+      "developer.onlineTopSaved": "Online top connected",
+      "developer.onlineTopCleared": "Online top disabled",
+      "developer.onlineTopInvalid": "Firebase HTTPS URL is required"
+    },
+    es: {
+      "leaderboard.onlineDisabled": "El top online no esta conectado. Se muestra el top local.",
+      "leaderboard.onlineLoading": "Cargando top online...",
+      "leaderboard.onlineReady": "Top online activado. Los records se ven en varios dispositivos.",
+      "leaderboard.onlineError": "El top online no esta disponible. Se muestra el top local.",
+      "developer.onlineTop": "Top online",
+      "developer.onlineTopHint": "Pega una URL de Firebase Realtime Database para ver records en todos los dispositivos.",
+      "developer.onlineTopSave": "Guardar",
+      "developer.onlineTopSaved": "Top online conectado",
+      "developer.onlineTopCleared": "Top online desactivado",
+      "developer.onlineTopInvalid": "Se necesita una URL HTTPS de Firebase"
+    },
+    fr: {
+      "leaderboard.onlineDisabled": "Le top en ligne n'est pas connecte. Top local affiche.",
+      "leaderboard.onlineLoading": "Chargement du top en ligne...",
+      "leaderboard.onlineReady": "Top en ligne active. Les scores sont visibles sur plusieurs appareils.",
+      "leaderboard.onlineError": "Top en ligne indisponible. Top local affiche.",
+      "developer.onlineTop": "Top en ligne",
+      "developer.onlineTopHint": "Collez une URL Firebase Realtime Database pour voir les scores sur tous les appareils.",
+      "developer.onlineTopSave": "Enregistrer",
+      "developer.onlineTopSaved": "Top en ligne connecte",
+      "developer.onlineTopCleared": "Top en ligne desactive",
+      "developer.onlineTopInvalid": "Une URL HTTPS Firebase est requise"
+    },
+    pt: {
+      "leaderboard.onlineDisabled": "O top online nao esta conectado. Mostrando top local.",
+      "leaderboard.onlineLoading": "Carregando top online...",
+      "leaderboard.onlineReady": "Top online ativado. Pontuacoes aparecem em varios dispositivos.",
+      "leaderboard.onlineError": "Top online indisponivel. Mostrando top local.",
+      "developer.onlineTop": "Top online",
+      "developer.onlineTopHint": "Cole uma URL do Firebase Realtime Database para ver pontuacoes em todos os dispositivos.",
+      "developer.onlineTopSave": "Salvar",
+      "developer.onlineTopSaved": "Top online conectado",
+      "developer.onlineTopCleared": "Top online desativado",
+      "developer.onlineTopInvalid": "E necessaria uma URL HTTPS do Firebase"
+    },
+    de: {
+      "leaderboard.onlineDisabled": "Online-Topliste ist nicht verbunden. Lokale Topliste wird gezeigt.",
+      "leaderboard.onlineLoading": "Online-Topliste wird geladen...",
+      "leaderboard.onlineReady": "Online-Topliste aktiv. Punkte sind auf mehreren Geraeten sichtbar.",
+      "leaderboard.onlineError": "Online-Topliste nicht erreichbar. Lokale Topliste wird gezeigt.",
+      "developer.onlineTop": "Online-Topliste",
+      "developer.onlineTopHint": "Firebase Realtime Database URL einfuegen, damit Punkte auf allen Geraeten sichtbar sind.",
+      "developer.onlineTopSave": "Speichern",
+      "developer.onlineTopSaved": "Online-Topliste verbunden",
+      "developer.onlineTopCleared": "Online-Topliste deaktiviert",
+      "developer.onlineTopInvalid": "Firebase HTTPS URL erforderlich"
+    },
+    it: {
+      "leaderboard.onlineDisabled": "Top online non collegata. Viene mostrata la top locale.",
+      "leaderboard.onlineLoading": "Caricamento top online...",
+      "leaderboard.onlineReady": "Top online attiva. I punteggi sono visibili su piu dispositivi.",
+      "leaderboard.onlineError": "Top online non disponibile. Viene mostrata la top locale.",
+      "developer.onlineTop": "Top online",
+      "developer.onlineTopHint": "Incolla una URL Firebase Realtime Database per vedere i record su tutti i dispositivi.",
+      "developer.onlineTopSave": "Salva",
+      "developer.onlineTopSaved": "Top online collegata",
+      "developer.onlineTopCleared": "Top online disattivata",
+      "developer.onlineTopInvalid": "Serve una URL HTTPS Firebase"
+    },
+    uk: {
+      "leaderboard.onlineDisabled": "Онлайн-топ не підключено. Зараз показано локальний топ.",
+      "leaderboard.onlineLoading": "Завантажуємо онлайн-топ...",
+      "leaderboard.onlineReady": "Онлайн-топ увімкнено. Рекорди видно на різних пристроях.",
+      "leaderboard.onlineError": "Онлайн-топ недоступний. Показано локальний топ.",
+      "developer.onlineTop": "Онлайн-топ",
+      "developer.onlineTopHint": "Встав Firebase Realtime Database URL, щоб рекорди були видні на всіх пристроях.",
+      "developer.onlineTopSave": "Зберегти",
+      "developer.onlineTopSaved": "Онлайн-топ підключено",
+      "developer.onlineTopCleared": "Онлайн-топ вимкнено",
+      "developer.onlineTopInvalid": "Потрібен Firebase HTTPS URL"
+    }
+  };
+
+  Object.entries(ONLINE_LEADERBOARD_TRANSLATIONS).forEach(([language, messages]) => {
+    if (I18N[language]) {
+      Object.assign(I18N[language], messages);
+    }
+  });
+
   const dom = {
     board: document.querySelector("#board"),
     pieceTray: document.querySelector("#pieceTray"),
@@ -2116,6 +2226,7 @@
     leaderboardTabs: document.querySelector("#leaderboardTabs"),
     leaderboardList: document.querySelector("#leaderboardList"),
     leaderboardDetail: document.querySelector("#leaderboardDetail"),
+    onlineLeaderboardStatus: document.querySelector("#onlineLeaderboardStatus"),
     clickerCircle: document.querySelector("#clickerCircle"),
     clickerProgressValue: document.querySelector("#clickerProgressValue"),
     clickerGoalValue: document.querySelector("#clickerGoalValue"),
@@ -2138,6 +2249,8 @@
     devCustomBlockButton: document.querySelector("#devCustomBlockButton"),
     devLeaderboardToggle: document.querySelector("#devLeaderboardToggle"),
     devFreeShopToggle: document.querySelector("#devFreeShopToggle"),
+    devOnlineUrlInput: document.querySelector("#devOnlineUrlInput"),
+    devSaveOnlineUrlButton: document.querySelector("#devSaveOnlineUrlButton"),
     customBlockGrid: document.querySelector("#customBlockGrid"),
     customBlockStatus: document.querySelector("#customBlockStatus"),
     customBlockChanceInput: document.querySelector("#customBlockChanceInput"),
@@ -2199,6 +2312,11 @@
     performanceLite: false,
     clickerClicksSinceSave: 0,
     customBlockDraft: new Set(),
+    onlineLeaderboardEntries: [],
+    onlineLeaderboardStatus: "disabled",
+    onlineLeaderboardError: "",
+    onlineLeaderboardLastSync: 0,
+    onlineLeaderboardSyncing: false,
     drag: null
   };
 
@@ -2226,6 +2344,7 @@
     const defaults = {
       highScore: 0,
       leaderboard: [],
+      onlineLeaderboardUrl: ONLINE_LEADERBOARD_URL,
       customBlocks: [],
       clicker: {
         clicks: 0,
@@ -2275,6 +2394,7 @@
         settings: { ...defaults.settings, ...(parsed.settings || {}) }
       };
       loaded.developerUnlocked = Boolean(loaded.developerUnlocked);
+      loaded.onlineLeaderboardUrl = sanitizeOnlineLeaderboardUrl(loaded.onlineLeaderboardUrl || ONLINE_LEADERBOARD_URL);
       loaded.devOverrides.leaderboardUnlocked = Boolean(loaded.devOverrides.leaderboardUnlocked);
       loaded.devOverrides.freeShop = Boolean(loaded.devOverrides.freeShop);
       loaded.customSkinData = typeof loaded.customSkinData === "string" && loaded.customSkinData.startsWith("data:image/")
@@ -2382,6 +2502,61 @@
     });
 
     return value;
+  }
+
+  function sanitizeOnlineLeaderboardUrl(value) {
+    const raw = String(value || "").trim();
+    if (!raw) {
+      return "";
+    }
+
+    try {
+      const url = new URL(raw.replace(/\.json$/i, ""));
+      const host = url.hostname.toLowerCase();
+      const isFirebaseHost = host.endsWith(".firebaseio.com") || host.endsWith(".firebasedatabase.app");
+      if (url.protocol !== "https:" || !isFirebaseHost) {
+        return "";
+      }
+      url.hash = "";
+      url.search = "";
+      return url.href.replace(/\/+$/, "");
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function onlineLeaderboardBaseUrl() {
+    return sanitizeOnlineLeaderboardUrl(save.onlineLeaderboardUrl || ONLINE_LEADERBOARD_URL);
+  }
+
+  function onlineLeaderboardEndpoint() {
+    const base = onlineLeaderboardBaseUrl();
+    if (!base) {
+      return "";
+    }
+
+    const url = new URL(base);
+    const hasPath = url.pathname && url.pathname !== "/";
+    const endpoint = hasPath ? base : `${base}/${ONLINE_LEADERBOARD_PATH}`;
+    return `${endpoint}.json`;
+  }
+
+  function isOnlineLeaderboardEnabled() {
+    return Boolean(onlineLeaderboardEndpoint());
+  }
+
+  async function fetchWithTimeout(url, options = {}) {
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), ONLINE_LEADERBOARD_TIMEOUT_MS);
+    try {
+      return await fetch(url, {
+        cache: "no-store",
+        ...options,
+        signal: controller.signal
+      });
+    } finally {
+      window.clearTimeout(timer);
+    }
   }
 
   function achievementCopy(id) {
@@ -2784,6 +2959,16 @@
     if (dom.customBlockChanceInput) {
       dom.customBlockChanceInput.addEventListener("change", normalizeCustomBlockChanceField);
     }
+    if (dom.devSaveOnlineUrlButton) {
+      dom.devSaveOnlineUrlButton.addEventListener("click", applyDeveloperOnlineLeaderboardUrl);
+    }
+    if (dom.devOnlineUrlInput) {
+      dom.devOnlineUrlInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          applyDeveloperOnlineLeaderboardUrl();
+        }
+      });
+    }
     if (dom.devLeaderboardToggle) {
       dom.devLeaderboardToggle.addEventListener("click", () => toggleDeveloperOverride("leaderboardUnlocked"));
     }
@@ -2817,6 +3002,7 @@
     window.addEventListener("resize", handleViewportChange);
     window.addEventListener("beforeunload", flushClickerSave);
     window.addEventListener("storage", handleStorageSync);
+    window.addEventListener("online", () => refreshOnlineLeaderboard(true));
   }
 
   function isCoarseCompactViewport() {
@@ -2965,6 +3151,7 @@
       playSound("error");
       return;
     }
+    refreshOnlineLeaderboard();
     updateLeaderboardUi();
     openModal("leaderboardModal", backTarget);
   }
@@ -3916,10 +4103,197 @@
     }
   }
 
+  function onlineLeaderboardStatusText() {
+    if (!isOnlineLeaderboardEnabled()) {
+      return t("leaderboard.onlineDisabled");
+    }
+    if (state.onlineLeaderboardStatus === "loading") {
+      return t("leaderboard.onlineLoading");
+    }
+    if (state.onlineLeaderboardStatus === "error") {
+      return t("leaderboard.onlineError");
+    }
+    return t("leaderboard.onlineReady");
+  }
+
+  function updateOnlineLeaderboardStatusUi() {
+    if (!dom.onlineLeaderboardStatus) {
+      return;
+    }
+    dom.onlineLeaderboardStatus.textContent = onlineLeaderboardStatusText();
+    dom.onlineLeaderboardStatus.dataset.status = state.onlineLeaderboardStatus;
+  }
+
+  function sanitizeOnlineLeaderboardEntry(entry, fallbackId = "") {
+    if (!entry || typeof entry !== "object") {
+      return null;
+    }
+
+    const score = Number.isFinite(Number(entry.score)) ? Math.max(0, Math.floor(Number(entry.score))) : 0;
+    if (score <= 0) {
+      return null;
+    }
+
+    const type = entry.type === "developer" ? "developer" : "player";
+    return {
+      id: typeof entry.id === "string" && entry.id ? entry.id.slice(0, 80) : createLeaderboardId(fallbackId),
+      type,
+      score,
+      date: typeof entry.date === "string" ? entry.date.slice(0, 20) : "",
+      lines: Number.isFinite(Number(entry.lines)) ? Math.max(0, Math.floor(Number(entry.lines))) : 0,
+      blocks: Number.isFinite(Number(entry.blocks)) ? Math.max(0, Math.floor(Number(entry.blocks))) : 0,
+      coins: Number.isFinite(Number(entry.coins)) ? Math.max(0, Math.floor(Number(entry.coins))) : 0,
+      difficulty: typeof entry.difficulty === "string" && entry.difficulty in DIFFICULTIES ? entry.difficulty : "normal",
+      banned: Boolean(entry.banned),
+      admin: Boolean(entry.admin),
+      reported: Boolean(entry.reported),
+      online: Boolean(entry.online)
+    };
+  }
+
+  function sanitizeOnlineLeaderboardData(data) {
+    const rawEntries = Array.isArray(data)
+      ? data
+      : Object.entries(data || {}).map(([key, value]) => ({
+        ...(value && typeof value === "object" ? value : {}),
+        id: value && typeof value.id === "string" && value.id ? value.id : `online-${key}`
+      }));
+
+    const entries = rawEntries
+      .map((entry, index) => sanitizeOnlineLeaderboardEntry({ ...entry, online: true }, index))
+      .filter(Boolean)
+      .filter((entry) => !entry.banned)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, ONLINE_LEADERBOARD_LIMIT);
+
+    refreshLeaderboardReports(entries);
+    return entries;
+  }
+
+  function mergeLeaderboardEntries(entries) {
+    const map = new Map();
+    entries.forEach((entry) => {
+      const normalized = sanitizeOnlineLeaderboardEntry(entry, map.size);
+      if (!normalized) {
+        return;
+      }
+      const existing = map.get(normalized.id);
+      if (!existing || normalized.online || normalized.score > existing.score) {
+        map.set(normalized.id, normalized);
+      }
+    });
+
+    return [...map.values()]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 20);
+  }
+
+  async function refreshOnlineLeaderboard(force = false) {
+    if (!isOnlineLeaderboardEnabled()) {
+      state.onlineLeaderboardEntries = [];
+      state.onlineLeaderboardStatus = "disabled";
+      state.onlineLeaderboardError = "";
+      updateOnlineLeaderboardStatusUi();
+      return;
+    }
+
+    const now = Date.now();
+    if (state.onlineLeaderboardSyncing) {
+      return;
+    }
+    if (!force && now - state.onlineLeaderboardLastSync < ONLINE_LEADERBOARD_REFRESH_MS) {
+      return;
+    }
+
+    state.onlineLeaderboardSyncing = true;
+    state.onlineLeaderboardStatus = "loading";
+    state.onlineLeaderboardError = "";
+    updateOnlineLeaderboardStatusUi();
+
+    try {
+      const response = await fetchWithTimeout(onlineLeaderboardEndpoint());
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      const data = await response.json();
+      state.onlineLeaderboardEntries = sanitizeOnlineLeaderboardData(data);
+      state.onlineLeaderboardLastSync = Date.now();
+      state.onlineLeaderboardStatus = "ready";
+    } catch (error) {
+      state.onlineLeaderboardStatus = "error";
+      state.onlineLeaderboardError = String(error && error.message ? error.message : error);
+    } finally {
+      state.onlineLeaderboardSyncing = false;
+      if (isModalActive("leaderboardModal")) {
+        updateLeaderboardUi();
+      } else {
+        updateOnlineLeaderboardStatusUi();
+      }
+    }
+  }
+
+  function leaderboardUploadPayload(entry) {
+    const normalized = sanitizeOnlineLeaderboardEntry(entry);
+    if (!normalized || normalized.type === "bot") {
+      return null;
+    }
+
+    return {
+      id: normalized.id,
+      type: normalized.type,
+      score: normalized.score,
+      date: normalized.date || localDateKey(),
+      lines: normalized.lines,
+      blocks: normalized.blocks,
+      coins: normalized.coins,
+      difficulty: normalized.difficulty,
+      banned: false,
+      admin: false,
+      reported: normalized.coins > COIN_REPORT_LIMIT,
+      createdAt: new Date().toISOString()
+    };
+  }
+
+  async function pushOnlineLeaderboardEntry(entry) {
+    if (!isOnlineLeaderboardEnabled()) {
+      return;
+    }
+
+    const payload = leaderboardUploadPayload(entry);
+    if (!payload) {
+      return;
+    }
+
+    state.onlineLeaderboardEntries = mergeLeaderboardEntries([payload, ...state.onlineLeaderboardEntries]);
+    state.onlineLeaderboardStatus = "loading";
+    updateOnlineLeaderboardStatusUi();
+
+    try {
+      const response = await fetchWithTimeout(onlineLeaderboardEndpoint(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      state.onlineLeaderboardLastSync = 0;
+      await refreshOnlineLeaderboard(true);
+    } catch (error) {
+      state.onlineLeaderboardStatus = "error";
+      state.onlineLeaderboardError = String(error && error.message ? error.message : error);
+      updateOnlineLeaderboardStatusUi();
+    }
+  }
+
   function updateLeaderboardUi() {
     if (!dom.leaderboardList) {
       return;
     }
+
+    updateOnlineLeaderboardStatusUi();
 
     if (refreshLeaderboardReports()) {
       saveGame();
@@ -3992,7 +4366,9 @@
   }
 
   function leaderboardEntriesForCurrentTab() {
-    const realEntries = Array.isArray(save.leaderboard) ? save.leaderboard : [];
+    const localEntries = Array.isArray(save.leaderboard) ? save.leaderboard : [];
+    const onlineEntries = isOnlineLeaderboardEnabled() ? state.onlineLeaderboardEntries : [];
+    const realEntries = mergeLeaderboardEntries([...onlineEntries, ...localEntries]);
     if (state.leaderboardTab !== "bots") {
       return realEntries;
     }
@@ -4231,7 +4607,7 @@
       save.leaderboard = save.leaderboard.filter((entry) => entry.type !== "developer");
     }
 
-    save.leaderboard.push({
+    const entry = {
       id: createLeaderboardId(),
       type: safeType,
       score: safeScore,
@@ -4243,13 +4619,16 @@
       banned: false,
       admin: false,
       reported: false
-    });
+    };
+
+    save.leaderboard.push(entry);
     refreshLeaderboardReports();
     save.leaderboard = save.leaderboard
       .sort((a, b) => b.score - a.score)
       .slice(0, 20);
     saveGame();
     updateLeaderboardUi();
+    pushOnlineLeaderboardEntry(entry);
   }
 
   function escapeHtml(value) {
@@ -4297,6 +4676,9 @@
     dom.devScoreInput.value = String(state.score);
     dom.devHighScoreInput.value = String(save.highScore);
     dom.devCoinsInput.value = String(save.coins);
+    if (dom.devOnlineUrlInput) {
+      dom.devOnlineUrlInput.value = save.onlineLeaderboardUrl || ONLINE_LEADERBOARD_URL;
+    }
     renderDeveloperMaterialOptions();
     setDeveloperToggle(dom.devLeaderboardToggle, Boolean(save.devOverrides && save.devOverrides.leaderboardUnlocked));
     setDeveloperToggle(dom.devFreeShopToggle, Boolean(save.devOverrides && save.devOverrides.freeShop));
@@ -4373,6 +4755,32 @@
     saveGame();
     updateAllStaticUi();
     showToast(t("toast.developerApplied"), t("developer.coins"));
+  }
+
+  function applyDeveloperOnlineLeaderboardUrl() {
+    if (!ensureDeveloperUnlocked() || !dom.devOnlineUrlInput) {
+      return;
+    }
+
+    const rawValue = dom.devOnlineUrlInput.value.trim();
+    const url = sanitizeOnlineLeaderboardUrl(rawValue);
+    if (rawValue && !url) {
+      showToast(t("developer.onlineTopInvalid"), t("developer.onlineTop"));
+      playSound("error");
+      return;
+    }
+
+    save.onlineLeaderboardUrl = url;
+    state.onlineLeaderboardEntries = [];
+    state.onlineLeaderboardLastSync = 0;
+    state.onlineLeaderboardStatus = url ? "loading" : "disabled";
+    saveGame();
+    updateAllStaticUi();
+    showToast(url ? t("developer.onlineTopSaved") : t("developer.onlineTopCleared"), t("developer.onlineTop"));
+    playSound(url ? "reward" : "tap");
+    if (url) {
+      refreshOnlineLeaderboard(true);
+    }
   }
 
   function applyDeveloperMaterial() {
