@@ -14,6 +14,9 @@
   const COIN_REPORT_LIMIT = 1000000000;
   const CLICKER_GOAL = 100000;
   const CLICKER_SAVE_STEP = 25;
+  const CLICKER_REWARD_STEP = 5000;
+  const CLICKER_REWARD_MIN = 1;
+  const CLICKER_REWARD_MAX = 1000;
   const CUSTOM_SKIN_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "image/bmp"]);
   const DEVELOPER_CODE = "GLOW-DEV-2702";
   const JULY_EVENT_ID = "july_2026";
@@ -203,7 +206,7 @@
       "updates.dateLabel": "Дата",
       "updates.dateValue": "5 июля 2026",
       "updates.noteLabel": "Что будет",
-      "updates.note": "Добавление новых функций: топы игроков и режим на 100 000 кликов.",
+      "updates.note": "Добавление новых функций: топы игроков, награды в режиме на 100 000 кликов и напоминание, что событие июля скоро закончится.",
       "leaderboard.eyebrow": "Топы",
       "leaderboard.title": "Лучшие счета",
       "leaderboard.close": "Закрыть топы",
@@ -240,8 +243,9 @@
       "clicker.title": "Клик-режим",
       "clicker.close": "Закрыть клик-режим",
       "clicker.tap": "Кликать круг",
-      "clicker.progress": "Кликай круг и доберись до 100 000.",
+      "clicker.progress": "Кликай круг и доберись до 100 000. Каждые 5 000 кликов дают случайную награду от 1 до 1 000 монет.",
       "clicker.complete": "Цель выполнена",
+      "clicker.rewardToast": "+{amount} монет за {clicks} кликов",
       "clicker.you": "Ты",
       "clicker.locked": "Клик-режим откроется 5 июля 2026",
       "developer.eyebrow": "Режим разработчика",
@@ -448,7 +452,7 @@
       "updates.dateLabel": "Date",
       "updates.dateValue": "July 5, 2026",
       "updates.noteLabel": "What is coming",
-      "updates.note": "New features: player top scores and leaderboards.",
+      "updates.note": "New features: player top scores, 100,000-click mode rewards, and a reminder that the July Event is ending soon.",
       "leaderboard.eyebrow": "Top scores",
       "leaderboard.title": "Best scores",
       "leaderboard.close": "Close top scores",
@@ -659,7 +663,7 @@
       "updates.dateLabel": "Fecha",
       "updates.dateValue": "5 de julio de 2026",
       "updates.noteLabel": "Qué llega",
-      "updates.note": "Nuevas funciones: tops de jugadores con mejores puntuaciones.",
+      "updates.note": "Nuevas funciones: tops de jugadores, recompensas del modo de 100 000 clics y aviso de que el evento de julio terminara pronto.",
       "leaderboard.eyebrow": "Tops",
       "leaderboard.title": "Mejores puntuaciones",
       "leaderboard.close": "Cerrar tops",
@@ -870,7 +874,7 @@
       "updates.dateLabel": "Date",
       "updates.dateValue": "5 juillet 2026",
       "updates.noteLabel": "À venir",
-      "updates.note": "Nouvelles fonctions : meilleurs scores des joueurs.",
+      "updates.note": "Nouvelles fonctions : meilleurs scores, recompenses du mode 100 000 clics, et rappel que l'evenement de juillet se termine bientot.",
       "leaderboard.eyebrow": "Tops",
       "leaderboard.title": "Meilleurs scores",
       "leaderboard.close": "Fermer les tops",
@@ -1081,7 +1085,7 @@
       "updates.dateLabel": "Data",
       "updates.dateValue": "5 de julho de 2026",
       "updates.noteLabel": "O que vem",
-      "updates.note": "Novas funções: tops de jogadores com maiores pontuações.",
+      "updates.note": "Novas funcoes: tops de jogadores, recompensas do modo de 100 000 cliques, e aviso de que o evento de julho termina em breve.",
       "leaderboard.eyebrow": "Tops",
       "leaderboard.title": "Melhores pontuações",
       "leaderboard.close": "Fechar tops",
@@ -1292,7 +1296,7 @@
       "updates.dateLabel": "Datum",
       "updates.dateValue": "5. Juli 2026",
       "updates.noteLabel": "Was kommt",
-      "updates.note": "Neue Funktionen: Topliste der besten Spielerpunkte.",
+      "updates.note": "Neue Funktionen: Topliste, Belohnungen im 100.000-Klickmodus und Hinweis, dass das Juli-Event bald endet.",
       "leaderboard.eyebrow": "Topliste",
       "leaderboard.title": "Beste Punkte",
       "leaderboard.close": "Topliste schliessen",
@@ -1503,7 +1507,7 @@
       "updates.dateLabel": "Data",
       "updates.dateValue": "5 luglio 2026",
       "updates.noteLabel": "In arrivo",
-      "updates.note": "Nuove funzioni: top giocatori con punteggi migliori.",
+      "updates.note": "Nuove funzioni: top giocatori, ricompense della modalita 100 000 clic e avviso che l'evento di luglio finira presto.",
       "leaderboard.eyebrow": "Top",
       "leaderboard.title": "Migliori punteggi",
       "leaderboard.close": "Chiudi top",
@@ -1714,7 +1718,7 @@
       "updates.dateLabel": "Дата",
       "updates.dateValue": "5 липня 2026",
       "updates.noteLabel": "Що буде",
-      "updates.note": "Додавання нових функцій: топи гравців із найкращими рахунками.",
+      "updates.note": "Додавання нових функцій: топи гравців, нагороди режиму на 100 000 кліків і нагадування, що подія липня скоро завершиться.",
       "leaderboard.eyebrow": "Топи",
       "leaderboard.title": "Найкращі рахунки",
       "leaderboard.close": "Закрити топи",
@@ -2034,7 +2038,8 @@
       leaderboard: [],
       clicker: {
         clicks: 0,
-        completedAt: ""
+        completedAt: "",
+        claimedRewards: []
       },
       gamesPlayed: 0,
       totalBlocksPlaced: 0,
@@ -2094,6 +2099,11 @@
         ? Math.max(0, Math.min(CLICKER_GOAL, Math.floor(Number(loaded.clicker.clicks))))
         : 0;
       loaded.clicker.completedAt = typeof loaded.clicker.completedAt === "string" ? loaded.clicker.completedAt : "";
+      loaded.clicker.claimedRewards = Array.isArray(loaded.clicker.claimedRewards)
+        ? [...new Set(loaded.clicker.claimedRewards
+          .map((milestone) => Number(milestone))
+          .filter((milestone) => Number.isInteger(milestone) && milestone > 0 && milestone <= CLICKER_GOAL && milestone % CLICKER_REWARD_STEP === 0))]
+        : [];
       delete loaded.clicker.leaderboard;
       loaded.leaderboard = Array.isArray(loaded.leaderboard)
         ? loaded.leaderboard
@@ -3460,8 +3470,10 @@
       return;
     }
 
-    save.clicker.clicks = Math.min(CLICKER_GOAL, (Number(save.clicker.clicks) || 0) + 1);
+    const previousClicks = Number(save.clicker.clicks) || 0;
+    save.clicker.clicks = Math.min(CLICKER_GOAL, previousClicks + 1);
     state.clickerClicksSinceSave += 1;
+    awardClickerMilestoneRewards(previousClicks, save.clicker.clicks);
     if (save.clicker.clicks >= CLICKER_GOAL && !save.clicker.completedAt) {
       save.clicker.completedAt = localDateKey();
       showToast(t("menu.clicker"), t("clicker.complete"));
@@ -3476,6 +3488,43 @@
     } else {
       scheduleClickerSave();
     }
+  }
+
+  function awardClickerMilestoneRewards(previousClicks, currentClicks) {
+    if (currentClicks < CLICKER_REWARD_STEP) {
+      return;
+    }
+
+    const claimed = new Set(Array.isArray(save.clicker.claimedRewards) ? save.clicker.claimedRewards : []);
+    let totalReward = 0;
+    let lastMilestone = 0;
+
+    for (let milestone = CLICKER_REWARD_STEP; milestone <= currentClicks && milestone <= CLICKER_GOAL; milestone += CLICKER_REWARD_STEP) {
+      if (previousClicks < milestone && !claimed.has(milestone)) {
+        const reward = randomInt(CLICKER_REWARD_MIN, CLICKER_REWARD_MAX);
+        totalReward += reward;
+        lastMilestone = milestone;
+        claimed.add(milestone);
+      }
+    }
+
+    if (totalReward <= 0) {
+      save.clicker.claimedRewards = [...claimed].sort((a, b) => a - b);
+      return;
+    }
+
+    save.clicker.claimedRewards = [...claimed].sort((a, b) => a - b);
+    save.coins += totalReward;
+    updateWalletUi();
+    showToast(t("toast.coins"), t("clicker.rewardToast", {
+      amount: formatNumber(totalReward),
+      clicks: formatNumber(lastMilestone)
+    }));
+    playSound("reward");
+  }
+
+  function randomInt(min, max) {
+    return Math.floor(min + Math.random() * (max - min + 1));
   }
 
   function scheduleClickerSave() {
