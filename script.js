@@ -17,6 +17,12 @@
   const CLICKER_REWARD_STEP = 5000;
   const CLICKER_REWARD_MIN = 1;
   const CLICKER_REWARD_MAX = 1000;
+  const CUSTOM_BLOCK_GRID_SIZE = BOARD_SIZE;
+  const CUSTOM_BLOCK_MAX_CELLS = BOARD_SIZE * BOARD_SIZE;
+  const CUSTOM_BLOCK_LIMIT = 20;
+  const CUSTOM_BLOCK_CHANCE_MIN = 0.1;
+  const CUSTOM_BLOCK_CHANCE_MAX = 70;
+  const CUSTOM_BLOCK_CHANCE_DEFAULT = 5;
   const CUSTOM_SKIN_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "image/bmp"]);
   const DEVELOPER_CODE = "GLOW-DEV-2702";
   const JULY_EVENT_ID = "july_2026";
@@ -80,9 +86,7 @@
   };
 
   const SHAPE_DATA = Object.entries(SHAPES).reduce((map, [id, cells]) => {
-    const width = Math.max(...cells.map((cell) => cell[0])) + 1;
-    const height = Math.max(...cells.map((cell) => cell[1])) + 1;
-    map[id] = { id, cells, width, height };
+    map[id] = createShapeData(id, cells);
     return map;
   }, {});
 
@@ -1879,6 +1883,184 @@
     }
   };
 
+  const CUSTOM_BLOCK_TRANSLATIONS = {
+    ru: {
+      "developer.customBlock": "Добавить новый блок",
+      "developer.customBlockTitle": "Конструктор блока",
+      "developer.customBlockClose": "Закрыть конструктор блока",
+      "developer.customBlockHint": "Нажимай клетки, чтобы собрать новый блок. После публикации он начнет выпадать среди фигур.",
+      "developer.customBlockGrid": "Поле конструктора блока",
+      "developer.customBlockPublish": "Выставить блок",
+      "developer.customBlockClear": "Очистить",
+      "developer.customBlockStatus": "{count} из {max} клеток",
+      "developer.customBlockEmpty": "Выбери хотя бы 1 клетку",
+      "developer.customBlockMax": "Можно выбрать до {max} клеток",
+      "developer.customBlockDuplicate": "Такой блок уже выставлен",
+      "developer.customBlockAdded": "Новый блок выставлен"
+    },
+    en: {
+      "developer.customBlock": "Add new block",
+      "developer.customBlockTitle": "Block builder",
+      "developer.customBlockClose": "Close block builder",
+      "developer.customBlockHint": "Tap cells to build a new block. After publishing, it can appear as a piece.",
+      "developer.customBlockGrid": "Block builder grid",
+      "developer.customBlockPublish": "Publish block",
+      "developer.customBlockClear": "Clear",
+      "developer.customBlockStatus": "{count} of {max} cells",
+      "developer.customBlockEmpty": "Choose at least 1 cell",
+      "developer.customBlockMax": "You can choose up to {max} cells",
+      "developer.customBlockDuplicate": "This block is already published",
+      "developer.customBlockAdded": "New block published"
+    },
+    es: {
+      "developer.customBlock": "Agregar bloque",
+      "developer.customBlockTitle": "Constructor de bloques",
+      "developer.customBlockClose": "Cerrar constructor",
+      "developer.customBlockHint": "Toca celdas para crear un bloque nuevo. Al publicarlo, podra aparecer como pieza.",
+      "developer.customBlockGrid": "Cuadricula del constructor",
+      "developer.customBlockPublish": "Publicar bloque",
+      "developer.customBlockClear": "Limpiar",
+      "developer.customBlockStatus": "{count} de {max} celdas",
+      "developer.customBlockEmpty": "Elige al menos 1 celda",
+      "developer.customBlockMax": "Puedes elegir hasta {max} celdas",
+      "developer.customBlockDuplicate": "Este bloque ya esta publicado",
+      "developer.customBlockAdded": "Bloque nuevo publicado"
+    },
+    fr: {
+      "developer.customBlock": "Ajouter un bloc",
+      "developer.customBlockTitle": "Constructeur de bloc",
+      "developer.customBlockClose": "Fermer le constructeur",
+      "developer.customBlockHint": "Touchez les cases pour creer un nouveau bloc. Apres publication, il pourra apparaitre comme piece.",
+      "developer.customBlockGrid": "Grille du constructeur",
+      "developer.customBlockPublish": "Publier le bloc",
+      "developer.customBlockClear": "Effacer",
+      "developer.customBlockStatus": "{count} sur {max} cases",
+      "developer.customBlockEmpty": "Choisissez au moins 1 case",
+      "developer.customBlockMax": "Vous pouvez choisir jusqu'a {max} cases",
+      "developer.customBlockDuplicate": "Ce bloc est deja publie",
+      "developer.customBlockAdded": "Nouveau bloc publie"
+    },
+    pt: {
+      "developer.customBlock": "Adicionar bloco",
+      "developer.customBlockTitle": "Construtor de bloco",
+      "developer.customBlockClose": "Fechar construtor",
+      "developer.customBlockHint": "Toque nas celulas para criar um novo bloco. Depois de publicar, ele pode aparecer como peca.",
+      "developer.customBlockGrid": "Grade do construtor",
+      "developer.customBlockPublish": "Publicar bloco",
+      "developer.customBlockClear": "Limpar",
+      "developer.customBlockStatus": "{count} de {max} celulas",
+      "developer.customBlockEmpty": "Escolha pelo menos 1 celula",
+      "developer.customBlockMax": "Voce pode escolher ate {max} celulas",
+      "developer.customBlockDuplicate": "Este bloco ja foi publicado",
+      "developer.customBlockAdded": "Novo bloco publicado"
+    },
+    de: {
+      "developer.customBlock": "Block hinzufugen",
+      "developer.customBlockTitle": "Block-Baukasten",
+      "developer.customBlockClose": "Block-Baukasten schliessen",
+      "developer.customBlockHint": "Tippe Zellen an, um einen neuen Block zu bauen. Nach dem Veroeffentlichen kann er als Figur erscheinen.",
+      "developer.customBlockGrid": "Baukastenfeld",
+      "developer.customBlockPublish": "Block veroffentlichen",
+      "developer.customBlockClear": "Leeren",
+      "developer.customBlockStatus": "{count} von {max} Zellen",
+      "developer.customBlockEmpty": "Wahle mindestens 1 Zelle",
+      "developer.customBlockMax": "Du kannst bis zu {max} Zellen wahlen",
+      "developer.customBlockDuplicate": "Dieser Block ist schon veroffentlicht",
+      "developer.customBlockAdded": "Neuer Block veroffentlicht"
+    },
+    it: {
+      "developer.customBlock": "Aggiungi blocco",
+      "developer.customBlockTitle": "Costruttore blocco",
+      "developer.customBlockClose": "Chiudi costruttore",
+      "developer.customBlockHint": "Tocca le celle per creare un nuovo blocco. Dopo la pubblicazione potra apparire come pezzo.",
+      "developer.customBlockGrid": "Griglia del costruttore",
+      "developer.customBlockPublish": "Pubblica blocco",
+      "developer.customBlockClear": "Pulisci",
+      "developer.customBlockStatus": "{count} di {max} celle",
+      "developer.customBlockEmpty": "Scegli almeno 1 cella",
+      "developer.customBlockMax": "Puoi scegliere fino a {max} celle",
+      "developer.customBlockDuplicate": "Questo blocco e gia pubblicato",
+      "developer.customBlockAdded": "Nuovo blocco pubblicato"
+    },
+    uk: {
+      "developer.customBlock": "Додати новий блок",
+      "developer.customBlockTitle": "Конструктор блока",
+      "developer.customBlockClose": "Закрити конструктор блока",
+      "developer.customBlockHint": "Натискай клітинки, щоб зібрати новий блок. Після публікації він зможе випадати серед фігур.",
+      "developer.customBlockGrid": "Поле конструктора блока",
+      "developer.customBlockPublish": "Виставити блок",
+      "developer.customBlockClear": "Очистити",
+      "developer.customBlockStatus": "{count} з {max} клітинок",
+      "developer.customBlockEmpty": "Вибери хоча б 1 клітинку",
+      "developer.customBlockMax": "Можна вибрати до {max} клітинок",
+      "developer.customBlockDuplicate": "Такий блок уже виставлено",
+      "developer.customBlockAdded": "Новий блок виставлено"
+    }
+  };
+
+  const CUSTOM_BLOCK_CHANCE_TRANSLATIONS = {
+    ru: {
+      "developer.customBlockChanceLabel": "Шанс выпадения",
+      "developer.customBlockChanceHint": "От 0.1% до 70%. 100% нельзя.",
+      "developer.customBlockChanceInvalid": "Поставь шанс от {min}% до {max}%",
+      "developer.customBlockAddedDetail": "{count} клеток, шанс {chance}%"
+    },
+    en: {
+      "developer.customBlockChanceLabel": "Drop chance",
+      "developer.customBlockChanceHint": "From 0.1% to 70%. 100% is not allowed.",
+      "developer.customBlockChanceInvalid": "Set a chance from {min}% to {max}%",
+      "developer.customBlockAddedDetail": "{count} cells, {chance}% chance"
+    },
+    es: {
+      "developer.customBlockChanceLabel": "Probabilidad",
+      "developer.customBlockChanceHint": "De 0.1% a 70%. No se permite 100%.",
+      "developer.customBlockChanceInvalid": "Pon una probabilidad de {min}% a {max}%",
+      "developer.customBlockAddedDetail": "{count} celdas, {chance}% de probabilidad"
+    },
+    fr: {
+      "developer.customBlockChanceLabel": "Chance d'apparition",
+      "developer.customBlockChanceHint": "De 0.1% a 70%. 100% est interdit.",
+      "developer.customBlockChanceInvalid": "Choisissez une chance de {min}% a {max}%",
+      "developer.customBlockAddedDetail": "{count} cases, {chance}% de chance"
+    },
+    pt: {
+      "developer.customBlockChanceLabel": "Chance de aparecer",
+      "developer.customBlockChanceHint": "De 0.1% a 70%. 100% nao e permitido.",
+      "developer.customBlockChanceInvalid": "Defina uma chance de {min}% a {max}%",
+      "developer.customBlockAddedDetail": "{count} celulas, {chance}% de chance"
+    },
+    de: {
+      "developer.customBlockChanceLabel": "Dropchance",
+      "developer.customBlockChanceHint": "Von 0.1% bis 70%. 100% ist nicht erlaubt.",
+      "developer.customBlockChanceInvalid": "Setze eine Chance von {min}% bis {max}%",
+      "developer.customBlockAddedDetail": "{count} Zellen, {chance}% Chance"
+    },
+    it: {
+      "developer.customBlockChanceLabel": "Probabilita",
+      "developer.customBlockChanceHint": "Da 0.1% a 70%. 100% non e consentito.",
+      "developer.customBlockChanceInvalid": "Imposta una probabilita da {min}% a {max}%",
+      "developer.customBlockAddedDetail": "{count} celle, {chance}% di probabilita"
+    },
+    uk: {
+      "developer.customBlockChanceLabel": "Шанс випадання",
+      "developer.customBlockChanceHint": "Від 0.1% до 70%. 100% не можна.",
+      "developer.customBlockChanceInvalid": "Постав шанс від {min}% до {max}%",
+      "developer.customBlockAddedDetail": "{count} клітинок, шанс {chance}%"
+    }
+  };
+
+  Object.entries(CUSTOM_BLOCK_CHANCE_TRANSLATIONS).forEach(([language, messages]) => {
+    if (CUSTOM_BLOCK_TRANSLATIONS[language]) {
+      Object.assign(CUSTOM_BLOCK_TRANSLATIONS[language], messages);
+    }
+  });
+
+  Object.entries(CUSTOM_BLOCK_TRANSLATIONS).forEach(([language, messages]) => {
+    if (I18N[language]) {
+      Object.assign(I18N[language], messages);
+    }
+  });
+
   const dom = {
     board: document.querySelector("#board"),
     pieceTray: document.querySelector("#pieceTray"),
@@ -1953,8 +2135,14 @@
     devClearBoardButton: document.querySelector("#devClearBoardButton"),
     devNewPiecesButton: document.querySelector("#devNewPiecesButton"),
     devSpawnGoldButton: document.querySelector("#devSpawnGoldButton"),
+    devCustomBlockButton: document.querySelector("#devCustomBlockButton"),
     devLeaderboardToggle: document.querySelector("#devLeaderboardToggle"),
     devFreeShopToggle: document.querySelector("#devFreeShopToggle"),
+    customBlockGrid: document.querySelector("#customBlockGrid"),
+    customBlockStatus: document.querySelector("#customBlockStatus"),
+    customBlockChanceInput: document.querySelector("#customBlockChanceInput"),
+    customBlockPublishButton: document.querySelector("#customBlockPublishButton"),
+    customBlockClearButton: document.querySelector("#customBlockClearButton"),
     achievementList: document.querySelector("#achievementList"),
     dailyTitle: document.querySelector("#dailyTitle"),
     dailyRewardAmount: document.querySelector("#dailyRewardAmount"),
@@ -1984,6 +2172,7 @@
       clickerModal: document.querySelector("#clickerModal"),
       developerLoginModal: document.querySelector("#developerLoginModal"),
       developerModal: document.querySelector("#developerModal"),
+      customBlockModal: document.querySelector("#customBlockModal"),
       eventModal: document.querySelector("#eventModal"),
       updatesModal: document.querySelector("#updatesModal"),
       statsModal: document.querySelector("#statsModal"),
@@ -2009,6 +2198,7 @@
     selectedLeaderboardId: "",
     performanceLite: false,
     clickerClicksSinceSave: 0,
+    customBlockDraft: new Set(),
     drag: null
   };
 
@@ -2036,6 +2226,7 @@
     const defaults = {
       highScore: 0,
       leaderboard: [],
+      customBlocks: [],
       clicker: {
         clicks: 0,
         completedAt: "",
@@ -2095,6 +2286,12 @@
       };
       const materialIds = new Set(BLOCK_MATERIALS.map((material) => material.id));
       loaded.coins = Number.isFinite(Number(loaded.coins)) ? Math.max(0, Math.floor(Number(loaded.coins))) : 0;
+      loaded.customBlocks = Array.isArray(loaded.customBlocks)
+        ? loaded.customBlocks
+          .map((block, index) => sanitizeCustomBlock(block, index))
+          .filter(Boolean)
+          .slice(0, CUSTOM_BLOCK_LIMIT)
+        : [];
       loaded.clicker.clicks = Number.isFinite(Number(loaded.clicker.clicks))
         ? Math.max(0, Math.min(CLICKER_GOAL, Math.floor(Number(loaded.clicker.clicks))))
         : 0;
@@ -2243,11 +2440,151 @@
     return list[Math.floor(Math.random() * list.length)];
   }
 
+  function parseChanceValue(value) {
+    return Number(String(value).trim().replace(",", "."));
+  }
+
+  function sanitizeCustomBlockChance(value, fallback = CUSTOM_BLOCK_CHANCE_DEFAULT) {
+    const parsed = parseChanceValue(value);
+    const safe = Number.isFinite(parsed) ? parsed : fallback;
+    const rounded = Math.round(safe * 10) / 10;
+    return Math.min(CUSTOM_BLOCK_CHANCE_MAX, Math.max(CUSTOM_BLOCK_CHANCE_MIN, rounded));
+  }
+
+  function readCustomBlockChanceInput() {
+    const rawValue = dom.customBlockChanceInput ? dom.customBlockChanceInput.value : CUSTOM_BLOCK_CHANCE_DEFAULT;
+    const parsed = parseChanceValue(rawValue);
+    if (!Number.isFinite(parsed) || parsed < CUSTOM_BLOCK_CHANCE_MIN || parsed > CUSTOM_BLOCK_CHANCE_MAX) {
+      return null;
+    }
+    return sanitizeCustomBlockChance(parsed);
+  }
+
+  function formatCustomBlockChance(value) {
+    return sanitizeCustomBlockChance(value).toLocaleString(languageMeta().locale, {
+      maximumFractionDigits: 1
+    });
+  }
+
+  function customBlockChanceInputValue(value) {
+    const chance = sanitizeCustomBlockChance(value);
+    return Number.isInteger(chance) ? String(chance) : chance.toFixed(1);
+  }
+
+  function createShapeData(id, cells) {
+    const normalized = normalizeCustomBlockCells(cells);
+    const width = Math.max(...normalized.map((cell) => cell[0])) + 1;
+    const height = Math.max(...normalized.map((cell) => cell[1])) + 1;
+    return { id, cells: normalized, width, height };
+  }
+
+  function normalizeCustomBlockCells(cells) {
+    if (!Array.isArray(cells)) {
+      return [];
+    }
+
+    const parsed = cells
+      .map((cell) => {
+        if (Array.isArray(cell)) {
+          return [Number(cell[0]), Number(cell[1])];
+        }
+        return [Number(cell && cell.x), Number(cell && cell.y)];
+      })
+      .filter(([x, y]) => Number.isInteger(x) && Number.isInteger(y) && x >= 0 && y >= 0);
+
+    if (!parsed.length) {
+      return [];
+    }
+
+    const minX = Math.min(...parsed.map(([x]) => x));
+    const minY = Math.min(...parsed.map(([, y]) => y));
+    const unique = new Map();
+    parsed.forEach(([x, y]) => {
+      const cell = [x - minX, y - minY];
+      unique.set(`${cell[0]}:${cell[1]}`, cell);
+    });
+
+    return [...unique.values()].sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+  }
+
+  function sanitizeCustomBlock(block, index = "") {
+    const cells = normalizeCustomBlockCells(block && block.cells);
+    const outsideBuilderGrid = cells.some(([x, y]) => x >= CUSTOM_BLOCK_GRID_SIZE || y >= CUSTOM_BLOCK_GRID_SIZE);
+    if (!cells.length || cells.length > CUSTOM_BLOCK_MAX_CELLS || outsideBuilderGrid) {
+      return null;
+    }
+
+    const id = typeof block.id === "string" && block.id.startsWith("custom-block-")
+      ? block.id
+      : createCustomBlockId(index);
+    return {
+      id,
+      cells,
+      chance: sanitizeCustomBlockChance(block.chance),
+      createdAt: typeof block.createdAt === "string" ? block.createdAt : localDateKey()
+    };
+  }
+
+  function createCustomBlockId(seed = "") {
+    return `custom-block-${Date.now().toString(36)}-${String(seed)}-${Math.random().toString(36).slice(2, 7)}`;
+  }
+
+  function customBlockSignature(cells) {
+    return normalizeCustomBlockCells(cells).map(([x, y]) => `${x}:${y}`).join("|");
+  }
+
+  function shapeDataById(shapeId) {
+    if (SHAPE_DATA[shapeId]) {
+      return SHAPE_DATA[shapeId];
+    }
+    const customBlock = Array.isArray(save.customBlocks)
+      ? save.customBlocks.find((block) => block.id === shapeId)
+      : null;
+    return customBlock ? createShapeData(customBlock.id, customBlock.cells) : null;
+  }
+
+  function currentShapePool() {
+    const config = difficultyConfig();
+    const customIds = Array.isArray(save.customBlocks) ? save.customBlocks.map((block) => block.id) : [];
+    return [...config.pool, ...customIds].filter((shapeId, index, list) => {
+      return list.indexOf(shapeId) === index && Boolean(shapeDataById(shapeId));
+    });
+  }
+
+  function randomCustomShapeIdByChance() {
+    const customBlocks = Array.isArray(save.customBlocks)
+      ? save.customBlocks.filter((block) => block && shapeDataById(block.id))
+      : [];
+    if (!customBlocks.length) {
+      return "";
+    }
+
+    const totalChance = customBlocks.reduce((sum, block) => sum + sanitizeCustomBlockChance(block.chance), 0);
+    if (totalChance <= 0) {
+      return "";
+    }
+
+    const scale = totalChance > CUSTOM_BLOCK_CHANCE_MAX ? CUSTOM_BLOCK_CHANCE_MAX / totalChance : 1;
+    const roll = Math.random() * 100;
+    let cursor = 0;
+    for (const block of customBlocks) {
+      cursor += sanitizeCustomBlockChance(block.chance) * scale;
+      if (roll < cursor) {
+        return block.id;
+      }
+    }
+    return "";
+  }
+
+  function randomShapeId() {
+    return randomCustomShapeIdByChance() || randomFrom(difficultyConfig().pool);
+  }
+
   function createPiece(shapeId) {
-    const shape = SHAPE_DATA[shapeId];
+    const shape = shapeDataById(shapeId) || SHAPE_DATA.single;
     return {
       uid: `piece-${pieceSerial++}`,
-      shapeId,
+      shapeId: shape.id,
       cells: shape.cells.map(([x, y]) => ({ x, y })),
       width: shape.width,
       height: shape.height,
@@ -2431,6 +2768,21 @@
     }
     if (dom.devSpawnGoldButton) {
       dom.devSpawnGoldButton.addEventListener("click", spawnDeveloperGoldBlock);
+    }
+    if (dom.devCustomBlockButton) {
+      dom.devCustomBlockButton.addEventListener("click", () => openCustomBlockBuilder("developerModal"));
+    }
+    if (dom.customBlockGrid) {
+      dom.customBlockGrid.addEventListener("click", handleCustomBlockGridClick);
+    }
+    if (dom.customBlockPublishButton) {
+      dom.customBlockPublishButton.addEventListener("click", publishCustomBlock);
+    }
+    if (dom.customBlockClearButton) {
+      dom.customBlockClearButton.addEventListener("click", clearCustomBlockDraft);
+    }
+    if (dom.customBlockChanceInput) {
+      dom.customBlockChanceInput.addEventListener("change", normalizeCustomBlockChanceField);
     }
     if (dom.devLeaderboardToggle) {
       dom.devLeaderboardToggle.addEventListener("click", () => toggleDeveloperOverride("leaderboardUnlocked"));
@@ -2698,6 +3050,8 @@
     } else if (target === "gameOverModal") {
       updateGameOverUi();
       openModal("gameOverModal");
+    } else if (target === "developerModal") {
+      openDeveloperPanel("mainMenu");
     } else if (!state.running && !state.gameOver) {
       openMainMenu();
     }
@@ -2717,11 +3071,11 @@
   }
 
   function generatePieces() {
-    const config = difficultyConfig();
-    state.pieces = Array.from({ length: 3 }, () => createPiece(randomFrom(config.pool)));
+    const shapePool = currentShapePool();
+    state.pieces = Array.from({ length: 3 }, () => createPiece(randomShapeId()));
 
     const hasGeneratedMove = state.pieces.some((piece) => canPieceFitAnywhere(piece));
-    const fittingShapeIds = config.pool.filter((shapeId) => canShapeFitAnywhere(SHAPE_DATA[shapeId]));
+    const fittingShapeIds = shapePool.filter((shapeId) => canShapeFitAnywhere(shapeDataById(shapeId)));
 
     if (!hasGeneratedMove && fittingShapeIds.length > 0) {
       state.pieces[Math.floor(Math.random() * state.pieces.length)] = createPiece(randomFrom(fittingShapeIds));
@@ -2755,9 +3109,11 @@
   }
 
   function createPieceElement(piece, index) {
-    const minCellSize = 18;
-    const minGap = 4;
-    const minPadding = 12;
+    const largestSide = Math.max(piece.width, piece.height);
+    const minCellSize = largestSide >= 7 ? 12 : largestSide >= 6 ? 14 : 18;
+    const previewCellSize = largestSide >= 7 ? 13 : largestSide >= 6 ? 16 : 0;
+    const minGap = largestSide >= 7 ? 3 : 4;
+    const minPadding = largestSide >= 7 ? 8 : 12;
     const pieceEl = document.createElement("div");
     pieceEl.className = "piece";
     pieceEl.dataset.index = String(index);
@@ -2765,6 +3121,11 @@
     pieceEl.style.setProperty("--cols", String(piece.width));
     pieceEl.style.setProperty("--rows", String(piece.height));
     pieceEl.style.setProperty("--piece-color", piece.color);
+    pieceEl.style.gap = `${minGap}px`;
+    pieceEl.style.padding = `${Math.floor(minPadding / 2)}px`;
+    if (previewCellSize > 0) {
+      pieceEl.style.setProperty("--piece-cell", `${previewCellSize}px`);
+    }
     if ((piece.material || selectedMaterialId()) === "custom") {
       pieceEl.style.setProperty("--skin-image", customSkinCssValue());
     }
@@ -3089,6 +3450,9 @@
   }
 
   function canShapeFitAnywhere(shape) {
+    if (!shape) {
+      return false;
+    }
     const piece = {
       cells: shape.cells.map(([x, y]) => ({ x, y }))
     };
@@ -3335,6 +3699,9 @@
     if (isModalActive("clickerModal")) {
       updateClickerUi();
     }
+    if (isModalActive("customBlockModal")) {
+      updateCustomBlockBuilderUi();
+    }
     if (isModalActive("gameOverModal")) {
       updateGameOverUi();
     }
@@ -3359,6 +3726,9 @@
     updateClickerAccessUi();
     updateClickerUi();
     updateDeveloperUi();
+    if (isModalActive("customBlockModal")) {
+      renderCustomBlockBuilder();
+    }
     updateJulyEventUi();
     updateUpdatesUi();
   }
@@ -4077,6 +4447,157 @@
     }
     spawnGoldenBlock(true);
     showToast(t("toast.developerApplied"), t("developer.goldBlock"));
+    playSound("reward");
+  }
+
+  function openCustomBlockBuilder(backTarget) {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+
+    state.customBlockDraft = new Set();
+    if (dom.customBlockChanceInput) {
+      dom.customBlockChanceInput.value = customBlockChanceInputValue(CUSTOM_BLOCK_CHANCE_DEFAULT);
+    }
+    renderCustomBlockBuilder();
+    openModal("customBlockModal", backTarget);
+  }
+
+  function renderCustomBlockBuilder() {
+    if (!dom.customBlockGrid) {
+      return;
+    }
+
+    dom.customBlockGrid.innerHTML = "";
+    for (let row = 0; row < CUSTOM_BLOCK_GRID_SIZE; row += 1) {
+      for (let col = 0; col < CUSTOM_BLOCK_GRID_SIZE; col += 1) {
+        const key = `${row}:${col}`;
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = `custom-block-cell${state.customBlockDraft.has(key) ? " active" : ""}`;
+        cell.dataset.customBlockCell = key;
+        cell.setAttribute("role", "gridcell");
+        cell.setAttribute("aria-pressed", String(state.customBlockDraft.has(key)));
+        dom.customBlockGrid.appendChild(cell);
+      }
+    }
+
+    updateCustomBlockBuilderUi();
+  }
+
+  function updateCustomBlockBuilderUi() {
+    const count = state.customBlockDraft.size;
+    if (dom.customBlockStatus) {
+      dom.customBlockStatus.textContent = t("developer.customBlockStatus", {
+        count: formatNumber(count),
+        max: formatNumber(CUSTOM_BLOCK_MAX_CELLS)
+      });
+    }
+    if (dom.customBlockPublishButton) {
+      dom.customBlockPublishButton.disabled = count === 0;
+    }
+  }
+
+  function handleCustomBlockGridClick(event) {
+    if (!save.developerUnlocked) {
+      return;
+    }
+
+    const cell = event.target.closest("[data-custom-block-cell]");
+    if (!cell) {
+      return;
+    }
+
+    const key = cell.dataset.customBlockCell;
+    if (state.customBlockDraft.has(key)) {
+      state.customBlockDraft.delete(key);
+    } else {
+      if (state.customBlockDraft.size >= CUSTOM_BLOCK_MAX_CELLS) {
+        showToast(t("developer.customBlockTitle"), t("developer.customBlockMax", { max: formatNumber(CUSTOM_BLOCK_MAX_CELLS) }));
+        playSound("error");
+        return;
+      }
+      state.customBlockDraft.add(key);
+    }
+
+    renderCustomBlockBuilder();
+    playSound("tap");
+  }
+
+  function clearCustomBlockDraft() {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+
+    state.customBlockDraft = new Set();
+    renderCustomBlockBuilder();
+    playSound("tap");
+  }
+
+  function normalizeCustomBlockChanceField() {
+    if (!dom.customBlockChanceInput) {
+      return;
+    }
+
+    const chance = readCustomBlockChanceInput();
+    if (chance !== null) {
+      dom.customBlockChanceInput.value = customBlockChanceInputValue(chance);
+    }
+  }
+
+  function customBlockDraftCells() {
+    return [...state.customBlockDraft].map((key) => {
+      const [row, col] = key.split(":").map(Number);
+      return [col, row];
+    });
+  }
+
+  function publishCustomBlock() {
+    if (!ensureDeveloperUnlocked()) {
+      return;
+    }
+
+    const cells = normalizeCustomBlockCells(customBlockDraftCells());
+    if (!cells.length) {
+      showToast(t("developer.customBlockTitle"), t("developer.customBlockEmpty"));
+      playSound("error");
+      return;
+    }
+
+    const chance = readCustomBlockChanceInput();
+    if (chance === null) {
+      showToast(t("developer.customBlockTitle"), t("developer.customBlockChanceInvalid", {
+        min: formatCustomBlockChance(CUSTOM_BLOCK_CHANCE_MIN),
+        max: formatCustomBlockChance(CUSTOM_BLOCK_CHANCE_MAX)
+      }));
+      playSound("error");
+      return;
+    }
+
+    const signature = customBlockSignature(cells);
+    const duplicate = (save.customBlocks || []).some((block) => customBlockSignature(block.cells) === signature);
+    if (duplicate) {
+      showToast(t("developer.customBlockTitle"), t("developer.customBlockDuplicate"));
+      playSound("error");
+      return;
+    }
+
+    save.customBlocks = Array.isArray(save.customBlocks) ? save.customBlocks : [];
+    save.customBlocks.unshift({
+      id: createCustomBlockId(save.customBlocks.length),
+      cells,
+      chance,
+      createdAt: localDateKey()
+    });
+    save.customBlocks = save.customBlocks.slice(0, CUSTOM_BLOCK_LIMIT);
+    state.customBlockDraft = new Set();
+    saveGame();
+    renderCustomBlockBuilder();
+    updateAllStaticUi();
+    showToast(t("developer.customBlockAdded"), t("developer.customBlockAddedDetail", {
+      count: formatNumber(cells.length),
+      chance: formatCustomBlockChance(chance)
+    }));
     playSound("reward");
   }
 
