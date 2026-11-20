@@ -4,9 +4,8 @@
   const BOARD_SIZE = 8;
   const STORAGE_KEY = "glowBlocksSaveV1";
   const LANGUAGE_CHANNEL = "glowBlocksLanguageSync";
-  const ONLINE_LEADERBOARD_URL = "";
+  const ONLINE_LEADERBOARD_URL = "https://glowblocks-c2e34-default-rtdb.europe-west1.firebasedatabase.app";
   const ONLINE_LEADERBOARD_PATH = "glowBlocksLeaderboard";
-  const ONLINE_LEADERBOARD_LIMIT = 50;
   const ONLINE_LEADERBOARD_REFRESH_MS = 30000;
   const ONLINE_LEADERBOARD_TIMEOUT_MS = 6500;
   const CLEAR_DELAY = 330;
@@ -16,6 +15,7 @@
   const CUSTOM_SKIN_PRICE = 3000;
   const CUSTOM_SKIN_SIZE = 256;
   const ADMIN_COIN_GRANT = 100000000;
+  const ADMIN_MAX_SCORE = 100000000;
   const COIN_REPORT_LIMIT = 1000000000;
   const CLICKER_GOAL = 100000;
   const CLICKER_SAVE_STEP = 25;
@@ -42,17 +42,6 @@
     { score: 10000, reward: 1000 }
   ];
   const JULY_EVENT_MAX_GOAL = JULY_EVENT_GOALS[JULY_EVENT_GOALS.length - 1].score;
-  const BOT_LEADERBOARD = [
-    { id: "bot-1", type: "bot", score: 148600, date: "2026-07-05", lines: 182, blocks: 430, coins: 7200, difficulty: "hard", banned: false, admin: false, reported: false },
-    { id: "bot-2", type: "bot", score: 121400, date: "2026-07-05", lines: 151, blocks: 386, coins: 6100, difficulty: "hard", banned: false, admin: false, reported: false },
-    { id: "bot-3", type: "bot", score: 98750, date: "2026-07-05", lines: 126, blocks: 321, coins: 4900, difficulty: "normal", banned: false, admin: false, reported: false },
-    { id: "bot-4", type: "bot", score: 82400, date: "2026-07-05", lines: 103, blocks: 278, coins: 4100, difficulty: "normal", banned: false, admin: false, reported: false },
-    { id: "bot-5", type: "bot", score: 67550, date: "2026-07-05", lines: 88, blocks: 231, coins: 3200, difficulty: "normal", banned: false, admin: false, reported: false },
-    { id: "bot-6", type: "bot", score: 51200, date: "2026-07-05", lines: 69, blocks: 196, coins: 2600, difficulty: "easy", banned: false, admin: false, reported: false },
-    { id: "bot-7", type: "bot", score: 38400, date: "2026-07-05", lines: 48, blocks: 144, coins: 1900, difficulty: "easy", banned: false, admin: false, reported: false },
-    { id: "bot-8", type: "bot", score: 24600, date: "2026-07-05", lines: 31, blocks: 102, coins: 1200, difficulty: "easy", banned: false, admin: false, reported: false }
-  ];
-
   const COLORS = [
     "#2dd4bf",
     "#5ee789",
@@ -2068,96 +2057,168 @@
 
   const ONLINE_LEADERBOARD_TRANSLATIONS = {
     ru: {
+      "leaderboard.tabTop": "Топ-10",
+      "leaderboard.tabSearch": "Поиск",
+      "leaderboard.searchLabel": "Поиск игроков по имени",
+      "leaderboard.searchPlaceholder": "Введите имя игрока",
+      "leaderboard.searchHint": "Введите имя или его часть.",
+      "leaderboard.searchStart": "Введите имя игрока, чтобы найти его.",
+      "leaderboard.noMatches": "Игроки с таким именем не найдены.",
+      "leaderboard.namePrompt": "Введите имя игрока для топа (до 24 символов):",
+      "leaderboard.nameRequired": "Чтобы играть, укажите имя.",
       "leaderboard.onlineDisabled": "Онлайн-топ не подключен. Сейчас показан локальный топ.",
       "leaderboard.onlineLoading": "Загружаем онлайн-топ...",
       "leaderboard.onlineReady": "Онлайн-топ включен. Рекорды видны на разных устройствах.",
       "leaderboard.onlineError": "Онлайн-топ недоступен. Показан локальный топ.",
       "developer.onlineTop": "Онлайн-топ",
-      "developer.onlineTopHint": "Вставь Firebase Realtime Database URL, чтобы рекорды были видны на всех устройствах.",
+      "developer.onlineTopHint": "URL в этом поле действует только в этом браузере. Для общей таблицы укажи его в ONLINE_LEADERBOARD_URL файла script.js.",
       "developer.onlineTopSave": "Сохранить",
       "developer.onlineTopSaved": "Онлайн-топ подключен",
       "developer.onlineTopCleared": "Онлайн-топ отключен",
       "developer.onlineTopInvalid": "Нужен Firebase HTTPS URL"
     },
     en: {
+      "leaderboard.tabTop": "Top 10",
+      "leaderboard.tabSearch": "Search",
+      "leaderboard.searchLabel": "Search players by name",
+      "leaderboard.searchPlaceholder": "Enter a player name",
+      "leaderboard.searchHint": "Enter a name or part of one.",
+      "leaderboard.searchStart": "Enter a player name to search.",
+      "leaderboard.noMatches": "No players with that name were found.",
+      "leaderboard.namePrompt": "Enter the player name for the leaderboard (up to 24 characters):",
+      "leaderboard.nameRequired": "Enter a name to play.",
       "leaderboard.onlineDisabled": "Online top is not connected. Showing local scores.",
       "leaderboard.onlineLoading": "Loading online top...",
       "leaderboard.onlineReady": "Online top is enabled. Scores are visible across devices.",
       "leaderboard.onlineError": "Online top is unavailable. Showing local scores.",
       "developer.onlineTop": "Online top",
-      "developer.onlineTopHint": "Paste a Firebase Realtime Database URL so scores are visible on all devices.",
+      "developer.onlineTopHint": "This field applies only in this browser. Set ONLINE_LEADERBOARD_URL in script.js to share scores with everyone.",
       "developer.onlineTopSave": "Save",
       "developer.onlineTopSaved": "Online top connected",
       "developer.onlineTopCleared": "Online top disabled",
       "developer.onlineTopInvalid": "Firebase HTTPS URL is required"
     },
     es: {
+      "leaderboard.tabTop": "Top 10",
+      "leaderboard.tabSearch": "Buscar",
+      "leaderboard.searchLabel": "Buscar jugadores por nombre",
+      "leaderboard.searchPlaceholder": "Escribe un nombre",
+      "leaderboard.searchHint": "Escribe un nombre o parte de uno.",
+      "leaderboard.searchStart": "Escribe un nombre para buscar.",
+      "leaderboard.noMatches": "No se encontraron jugadores con ese nombre.",
+      "leaderboard.namePrompt": "Escribe el nombre para la clasificación (máximo 24 caracteres):",
+      "leaderboard.nameRequired": "Escribe un nombre para jugar.",
       "leaderboard.onlineDisabled": "El top online no esta conectado. Se muestra el top local.",
       "leaderboard.onlineLoading": "Cargando top online...",
       "leaderboard.onlineReady": "Top online activado. Los records se ven en varios dispositivos.",
       "leaderboard.onlineError": "El top online no esta disponible. Se muestra el top local.",
       "developer.onlineTop": "Top online",
-      "developer.onlineTopHint": "Pega una URL de Firebase Realtime Database para ver records en todos los dispositivos.",
+      "developer.onlineTopHint": "Este campo solo funciona en este navegador. Define ONLINE_LEADERBOARD_URL en script.js para compartir los resultados.",
       "developer.onlineTopSave": "Guardar",
       "developer.onlineTopSaved": "Top online conectado",
       "developer.onlineTopCleared": "Top online desactivado",
       "developer.onlineTopInvalid": "Se necesita una URL HTTPS de Firebase"
     },
     fr: {
+      "leaderboard.tabTop": "Top 10",
+      "leaderboard.tabSearch": "Recherche",
+      "leaderboard.searchLabel": "Rechercher un joueur par nom",
+      "leaderboard.searchPlaceholder": "Saisissez un nom",
+      "leaderboard.searchHint": "Saisissez un nom ou une partie du nom.",
+      "leaderboard.searchStart": "Saisissez un nom pour lancer la recherche.",
+      "leaderboard.noMatches": "Aucun joueur avec ce nom n'a été trouvé.",
+      "leaderboard.namePrompt": "Saisissez le nom du joueur (24 caractères maximum) :",
+      "leaderboard.nameRequired": "Saisissez un nom pour jouer.",
       "leaderboard.onlineDisabled": "Le top en ligne n'est pas connecte. Top local affiche.",
       "leaderboard.onlineLoading": "Chargement du top en ligne...",
       "leaderboard.onlineReady": "Top en ligne active. Les scores sont visibles sur plusieurs appareils.",
       "leaderboard.onlineError": "Top en ligne indisponible. Top local affiche.",
       "developer.onlineTop": "Top en ligne",
-      "developer.onlineTopHint": "Collez une URL Firebase Realtime Database pour voir les scores sur tous les appareils.",
+      "developer.onlineTopHint": "Ce champ ne s'applique qu'a ce navigateur. Definissez ONLINE_LEADERBOARD_URL dans script.js pour partager les scores.",
       "developer.onlineTopSave": "Enregistrer",
       "developer.onlineTopSaved": "Top en ligne connecte",
       "developer.onlineTopCleared": "Top en ligne desactive",
       "developer.onlineTopInvalid": "Une URL HTTPS Firebase est requise"
     },
     pt: {
+      "leaderboard.tabTop": "Top 10",
+      "leaderboard.tabSearch": "Buscar",
+      "leaderboard.searchLabel": "Buscar jogadores por nome",
+      "leaderboard.searchPlaceholder": "Digite um nome",
+      "leaderboard.searchHint": "Digite um nome ou parte dele.",
+      "leaderboard.searchStart": "Digite um nome para pesquisar.",
+      "leaderboard.noMatches": "Nenhum jogador com esse nome foi encontrado.",
+      "leaderboard.namePrompt": "Digite o nome do jogador (até 24 caracteres):",
+      "leaderboard.nameRequired": "Digite um nome para jogar.",
       "leaderboard.onlineDisabled": "O top online nao esta conectado. Mostrando top local.",
       "leaderboard.onlineLoading": "Carregando top online...",
       "leaderboard.onlineReady": "Top online ativado. Pontuacoes aparecem em varios dispositivos.",
       "leaderboard.onlineError": "Top online indisponivel. Mostrando top local.",
       "developer.onlineTop": "Top online",
-      "developer.onlineTopHint": "Cole uma URL do Firebase Realtime Database para ver pontuacoes em todos os dispositivos.",
+      "developer.onlineTopHint": "Este campo vale apenas neste navegador. Defina ONLINE_LEADERBOARD_URL em script.js para compartilhar os resultados.",
       "developer.onlineTopSave": "Salvar",
       "developer.onlineTopSaved": "Top online conectado",
       "developer.onlineTopCleared": "Top online desativado",
       "developer.onlineTopInvalid": "E necessaria uma URL HTTPS do Firebase"
     },
     de: {
+      "leaderboard.tabTop": "Top 10",
+      "leaderboard.tabSearch": "Suche",
+      "leaderboard.searchLabel": "Spieler nach Namen suchen",
+      "leaderboard.searchPlaceholder": "Spielernamen eingeben",
+      "leaderboard.searchHint": "Geben Sie einen Namen oder einen Teil davon ein.",
+      "leaderboard.searchStart": "Geben Sie einen Namen für die Suche ein.",
+      "leaderboard.noMatches": "Keine Spieler mit diesem Namen gefunden.",
+      "leaderboard.namePrompt": "Spielernamen für die Rangliste eingeben (maximal 24 Zeichen):",
+      "leaderboard.nameRequired": "Geben Sie einen Namen ein, um zu spielen.",
       "leaderboard.onlineDisabled": "Online-Topliste ist nicht verbunden. Lokale Topliste wird gezeigt.",
       "leaderboard.onlineLoading": "Online-Topliste wird geladen...",
       "leaderboard.onlineReady": "Online-Topliste aktiv. Punkte sind auf mehreren Geraeten sichtbar.",
       "leaderboard.onlineError": "Online-Topliste nicht erreichbar. Lokale Topliste wird gezeigt.",
       "developer.onlineTop": "Online-Topliste",
-      "developer.onlineTopHint": "Firebase Realtime Database URL einfuegen, damit Punkte auf allen Geraeten sichtbar sind.",
+      "developer.onlineTopHint": "Dieses Feld gilt nur in diesem Browser. Setzen Sie ONLINE_LEADERBOARD_URL in script.js, um Punkte zu teilen.",
       "developer.onlineTopSave": "Speichern",
       "developer.onlineTopSaved": "Online-Topliste verbunden",
       "developer.onlineTopCleared": "Online-Topliste deaktiviert",
       "developer.onlineTopInvalid": "Firebase HTTPS URL erforderlich"
     },
     it: {
+      "leaderboard.tabTop": "Top 10",
+      "leaderboard.tabSearch": "Cerca",
+      "leaderboard.searchLabel": "Cerca giocatori per nome",
+      "leaderboard.searchPlaceholder": "Inserisci un nome",
+      "leaderboard.searchHint": "Inserisci un nome o una parte del nome.",
+      "leaderboard.searchStart": "Inserisci un nome per cercare.",
+      "leaderboard.noMatches": "Nessun giocatore trovato con questo nome.",
+      "leaderboard.namePrompt": "Inserisci il nome del giocatore (massimo 24 caratteri):",
+      "leaderboard.nameRequired": "Inserisci un nome per giocare.",
       "leaderboard.onlineDisabled": "Top online non collegata. Viene mostrata la top locale.",
       "leaderboard.onlineLoading": "Caricamento top online...",
       "leaderboard.onlineReady": "Top online attiva. I punteggi sono visibili su piu dispositivi.",
       "leaderboard.onlineError": "Top online non disponibile. Viene mostrata la top locale.",
       "developer.onlineTop": "Top online",
-      "developer.onlineTopHint": "Incolla una URL Firebase Realtime Database per vedere i record su tutti i dispositivi.",
+      "developer.onlineTopHint": "Questo campo vale solo in questo browser. Imposta ONLINE_LEADERBOARD_URL in script.js per condividere i punteggi.",
       "developer.onlineTopSave": "Salva",
       "developer.onlineTopSaved": "Top online collegata",
       "developer.onlineTopCleared": "Top online disattivata",
       "developer.onlineTopInvalid": "Serve una URL HTTPS Firebase"
     },
     uk: {
+      "leaderboard.tabTop": "Топ-10",
+      "leaderboard.tabSearch": "Пошук",
+      "leaderboard.searchLabel": "Пошук гравців за іменем",
+      "leaderboard.searchPlaceholder": "Введіть ім’я гравця",
+      "leaderboard.searchHint": "Введіть ім’я або його частину.",
+      "leaderboard.searchStart": "Введіть ім’я гравця для пошуку.",
+      "leaderboard.noMatches": "Гравців із таким ім’ям не знайдено.",
+      "leaderboard.namePrompt": "Введіть ім’я для топу (до 24 символів):",
+      "leaderboard.nameRequired": "Щоб грати, вкажіть ім’я.",
       "leaderboard.onlineDisabled": "Онлайн-топ не підключено. Зараз показано локальний топ.",
       "leaderboard.onlineLoading": "Завантажуємо онлайн-топ...",
       "leaderboard.onlineReady": "Онлайн-топ увімкнено. Рекорди видно на різних пристроях.",
       "leaderboard.onlineError": "Онлайн-топ недоступний. Показано локальний топ.",
       "developer.onlineTop": "Онлайн-топ",
-      "developer.onlineTopHint": "Встав Firebase Realtime Database URL, щоб рекорди були видні на всіх пристроях.",
+      "developer.onlineTopHint": "Це поле діє лише в цьому браузері. Вкажи ONLINE_LEADERBOARD_URL у script.js, щоб ділитися результатами.",
       "developer.onlineTopSave": "Зберегти",
       "developer.onlineTopSaved": "Онлайн-топ підключено",
       "developer.onlineTopCleared": "Онлайн-топ вимкнено",
@@ -2166,6 +2227,111 @@
   };
 
   Object.entries(ONLINE_LEADERBOARD_TRANSLATIONS).forEach(([language, messages]) => {
+    if (I18N[language]) {
+      Object.assign(I18N[language], messages);
+    }
+  });
+
+  const ADMIN_FEATURE_TRANSLATIONS = {
+    ru: {
+      "playerName.eyebrow": "Профиль игрока",
+      "playerName.title": "Как тебя зовут?",
+      "playerName.label": "Имя игрока",
+      "playerName.continue": "Продолжить",
+      "playerName.cancel": "Назад",
+      "playerName.error": "Введи имя от 1 до 24 символов.",
+      "admin.panel": "Админ-панель",
+      "admin.eyebrow": "Админ-панель",
+      "admin.title": "Инструменты администратора",
+      "admin.close": "Закрыть админ-панель",
+      "admin.levelLabel": "Уровень {level}",
+      "admin.levelNone": "Без прав",
+      "admin.level1Desc": "Добавление монет себе. Новые функции можно будет добавить позже.",
+      "admin.level2Desc": "Всё с первого уровня и установка своего счёта до 100 000 000.",
+      "admin.level3Desc": "Всё с первых двух уровней и бан обычных игроков по причине.",
+      "admin.localOnly": "Уровни и баны пока сохраняются только в этом браузере.",
+      "admin.coinsAmount": "Сколько монет добавить себе",
+      "admin.addCoins": "Добавить монеты",
+      "admin.coinsInvalid": "Укажи положительное количество монет.",
+      "admin.coinsToast": "Монеты добавлены",
+      "admin.scoreAmount": "Установить себе очки",
+      "admin.scoreLimit": "Максимум: 100 000 000",
+      "admin.setScore": "Установить очки",
+      "admin.scoreInvalid": "Счёт должен быть от 0 до 100 000 000.",
+      "admin.scoreToast": "Счёт обновлён",
+      "admin.target": "Игрок",
+      "admin.targetHint": "Администраторов нельзя забанить.",
+      "admin.duration": "Срок бана",
+      "admin.durationHint": "Укажи срок и обязательную причину.",
+      "admin.oneHour": "1 час",
+      "admin.oneDay": "1 день",
+      "admin.sevenDays": "7 дней",
+      "admin.permanent": "Навсегда",
+      "admin.reason": "Причина",
+      "admin.reasonRequired": "Укажи причину бана.",
+      "admin.ban": "Забанить игрока",
+      "admin.unban": "Снять бан",
+      "admin.noTargets": "Нет доступных игроков для бана.",
+      "admin.targetProtected": "Нельзя банить себя, разработчика или администратора.",
+      "admin.banToast": "Бан выдан игроку: {name}",
+      "admin.unbanToast": "Бан снят",
+      "admin.bannedMessage": "Тебе запрещено начинать новые игры. Причина: {reason}",
+      "leaderboard.adminLevel": "Админ, уровень {level}",
+      "developer.adminLevel": "Уровень админа",
+      "developer.setAdminLevel": "Назначить уровень",
+      "developer.adminLevelSaved": "Уровень администратора обновлён"
+    },
+    en: {
+      "playerName.eyebrow": "Player profile",
+      "playerName.title": "What is your name?",
+      "playerName.label": "Player name",
+      "playerName.continue": "Continue",
+      "playerName.cancel": "Back",
+      "playerName.error": "Enter a name from 1 to 24 characters.",
+      "admin.panel": "Admin panel",
+      "admin.eyebrow": "Admin panel",
+      "admin.title": "Administrator tools",
+      "admin.close": "Close admin panel",
+      "admin.levelLabel": "Level {level}",
+      "admin.levelNone": "No permissions",
+      "admin.level1Desc": "Add coins to yourself. More features can be added later.",
+      "admin.level2Desc": "Level 1 features plus setting your score up to 100,000,000.",
+      "admin.level3Desc": "Levels 1 and 2 plus banning regular players with a reason.",
+      "admin.localOnly": "Admin levels and bans are currently saved only in this browser.",
+      "admin.coinsAmount": "Coins to add to yourself",
+      "admin.addCoins": "Add coins",
+      "admin.coinsInvalid": "Enter a positive number of coins.",
+      "admin.coinsToast": "Coins added",
+      "admin.scoreAmount": "Set your score",
+      "admin.scoreLimit": "Maximum: 100,000,000",
+      "admin.setScore": "Set score",
+      "admin.scoreInvalid": "Score must be between 0 and 100,000,000.",
+      "admin.scoreToast": "Score updated",
+      "admin.target": "Player",
+      "admin.targetHint": "Administrators cannot be banned.",
+      "admin.duration": "Ban duration",
+      "admin.durationHint": "Choose a duration and enter a reason.",
+      "admin.oneHour": "1 hour",
+      "admin.oneDay": "1 day",
+      "admin.sevenDays": "7 days",
+      "admin.permanent": "Forever",
+      "admin.reason": "Reason",
+      "admin.reasonRequired": "Enter a reason for the ban.",
+      "admin.ban": "Ban player",
+      "admin.unban": "Unban player",
+      "admin.noTargets": "No eligible players to ban.",
+      "admin.targetProtected": "You cannot ban yourself, the developer, or an administrator.",
+      "admin.banToast": "Player banned: {name}",
+      "admin.unbanToast": "Ban removed",
+      "admin.bannedMessage": "You cannot start new games. Reason: {reason}",
+      "leaderboard.adminLevel": "Admin, level {level}",
+      "developer.adminLevel": "Admin level",
+      "developer.setAdminLevel": "Assign level",
+      "developer.adminLevelSaved": "Administrator level updated"
+    }
+  };
+
+  Object.entries(ADMIN_FEATURE_TRANSLATIONS).forEach(([language, messages]) => {
     if (I18N[language]) {
       Object.assign(I18N[language], messages);
     }
@@ -2195,6 +2361,7 @@
     achievementsButton: document.querySelector("#achievementsButton"),
     statsButton: document.querySelector("#statsButton"),
     leaderboardButton: document.querySelector("#leaderboardButton"),
+    adminPanelButton: document.querySelector("#adminPanelButton"),
     developerButton: document.querySelector("#developerButton"),
     settingsButton: document.querySelector("#settingsButton"),
     resumeButton: document.querySelector("#resumeButton"),
@@ -2224,6 +2391,26 @@
     statBlocksPlaced: document.querySelector("#statBlocksPlaced"),
     statLinesCleared: document.querySelector("#statLinesCleared"),
     leaderboardTabs: document.querySelector("#leaderboardTabs"),
+    leaderboardSearchPanel: document.querySelector("#leaderboardSearchPanel"),
+    leaderboardSearchInput: document.querySelector("#leaderboardSearchInput"),
+    playerNameInput: document.querySelector("#playerNameInput"),
+    playerNameContinueButton: document.querySelector("#playerNameContinueButton"),
+    playerNameError: document.querySelector("#playerNameError"),
+    adminCurrentLevel: document.querySelector("#adminCurrentLevel"),
+    adminLevelDescription: document.querySelector("#adminLevelDescription"),
+    adminCoinControls: document.querySelector("#adminCoinControls"),
+    adminCoinsAmount: document.querySelector("#adminCoinsAmount"),
+    adminAddCoinsButton: document.querySelector("#adminAddCoinsButton"),
+    adminScoreControls: document.querySelector("#adminScoreControls"),
+    adminScoreAmount: document.querySelector("#adminScoreAmount"),
+    adminSetScoreButton: document.querySelector("#adminSetScoreButton"),
+    adminBanControls: document.querySelector("#adminBanControls"),
+    adminBanTarget: document.querySelector("#adminBanTarget"),
+    adminBanDuration: document.querySelector("#adminBanDuration"),
+    adminBanReason: document.querySelector("#adminBanReason"),
+    adminBanError: document.querySelector("#adminBanError"),
+    adminBanButton: document.querySelector("#adminBanButton"),
+    adminUnbanButton: document.querySelector("#adminUnbanButton"),
     leaderboardList: document.querySelector("#leaderboardList"),
     leaderboardDetail: document.querySelector("#leaderboardDetail"),
     onlineLeaderboardStatus: document.querySelector("#onlineLeaderboardStatus"),
@@ -2277,6 +2464,8 @@
     menuDailyStreak: document.querySelector("#menuDailyStreak"),
     modals: {
       mainMenu: document.querySelector("#mainMenu"),
+      playerNameModal: document.querySelector("#playerNameModal"),
+      adminModal: document.querySelector("#adminModal"),
       pauseModal: document.querySelector("#pauseModal"),
       gameOverModal: document.querySelector("#gameOverModal"),
       settingsModal: document.querySelector("#settingsModal"),
@@ -2307,7 +2496,8 @@
     difficulty: "normal",
     coinMilestonesAwarded: 0,
     goldenBlockIndex: -1,
-    leaderboardTab: "real",
+    leaderboardTab: "top",
+    leaderboardSearchQuery: "",
     selectedLeaderboardId: "",
     performanceLite: false,
     clickerClicksSinceSave: 0,
@@ -2344,6 +2534,10 @@
     const defaults = {
       highScore: 0,
       leaderboard: [],
+      playerId: createLeaderboardId("player"),
+      playerName: "",
+      adminLevel: 0,
+      playerAdminData: {},
       onlineLeaderboardUrl: ONLINE_LEADERBOARD_URL,
       customBlocks: [],
       clicker: {
@@ -2394,7 +2588,30 @@
         settings: { ...defaults.settings, ...(parsed.settings || {}) }
       };
       loaded.developerUnlocked = Boolean(loaded.developerUnlocked);
-      loaded.onlineLeaderboardUrl = sanitizeOnlineLeaderboardUrl(loaded.onlineLeaderboardUrl || ONLINE_LEADERBOARD_URL);
+      loaded.playerId = typeof loaded.playerId === "string" && loaded.playerId
+        ? loaded.playerId.slice(0, 80)
+        : createLeaderboardId("player");
+      loaded.playerName = sanitizePlayerName(loaded.playerName);
+      loaded.adminLevel = normalizeAdminLevel(loaded.adminLevel);
+      loaded.playerAdminData = loaded.playerAdminData && typeof loaded.playerAdminData === "object" && !Array.isArray(loaded.playerAdminData)
+        ? loaded.playerAdminData
+        : {};
+      Object.entries(loaded.playerAdminData).forEach(([playerId, profile]) => {
+        if (!profile || typeof profile !== "object") {
+          delete loaded.playerAdminData[playerId];
+          return;
+        }
+        loaded.playerAdminData[playerId] = {
+          adminLevel: normalizeAdminLevel(profile.adminLevel),
+          banned: isActiveBan(profile),
+          banExpiresAt: typeof profile.banExpiresAt === "string" ? profile.banExpiresAt : "",
+          banReason: sanitizeAdminReason(profile.banReason)
+        };
+      });
+      loaded.adminLevel = normalizeAdminLevel(
+        loaded.playerAdminData[loaded.playerId] ? loaded.playerAdminData[loaded.playerId].adminLevel : loaded.adminLevel
+      );
+      loaded.onlineLeaderboardUrl = sanitizeOnlineLeaderboardUrl(ONLINE_LEADERBOARD_URL || loaded.onlineLeaderboardUrl);
       loaded.devOverrides.leaderboardUnlocked = Boolean(loaded.devOverrides.leaderboardUnlocked);
       loaded.devOverrides.freeShop = Boolean(loaded.devOverrides.freeShop);
       loaded.customSkinData = typeof loaded.customSkinData === "string" && loaded.customSkinData.startsWith("data:image/")
@@ -2427,14 +2644,19 @@
           .map((entry, index) => ({
             id: typeof entry.id === "string" && entry.id ? entry.id : createLeaderboardId(index),
             type: entry.type === "developer" ? "developer" : "player",
+            playerId: typeof entry.playerId === "string" && entry.playerId ? entry.playerId.slice(0, 80) : loaded.playerId,
+            name: sanitizePlayerName(entry.name) || loaded.playerName,
+            adminLevel: normalizeAdminLevel(entry.adminLevel === undefined ? (entry.admin ? 1 : 0) : entry.adminLevel),
+            admin: normalizeAdminLevel(entry.adminLevel === undefined ? (entry.admin ? 1 : 0) : entry.adminLevel) > 0,
             score: Number.isFinite(Number(entry.score)) ? Math.max(0, Math.floor(Number(entry.score))) : 0,
             date: typeof entry.date === "string" ? entry.date : "",
             lines: Number.isFinite(Number(entry.lines)) ? Math.max(0, Math.floor(Number(entry.lines))) : 0,
             blocks: Number.isFinite(Number(entry.blocks)) ? Math.max(0, Math.floor(Number(entry.blocks))) : 0,
             coins: Number.isFinite(Number(entry.coins)) ? Math.max(0, Math.floor(Number(entry.coins))) : 0,
             difficulty: typeof entry.difficulty === "string" && entry.difficulty in DIFFICULTIES ? entry.difficulty : "normal",
-            banned: Boolean(entry.banned),
-            admin: Boolean(entry.admin),
+            banned: isActiveBan(entry),
+            banExpiresAt: typeof entry.banExpiresAt === "string" ? entry.banExpiresAt : "",
+            banReason: sanitizeAdminReason(entry.banReason),
             reported: Boolean(entry.reported)
           }))
           .filter((entry) => entry.score > 0)
@@ -2526,7 +2748,7 @@
   }
 
   function onlineLeaderboardBaseUrl() {
-    return sanitizeOnlineLeaderboardUrl(save.onlineLeaderboardUrl || ONLINE_LEADERBOARD_URL);
+    return sanitizeOnlineLeaderboardUrl(ONLINE_LEADERBOARD_URL || save.onlineLeaderboardUrl);
   }
 
   function onlineLeaderboardEndpoint() {
@@ -2609,6 +2831,35 @@
 
   function createLeaderboardId(seed = "") {
     return `lb-${Date.now().toString(36)}-${String(seed)}-${Math.random().toString(36).slice(2, 8)}`;
+  }
+
+  function sanitizePlayerName(value) {
+    return String(value || "")
+      .replace(/[\u0000-\u001f\u007f]/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 24);
+  }
+
+  function normalizeAdminLevel(value) {
+    const level = Number.isFinite(Number(value)) ? Math.floor(Number(value)) : 0;
+    return Math.max(0, Math.min(3, level));
+  }
+
+  function sanitizeAdminReason(value) {
+    return String(value || "")
+      .replace(/[\u0000-\u001f\u007f]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 240);
+  }
+
+  function isActiveBan(profile) {
+    if (!profile || !profile.banned) {
+      return false;
+    }
+    const expiresAt = typeof profile.banExpiresAt === "string" ? Date.parse(profile.banExpiresAt) : NaN;
+    return !Number.isFinite(expiresAt) || expiresAt > Date.now();
   }
 
   function randomFrom(list) {
@@ -2845,6 +3096,16 @@
   function bindEvents() {
     dom.openMenuButton.addEventListener("click", () => openMainMenu());
     dom.playButton.addEventListener("click", handlePlay);
+    if (dom.playerNameContinueButton) {
+      dom.playerNameContinueButton.addEventListener("click", submitPlayerName);
+    }
+    if (dom.playerNameInput) {
+      dom.playerNameInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          submitPlayerName();
+        }
+      });
+    }
     dom.pauseButton.addEventListener("click", togglePause);
     dom.restartButton.addEventListener("click", () => startNewGame());
     dom.resumeButton.addEventListener("click", resumeGame);
@@ -2869,8 +3130,33 @@
     if (dom.leaderboardButton) {
       dom.leaderboardButton.addEventListener("click", () => openLeaderboard("mainMenu"));
     }
+    if (dom.adminPanelButton) {
+      dom.adminPanelButton.addEventListener("click", () => openAdminPanel("mainMenu"));
+    }
+    if (dom.adminAddCoinsButton) {
+      dom.adminAddCoinsButton.addEventListener("click", applyAdminCoins);
+    }
+    if (dom.adminSetScoreButton) {
+      dom.adminSetScoreButton.addEventListener("click", applyAdminScore);
+    }
+    if (dom.adminBanButton) {
+      dom.adminBanButton.addEventListener("click", applyAdminBan);
+    }
+    if (dom.adminUnbanButton) {
+      dom.adminUnbanButton.addEventListener("click", applyAdminUnban);
+    }
+    if (dom.adminBanTarget) {
+      dom.adminBanTarget.addEventListener("change", updateAdminBanButtons);
+    }
     if (dom.leaderboardTabs) {
       dom.leaderboardTabs.addEventListener("click", handleLeaderboardTabClick);
+    }
+    if (dom.leaderboardSearchInput) {
+      dom.leaderboardSearchInput.addEventListener("input", () => {
+        state.leaderboardSearchQuery = dom.leaderboardSearchInput.value;
+        state.selectedLeaderboardId = "";
+        updateLeaderboardUi();
+      });
     }
     if (dom.leaderboardList) {
       dom.leaderboardList.addEventListener("click", handleLeaderboardClick);
@@ -3056,6 +3342,18 @@
   }
 
   function startNewGame() {
+    if (!ensurePlayerName()) {
+      return;
+    }
+    const currentProfile = effectivePlayerAdminProfile(save.playerId);
+    if (isActiveBan(currentProfile)) {
+      showToast(t("leaderboard.banned"), t("admin.bannedMessage", {
+        reason: currentProfile.banReason || t("leaderboard.banned")
+      }));
+      playSound("error");
+      return;
+    }
+
     clearAllModals();
     clearPreview();
     clearDrag();
@@ -3083,6 +3381,47 @@
     playSound("start");
     checkAchievements();
     checkGameOver();
+  }
+
+  function ensurePlayerName() {
+    if (save.playerName) {
+      return true;
+    }
+
+    if (dom.playerNameInput) {
+      dom.playerNameInput.value = "";
+    }
+    if (dom.playerNameError) {
+      dom.playerNameError.textContent = "";
+    }
+    openModal("playerNameModal", "mainMenu");
+    if (dom.playerNameInput) {
+      window.setTimeout(() => dom.playerNameInput.focus(), 80);
+    }
+    return false;
+  }
+
+  function submitPlayerName() {
+    const name = sanitizePlayerName(dom.playerNameInput ? dom.playerNameInput.value : "");
+    if (!name) {
+      if (dom.playerNameError) {
+        dom.playerNameError.textContent = t("playerName.error");
+      }
+      if (dom.playerNameInput) {
+        dom.playerNameInput.focus();
+      }
+      return false;
+    }
+
+    save.playerName = name;
+    save.leaderboard.forEach((entry) => {
+      if (!entry.playerId || entry.playerId === save.playerId) {
+        entry.playerId = save.playerId;
+        entry.name = name;
+      }
+    });
+    saveGame();
+    startNewGame();
   }
 
   function togglePause() {
@@ -3146,14 +3485,101 @@
   }
 
   function openLeaderboard(backTarget) {
-    if (!isTopsReleased()) {
-      showToast(t("menu.leaderboard"), t("leaderboard.locked"));
-      playSound("error");
-      return;
-    }
     refreshOnlineLeaderboard();
     updateLeaderboardUi();
     openModal("leaderboardModal", backTarget);
+  }
+
+  function effectiveAdminLevel() {
+    return save.developerUnlocked ? 3 : normalizeAdminLevel(save.adminLevel);
+  }
+
+  function updateAdminAccessUi() {
+    if (dom.adminPanelButton) {
+      dom.adminPanelButton.classList.toggle("hidden", effectiveAdminLevel() < 1);
+    }
+  }
+
+  function openAdminPanel(backTarget) {
+    if (effectiveAdminLevel() < 1) {
+      return;
+    }
+    updateAdminPanelUi();
+    openModal("adminModal", backTarget);
+  }
+
+  function updateAdminPanelUi() {
+    const level = effectiveAdminLevel();
+    const levelLabel = save.developerUnlocked
+      ? t("developer.eyebrow") + " · " + t("admin.levelLabel", { level: 3 })
+      : t("admin.levelLabel", { level });
+    const levelDescription = save.developerUnlocked
+      ? t("admin.level3Desc")
+      : t("admin.level" + level + "Desc");
+
+    if (dom.adminCurrentLevel) {
+      dom.adminCurrentLevel.textContent = levelLabel;
+    }
+    if (dom.adminLevelDescription) {
+      dom.adminLevelDescription.textContent = levelDescription;
+    }
+    if (dom.adminCoinControls) {
+      dom.adminCoinControls.classList.toggle("hidden", level < 1);
+    }
+    if (dom.adminScoreControls) {
+      dom.adminScoreControls.classList.toggle("hidden", level < 2);
+    }
+    if (dom.adminBanControls) {
+      dom.adminBanControls.classList.toggle("hidden", level < 3);
+    }
+    if (dom.adminBanError) {
+      dom.adminBanError.textContent = "";
+    }
+    populateAdminBanTargets();
+    updateAdminBanButtons();
+  }
+
+  function populateAdminBanTargets() {
+    if (!dom.adminBanTarget) {
+      return;
+    }
+    const previousId = dom.adminBanTarget.value;
+    const canTargetAdmins = Boolean(save.developerUnlocked);
+    const players = allLeaderboardPlayers()
+      .filter((entry) => entry.playerId !== save.playerId)
+      .filter((entry) => canTargetAdmins || entry.adminLevel === 0)
+      .sort((a, b) => leaderboardPlayerName(a).localeCompare(leaderboardPlayerName(b)));
+
+    dom.adminBanTarget.innerHTML = "";
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    emptyOption.textContent = players.length ? t("admin.target") : t("admin.noTargets");
+    emptyOption.disabled = true;
+    emptyOption.selected = true;
+    dom.adminBanTarget.appendChild(emptyOption);
+    players.forEach((entry) => {
+      const option = document.createElement("option");
+      option.value = entry.playerId;
+      option.textContent = leaderboardPlayerName(entry) + " · " + formatNumber(entry.score);
+      dom.adminBanTarget.appendChild(option);
+    });
+    if (players.some((entry) => entry.playerId === previousId)) {
+      dom.adminBanTarget.value = previousId;
+    }
+  }
+
+  function updateAdminBanButtons() {
+    if (!dom.adminBanTarget) {
+      return;
+    }
+    const target = allLeaderboardPlayers().find((entry) => entry.playerId === dom.adminBanTarget.value);
+    const isBanned = Boolean(target && isActiveBan(target));
+    if (dom.adminBanButton) {
+      dom.adminBanButton.disabled = !target || isBanned || (!save.developerUnlocked && target.adminLevel > 0);
+    }
+    if (dom.adminUnbanButton) {
+      dom.adminUnbanButton.classList.toggle("hidden", !save.developerUnlocked || !isBanned);
+    }
   }
 
   function openClicker(backTarget) {
@@ -3909,6 +4335,7 @@
     updateDailyUi();
     updateShopUi();
     updateLeaderboardAccessUi();
+    updateAdminAccessUi();
     updateLeaderboardUi();
     updateClickerAccessUi();
     updateClickerUi();
@@ -3928,6 +4355,7 @@
     dom.dailyButton.textContent = canClaim ? t("menu.dailyReady") : t("menu.dailyClaimed");
     updateEventButton();
     updateLeaderboardAccessUi();
+    updateAdminAccessUi();
     updateClickerAccessUi();
   }
 
@@ -3986,7 +4414,7 @@
     if (!dom.leaderboardButton) {
       return;
     }
-    dom.leaderboardButton.classList.toggle("hidden", !isTopsReleased());
+    dom.leaderboardButton.classList.remove("hidden");
   }
 
   function updateClickerAccessUi() {
@@ -4135,17 +4563,25 @@
     }
 
     const type = entry.type === "developer" ? "developer" : "player";
+    const adminLevel = normalizeAdminLevel(entry.adminLevel === undefined ? (entry.admin ? 1 : 0) : entry.adminLevel);
     return {
       id: typeof entry.id === "string" && entry.id ? entry.id.slice(0, 80) : createLeaderboardId(fallbackId),
       type,
+      playerId: typeof entry.playerId === "string" && entry.playerId
+        ? entry.playerId.slice(0, 80)
+        : (typeof entry.id === "string" && entry.id ? entry.id.slice(0, 80) : createLeaderboardId(fallbackId)),
+      name: sanitizePlayerName(entry.name),
+      adminLevel,
       score,
       date: typeof entry.date === "string" ? entry.date.slice(0, 20) : "",
       lines: Number.isFinite(Number(entry.lines)) ? Math.max(0, Math.floor(Number(entry.lines))) : 0,
       blocks: Number.isFinite(Number(entry.blocks)) ? Math.max(0, Math.floor(Number(entry.blocks))) : 0,
       coins: Number.isFinite(Number(entry.coins)) ? Math.max(0, Math.floor(Number(entry.coins))) : 0,
       difficulty: typeof entry.difficulty === "string" && entry.difficulty in DIFFICULTIES ? entry.difficulty : "normal",
-      banned: Boolean(entry.banned),
-      admin: Boolean(entry.admin),
+      banned: isActiveBan(entry),
+      banExpiresAt: typeof entry.banExpiresAt === "string" ? entry.banExpiresAt.slice(0, 40) : "",
+      banReason: sanitizeAdminReason(entry.banReason),
+      admin: adminLevel > 0,
       reported: Boolean(entry.reported),
       online: Boolean(entry.online)
     };
@@ -4162,9 +4598,7 @@
     const entries = rawEntries
       .map((entry, index) => sanitizeOnlineLeaderboardEntry({ ...entry, online: true }, index))
       .filter(Boolean)
-      .filter((entry) => !entry.banned)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, ONLINE_LEADERBOARD_LIMIT);
+      .sort((a, b) => b.score - a.score);
 
     refreshLeaderboardReports(entries);
     return entries;
@@ -4177,6 +4611,14 @@
       if (!normalized) {
         return;
       }
+      const profile = save.playerAdminData && save.playerAdminData[normalized.playerId];
+      if (profile) {
+        normalized.adminLevel = normalizeAdminLevel(profile.adminLevel);
+        normalized.admin = normalized.adminLevel > 0;
+        normalized.banned = isActiveBan(profile);
+        normalized.banExpiresAt = profile.banExpiresAt || "";
+        normalized.banReason = profile.banReason || "";
+      }
       const existing = map.get(normalized.id);
       if (!existing || normalized.online || normalized.score > existing.score) {
         map.set(normalized.id, normalized);
@@ -4184,8 +4626,7 @@
     });
 
     return [...map.values()]
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 20);
+      .sort((a, b) => b.score - a.score);
   }
 
   async function refreshOnlineLeaderboard(force = false) {
@@ -4240,6 +4681,9 @@
 
     return {
       id: normalized.id,
+      playerId: normalized.playerId,
+      name: normalized.name,
+      adminLevel: normalized.adminLevel,
       type: normalized.type,
       score: normalized.score,
       date: normalized.date || localDateKey(),
@@ -4248,7 +4692,9 @@
       coins: normalized.coins,
       difficulty: normalized.difficulty,
       banned: false,
-      admin: false,
+      banExpiresAt: "",
+      banReason: "",
+      admin: normalizeAdminLevel(save.adminLevel) > 0,
       reported: normalized.coins > COIN_REPORT_LIMIT,
       createdAt: new Date().toISOString()
     };
@@ -4300,23 +4746,30 @@
     }
 
     updateLeaderboardTabs();
+    const isSearchTab = state.leaderboardTab === "search";
+    if (dom.leaderboardSearchPanel) {
+      dom.leaderboardSearchPanel.classList.toggle("hidden", !isSearchTab);
+    }
+    if (dom.leaderboardSearchInput) {
+      dom.leaderboardSearchInput.placeholder = t("leaderboard.searchPlaceholder");
+      dom.leaderboardSearchInput.setAttribute("aria-label", t("leaderboard.searchLabel"));
+    }
     dom.leaderboardList.innerHTML = "";
 
-    if (!isTopsReleased()) {
-      const item = document.createElement("div");
-      item.className = "leaderboard-empty";
-      item.textContent = t("leaderboard.locked");
-      dom.leaderboardList.appendChild(item);
-      renderLeaderboardDetail(null);
-      return;
-    }
-
-    const entries = leaderboardEntriesForCurrentTab();
+    const allEntries = leaderboardEntriesForCurrentTab();
+    const query = sanitizePlayerName(state.leaderboardSearchQuery).toLocaleLowerCase();
+    const entries = isSearchTab
+      ? (query
+        ? allEntries.filter((entry) => leaderboardPlayerName(entry).toLocaleLowerCase().includes(query)).slice(0, 50)
+        : [])
+      : allEntries.slice(0, 10);
 
     if (!entries.length) {
       const item = document.createElement("div");
       item.className = "leaderboard-empty";
-      item.textContent = t("leaderboard.empty");
+      item.textContent = isSearchTab
+        ? (query ? t("leaderboard.noMatches") : t("leaderboard.searchStart"))
+        : t("leaderboard.empty");
       dom.leaderboardList.appendChild(item);
       renderLeaderboardDetail(null);
       return;
@@ -4351,7 +4804,7 @@
       row.dataset.leaderboardId = entry.id;
       row.innerHTML = `
         <span class="leaderboard-rank">${index + 1}</span>
-        <span class="leaderboard-name">${escapeHtml(leaderboardEntryLabel(entry))}</span>
+        <span class="leaderboard-name">${escapeHtml(leaderboardPlayerName(entry))}</span>
         <strong>${formatNumber(entry.score)}</strong>
         <small>${escapeHtml(meta)}</small>
       `;
@@ -4368,25 +4821,31 @@
   function leaderboardEntriesForCurrentTab() {
     const localEntries = Array.isArray(save.leaderboard) ? save.leaderboard : [];
     const onlineEntries = isOnlineLeaderboardEnabled() ? state.onlineLeaderboardEntries : [];
-    const realEntries = mergeLeaderboardEntries([...onlineEntries, ...localEntries]);
-    if (state.leaderboardTab !== "bots") {
-      return realEntries;
-    }
+    return collapseLeaderboardPlayers(mergeLeaderboardEntries([...onlineEntries, ...localEntries]));
+  }
 
-    return [...realEntries, ...BOT_LEADERBOARD]
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 20);
+  function collapseLeaderboardPlayers(entries) {
+    const bestByPlayer = new Map();
+    entries
+      .filter((entry) => entry.type === "player" && !entry.banned)
+      .forEach((entry) => {
+        const playerKey = entry.playerId || entry.id;
+        const existing = bestByPlayer.get(playerKey);
+        if (!existing || entry.score > existing.score) {
+          bestByPlayer.set(playerKey, entry);
+        } else if (entry.score === existing.score) {
+          existing.admin = existing.admin || entry.admin;
+          existing.reported = existing.reported || entry.reported;
+          existing.name = existing.name || entry.name;
+        }
+      });
+
+    return [...bestByPlayer.values()].sort((a, b) => b.score - a.score);
   }
 
   function highlightedLeaderboardEntryId(entries) {
-    const playerEntries = entries.filter((entry) => entry.type === "player" && !entry.banned);
-    if (!playerEntries.length) {
-      return "";
-    }
-
-    return playerEntries
-      .slice()
-      .sort((a, b) => b.score - a.score)[0].id;
+    const ownEntry = entries.find((entry) => entry.playerId === save.playerId);
+    return ownEntry ? ownEntry.id : "";
   }
 
   function updateLeaderboardTabs() {
@@ -4408,13 +4867,21 @@
     if (entry.type === "bot") {
       return t("leaderboard.bot");
     }
-    return entry.admin ? t("leaderboard.admin") : t("leaderboard.player");
+    return entry.adminLevel > 0
+      ? t("leaderboard.adminLevel", { level: entry.adminLevel })
+      : t("leaderboard.player");
+  }
+
+  function leaderboardPlayerName(entry) {
+    return sanitizePlayerName(entry.name) || t("leaderboard.player");
   }
 
   function leaderboardEntryBadges(entry) {
     return [
-      entry.id === highlightedLeaderboardEntryId(leaderboardEntriesForCurrentTab()) ? t("leaderboard.you") : "",
-      entry.admin && entry.type !== "developer" ? t("leaderboard.admin") : "",
+      entry.playerId === save.playerId ? t("leaderboard.you") : "",
+      entry.adminLevel > 0 && entry.type !== "developer"
+        ? t("leaderboard.adminLevel", { level: entry.adminLevel })
+        : "",
       entry.banned ? t("leaderboard.banned") : "",
       entry.reported ? t("leaderboard.reported") : ""
     ].filter(Boolean);
@@ -4422,11 +4889,11 @@
 
   function leaderboardStatusText(entry) {
     const status = [entry.banned ? t("leaderboard.banned") : t("leaderboard.active")];
-    if (entry.id === highlightedLeaderboardEntryId(leaderboardEntriesForCurrentTab())) {
+    if (entry.playerId === save.playerId) {
       status.push(t("leaderboard.you"));
     }
-    if (entry.admin && entry.type !== "developer") {
-      status.push(t("leaderboard.admin"));
+    if (entry.adminLevel > 0 && entry.type !== "developer") {
+      status.push(t("leaderboard.adminLevel", { level: entry.adminLevel }));
     }
     if (entry.reported) {
       status.push(t("leaderboard.reported"));
@@ -4474,7 +4941,7 @@
       return;
     }
 
-    const tab = button.dataset.leaderboardTab === "bots" ? "bots" : "real";
+    const tab = button.dataset.leaderboardTab === "search" ? "search" : "top";
     if (state.leaderboardTab === tab) {
       return;
     }
@@ -4505,9 +4972,6 @@
       return;
     }
 
-    const canModerate = save.developerUnlocked && entry.type === "player";
-    const action = entry.banned ? t("leaderboard.unban") : t("leaderboard.ban");
-    const adminAction = entry.admin ? t("leaderboard.removeAdmin") : t("leaderboard.makeAdmin");
     const reportMarkup = entry.reported
       ? `<div class="leaderboard-report"><strong>${t("leaderboard.reported")}</strong><span>${t("leaderboard.reportedHint")}</span></div>`
       : "";
@@ -4515,7 +4979,7 @@
     dom.leaderboardDetail.innerHTML = `
       <div class="leaderboard-detail-head">
         <strong>${t("leaderboard.details")}</strong>
-        <span>${escapeHtml(leaderboardEntryLabel(entry))}</span>
+        <span>${escapeHtml(leaderboardPlayerName(entry))}</span>
       </div>
       <div class="leaderboard-stats">
         ${leaderboardStat(t("score.current"), formatNumber(entry.score))}
@@ -4529,11 +4993,58 @@
       </div>
       ${reportMarkup}
       <div class="leaderboard-detail-actions">
-        ${canModerate ? `<button class="menu-button leaderboard-ban-button" type="button" data-ban-entry="${entry.id}">${action}</button>` : ""}
-        ${canModerate ? `<button class="menu-button" type="button" data-admin-entry="${entry.id}">${adminAction}</button>` : ""}
         ${entry.admin && entry.type === "player" && !entry.banned ? `<button class="menu-button" type="button" data-admin-coins="${entry.id}">${t("leaderboard.giveAdminCoins")}</button>` : ""}
       </div>
     `;
+    if (!save.developerUnlocked) {
+      const developerCoinButton = dom.leaderboardDetail.querySelector("[data-admin-coins]");
+      if (developerCoinButton) {
+        developerCoinButton.remove();
+      }
+    }
+    appendAdminRoleControls(entry);
+  }
+
+  function appendAdminRoleControls(entry) {
+    if (!save.developerUnlocked || !entry || entry.type !== "player") {
+      return;
+    }
+
+    const panel = document.createElement("div");
+    panel.className = "leaderboard-admin-role";
+    const label = document.createElement("label");
+    const labelText = document.createElement("span");
+    labelText.textContent = t("developer.adminLevel");
+    const select = document.createElement("select");
+    select.className = "select-control";
+    select.dataset.adminLevelSelect = entry.id;
+    [
+      [0, t("admin.levelNone")],
+      [1, t("admin.levelLabel", { level: 1 })],
+      [2, t("admin.levelLabel", { level: 2 })],
+      [3, t("admin.levelLabel", { level: 3 })]
+    ].forEach(([value, title]) => {
+      const option = document.createElement("option");
+      option.value = String(value);
+      option.textContent = title;
+      select.appendChild(option);
+    });
+    select.value = String(normalizeAdminLevel(entry.adminLevel));
+    label.append(labelText, select);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "menu-button";
+    button.dataset.assignAdminLevel = entry.id;
+    button.textContent = t("developer.setAdminLevel");
+    panel.append(label, button);
+
+    const actions = dom.leaderboardDetail.querySelector(".leaderboard-detail-actions");
+    if (actions) {
+      dom.leaderboardDetail.insertBefore(panel, actions);
+    } else {
+      dom.leaderboardDetail.appendChild(panel);
+    }
   }
 
   function leaderboardStat(label, value) {
@@ -4541,8 +5052,28 @@
   }
 
   function handleLeaderboardDetailClick(event) {
+    const assignLevelButton = event.target.closest("[data-assign-admin-level]");
+    if (assignLevelButton) {
+      if (!save.developerUnlocked) {
+        return;
+      }
+      const entry = leaderboardEntryById(assignLevelButton.dataset.assignAdminLevel);
+      const levelSelect = dom.leaderboardDetail.querySelector("[data-admin-level-select]");
+      if (!entry || !levelSelect || levelSelect.dataset.adminLevelSelect !== entry.id) {
+        return;
+      }
+      if (applyPlayerAdminLevel(entry.playerId, levelSelect.value)) {
+        showToast(t("developer.adminLevelSaved"), leaderboardPlayerName(entry));
+        playSound("reward");
+      }
+      return;
+    }
+
     const adminCoinButton = event.target.closest("[data-admin-coins]");
     if (adminCoinButton) {
+      if (!save.developerUnlocked) {
+        return;
+      }
       const entry = editableLeaderboardEntryById(adminCoinButton.dataset.adminCoins);
       if (!entry || !entry.admin || entry.type !== "player" || entry.banned) {
         return;
@@ -4559,41 +5090,6 @@
       return;
     }
 
-    const adminButton = event.target.closest("[data-admin-entry]");
-    if (adminButton) {
-      if (!save.developerUnlocked) {
-        return;
-      }
-
-      const entry = editableLeaderboardEntryById(adminButton.dataset.adminEntry);
-      if (!entry || entry.type !== "player") {
-        return;
-      }
-
-      entry.admin = !entry.admin;
-      refreshLeaderboardReports();
-      saveGame();
-      updateLeaderboardUi();
-      showToast(t("toast.developerApplied"), entry.admin ? t("toast.adminPromoted") : t("toast.adminRemoved"));
-      playSound("tap");
-      return;
-    }
-
-    const banButton = event.target.closest("[data-ban-entry]");
-    if (!banButton || !save.developerUnlocked) {
-      return;
-    }
-
-    const entry = editableLeaderboardEntryById(banButton.dataset.banEntry);
-    if (!entry || entry.type !== "player") {
-      return;
-    }
-
-    entry.banned = !entry.banned;
-    saveGame();
-    updateLeaderboardUi();
-    showToast(t("toast.developerApplied"), entry.banned ? t("leaderboard.ban") : t("leaderboard.unban"));
-    playSound("tap");
   }
 
   function addLeaderboardEntry(score, type = "player", stats = {}) {
@@ -4609,6 +5105,9 @@
 
     const entry = {
       id: createLeaderboardId(),
+      playerId: save.playerId,
+      name: save.playerName,
+      adminLevel: normalizeAdminLevel(save.adminLevel),
       type: safeType,
       score: safeScore,
       date: localDateKey(),
@@ -4617,7 +5116,9 @@
       coins: Number.isFinite(Number(stats.coins)) ? Math.max(0, Math.floor(Number(stats.coins))) : save.coins,
       difficulty: typeof stats.difficulty === "string" && stats.difficulty in DIFFICULTIES ? stats.difficulty : state.difficulty,
       banned: false,
-      admin: false,
+      banExpiresAt: "",
+      banReason: "",
+      admin: normalizeAdminLevel(save.adminLevel) > 0,
       reported: false
     };
 
@@ -4654,6 +5155,7 @@
 
     save.developerUnlocked = true;
     saveGame();
+    updateAdminAccessUi();
     showToast(t("toast.developerUnlocked"), t("developer.title"));
     playSound("reward");
     openDeveloperPanel("mainMenu");
@@ -4677,7 +5179,7 @@
     dom.devHighScoreInput.value = String(save.highScore);
     dom.devCoinsInput.value = String(save.coins);
     if (dom.devOnlineUrlInput) {
-      dom.devOnlineUrlInput.value = save.onlineLeaderboardUrl || ONLINE_LEADERBOARD_URL;
+      dom.devOnlineUrlInput.value = onlineLeaderboardBaseUrl();
     }
     renderDeveloperMaterialOptions();
     setDeveloperToggle(dom.devLeaderboardToggle, Boolean(save.devOverrides && save.devOverrides.leaderboardUnlocked));
@@ -4781,6 +5283,211 @@
     if (url) {
       refreshOnlineLeaderboard(true);
     }
+  }
+
+  function allLeaderboardPlayers() {
+    const playersById = new Map();
+    const localEntries = Array.isArray(save.leaderboard) ? save.leaderboard : [];
+    const onlineEntries = Array.isArray(state.onlineLeaderboardEntries) ? state.onlineLeaderboardEntries : [];
+    mergeLeaderboardEntries([...onlineEntries, ...localEntries])
+      .filter((entry) => entry.type === "player")
+      .forEach((entry) => {
+        const key = entry.playerId || entry.id;
+        const current = playersById.get(key);
+        if (!current || entry.score > current.score) {
+          playersById.set(key, entry);
+        }
+      });
+    return [...playersById.values()].sort((a, b) => b.score - a.score);
+  }
+
+  function effectivePlayerAdminProfile(playerId) {
+    const savedProfile = save.playerAdminData && save.playerAdminData[playerId];
+    if (savedProfile) {
+      return savedProfile;
+    }
+    const entry = allLeaderboardPlayers().find((player) => player.playerId === playerId);
+    if (playerId === save.playerId) {
+      return {
+        adminLevel: normalizeAdminLevel(save.adminLevel),
+        banned: Boolean(entry && entry.banned),
+        banExpiresAt: entry ? entry.banExpiresAt : "",
+        banReason: entry ? entry.banReason : ""
+      };
+    }
+    return entry || { adminLevel: 0, banned: false, banExpiresAt: "", banReason: "" };
+  }
+
+  function setPlayerAdminProfile(playerId, updates) {
+    if (!playerId) {
+      return null;
+    }
+    if (!save.playerAdminData || typeof save.playerAdminData !== "object") {
+      save.playerAdminData = {};
+    }
+
+    const previous = effectivePlayerAdminProfile(playerId);
+    const profile = {
+      adminLevel: updates.adminLevel === undefined ? normalizeAdminLevel(previous.adminLevel) : normalizeAdminLevel(updates.adminLevel),
+      banned: updates.banned === undefined ? isActiveBan(previous) : Boolean(updates.banned),
+      banExpiresAt: updates.banExpiresAt === undefined ? (previous.banExpiresAt || "") : String(updates.banExpiresAt || ""),
+      banReason: updates.banReason === undefined ? sanitizeAdminReason(previous.banReason) : sanitizeAdminReason(updates.banReason)
+    };
+    save.playerAdminData[playerId] = profile;
+
+    if (playerId === save.playerId) {
+      save.adminLevel = profile.adminLevel;
+    }
+
+    [...save.leaderboard, ...state.onlineLeaderboardEntries].forEach((entry) => {
+      if (entry.playerId !== playerId) {
+        return;
+      }
+      entry.adminLevel = profile.adminLevel;
+      entry.admin = profile.adminLevel > 0;
+      entry.banned = isActiveBan(profile);
+      entry.banExpiresAt = profile.banExpiresAt;
+      entry.banReason = profile.banReason;
+    });
+
+    saveGame();
+    updateAllStaticUi();
+    if (isModalActive("adminModal")) {
+      updateAdminPanelUi();
+    }
+    return profile;
+  }
+
+  function applyPlayerAdminLevel(playerId, level) {
+    if (!save.developerUnlocked || !playerId) {
+      return false;
+    }
+    const normalizedLevel = normalizeAdminLevel(level);
+    setPlayerAdminProfile(playerId, {
+      adminLevel: normalizedLevel,
+      banned: undefined,
+      banExpiresAt: undefined,
+      banReason: undefined
+    });
+    return true;
+  }
+
+  function applyAdminCoins() {
+    if (effectiveAdminLevel() < 1 || !dom.adminCoinsAmount) {
+      return;
+    }
+    const amount = Number(dom.adminCoinsAmount.value);
+    if (!Number.isFinite(amount) || !Number.isInteger(amount) || amount <= 0) {
+      showToast(t("admin.coinsInvalid"), t("admin.addCoins"));
+      playSound("error");
+      return;
+    }
+    save.coins = Math.min(Number.MAX_SAFE_INTEGER, save.coins + amount);
+    saveGame();
+    updateAllStaticUi();
+    if (isModalActive("adminModal")) {
+      updateAdminPanelUi();
+    }
+    showToast(t("admin.coinsToast"), "+" + formatNumber(amount));
+    playSound("reward");
+  }
+
+  function applyAdminScore() {
+    if (effectiveAdminLevel() < 2 || !dom.adminScoreAmount) {
+      return;
+    }
+    const score = Number(dom.adminScoreAmount.value);
+    if (!Number.isFinite(score) || !Number.isInteger(score) || score < 0 || score > ADMIN_MAX_SCORE) {
+      showToast(t("admin.scoreInvalid"), t("admin.setScore"));
+      playSound("error");
+      return;
+    }
+    state.score = score;
+    save.highScore = Math.max(save.highScore, score);
+    saveGame();
+    updateScoreDisplays(false);
+    if (score > 0) {
+      addLeaderboardEntry(score, "player", {
+        lines: state.linesThisGame,
+        blocks: state.blocksThisGame,
+        difficulty: state.difficulty,
+        coins: save.coins
+      });
+    }
+    updateAllStaticUi();
+    if (isModalActive("adminModal")) {
+      updateAdminPanelUi();
+    }
+    showToast(t("admin.scoreToast"), formatNumber(score));
+    playSound("reward");
+    checkAchievements();
+  }
+
+  function applyAdminBan() {
+    if (effectiveAdminLevel() < 3 || !dom.adminBanTarget || !dom.adminBanReason) {
+      return;
+    }
+    const target = allLeaderboardPlayers().find((entry) => entry.playerId === dom.adminBanTarget.value);
+    if (!target || target.playerId === save.playerId || (target.adminLevel > 0 && !save.developerUnlocked)) {
+      if (dom.adminBanError) {
+        dom.adminBanError.textContent = t("admin.targetProtected");
+      }
+      return;
+    }
+    if (isActiveBan(target)) {
+      updateAdminBanButtons();
+      return;
+    }
+
+    const reason = sanitizeAdminReason(dom.adminBanReason.value);
+    if (!reason) {
+      if (dom.adminBanError) {
+        dom.adminBanError.textContent = t("admin.reasonRequired");
+      }
+      dom.adminBanReason.focus();
+      playSound("error");
+      return;
+    }
+
+    const durationValue = dom.adminBanDuration ? dom.adminBanDuration.value : "permanent";
+    const durationMs = Number(durationValue);
+    const allowedDurations = new Set([3600000, 86400000, 604800000]);
+    if (durationValue !== "permanent" && !allowedDurations.has(durationMs)) {
+      return;
+    }
+    const banExpiresAt = durationValue === "permanent"
+      ? ""
+      : new Date(Date.now() + durationMs).toISOString();
+
+    setPlayerAdminProfile(target.playerId, {
+      adminLevel: target.adminLevel,
+      banned: true,
+      banExpiresAt,
+      banReason: reason
+    });
+    if (dom.adminBanReason) {
+      dom.adminBanReason.value = "";
+    }
+    showToast(t("admin.banToast", { name: leaderboardPlayerName(target) }), reason);
+    playSound("error");
+  }
+
+  function applyAdminUnban() {
+    if (!save.developerUnlocked || !dom.adminBanTarget) {
+      return;
+    }
+    const target = allLeaderboardPlayers().find((entry) => entry.playerId === dom.adminBanTarget.value);
+    if (!target || !isActiveBan(target)) {
+      return;
+    }
+    setPlayerAdminProfile(target.playerId, {
+      adminLevel: target.adminLevel,
+      banned: false,
+      banExpiresAt: "",
+      banReason: ""
+    });
+    showToast(t("admin.unbanToast"), leaderboardPlayerName(target));
+    playSound("reward");
   }
 
   function applyDeveloperMaterial() {

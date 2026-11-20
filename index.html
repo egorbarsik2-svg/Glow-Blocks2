@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.firebaseio.com https://*.firebasedatabase.app; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title>Glow Blocks - офлайн игра</title>
-  <link rel="stylesheet" href="styles.css?v=20260705-4">
+  <link rel="stylesheet" href="styles.css?v=20261120-3">
 </head>
 <body>
   <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
@@ -58,6 +58,23 @@
   <div id="scorePopLayer" class="score-pop-layer" aria-hidden="true"></div>
   <div id="toastStack" class="toast-stack" aria-live="polite"></div>
 
+  <section class="modal" id="playerNameModal" aria-modal="true" role="dialog">
+    <div class="modal-panel small-panel">
+      <p class="eyebrow" data-i18n="playerName.eyebrow">Профиль игрока</p>
+      <h2 data-i18n="playerName.title">Как тебя зовут?</h2>
+      <p class="builder-hint" data-i18n="leaderboard.namePrompt">Имя будет видно в таблице рекордов.</p>
+      <label class="leaderboard-search">
+        <span data-i18n="playerName.label">Имя игрока</span>
+        <input class="select-control" id="playerNameInput" type="text" maxlength="24" autocomplete="nickname">
+      </label>
+      <p class="builder-hint admin-error" id="playerNameError" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="primary-button" id="playerNameContinueButton" type="button" data-i18n="playerName.continue">Продолжить</button>
+        <button class="menu-button" data-close-modal="playerNameModal" type="button" data-i18n="playerName.cancel">Назад</button>
+      </div>
+    </div>
+  </section>
+
   <section class="modal active" id="mainMenu" aria-modal="true" role="dialog">
     <div class="modal-panel menu-panel">
       <p class="eyebrow" data-i18n="menu.eyebrow">Офлайн головоломка</p>
@@ -76,6 +93,7 @@
         <button class="menu-button" id="achievementsButton" type="button" data-i18n="menu.achievements">Достижения</button>
         <button class="menu-button" id="statsButton" type="button" data-i18n="menu.stats">Статистика</button>
         <button class="menu-button hidden" id="leaderboardButton" type="button" data-i18n="menu.leaderboard">Топы</button>
+        <button class="menu-button hidden" id="adminPanelButton" type="button" data-i18n="admin.panel">Админ-панель</button>
         <button class="menu-button" id="developerButton" type="button" data-i18n="menu.developer">Разработчик</button>
         <button class="menu-button" id="settingsButton" type="button" data-i18n="menu.settings">Настройки</button>
       </div>
@@ -286,6 +304,69 @@
     </div>
   </section>
 
+  <section class="modal" id="adminModal" aria-modal="true" role="dialog">
+    <div class="modal-panel wide-panel">
+      <div class="modal-heading">
+        <div>
+          <p class="eyebrow" data-i18n="admin.eyebrow">Админ-панель</p>
+          <h2 data-i18n="admin.title">Инструменты администратора</h2>
+        </div>
+        <button class="close-button" data-close-modal="adminModal" type="button" aria-label="Закрыть админ-панель" data-i18n-aria="admin.close">×</button>
+      </div>
+      <div class="admin-level-banner">
+        <strong id="adminCurrentLevel">Уровень 1</strong>
+        <span id="adminLevelDescription"></span>
+      </div>
+      <p class="admin-sync-note" data-i18n="admin.localOnly">Уровни и баны пока сохраняются только в этом браузере.</p>
+      <div id="adminCoinControls" class="developer-grid hidden">
+        <label class="dev-control">
+          <span data-i18n="admin.coinsAmount">Сколько монет добавить себе</span>
+          <input class="select-control" id="adminCoinsAmount" type="number" min="1" step="1" value="1000">
+          <button class="menu-button" id="adminAddCoinsButton" type="button" data-i18n="admin.addCoins">Добавить монеты</button>
+        </label>
+      </div>
+      <div id="adminScoreControls" class="developer-grid hidden">
+        <label class="dev-control">
+          <span data-i18n="admin.scoreAmount">Установить себе очки</span>
+          <input class="select-control" id="adminScoreAmount" type="number" min="0" max="100000000" step="1" value="0">
+          <small data-i18n="admin.scoreLimit">Максимум: 100 000 000</small>
+          <button class="menu-button" id="adminSetScoreButton" type="button" data-i18n="admin.setScore">Установить очки</button>
+        </label>
+      </div>
+      <div id="adminBanControls" class="settings-stack hidden">
+        <label class="setting-row">
+          <div>
+            <strong data-i18n="admin.target">Игрок</strong>
+            <span data-i18n="admin.targetHint">Можно выбрать только обычного игрока.</span>
+          </div>
+          <select class="select-control" id="adminBanTarget"></select>
+        </label>
+        <label class="setting-row">
+          <div>
+            <strong data-i18n="admin.duration">Срок бана</strong>
+            <span data-i18n="admin.durationHint">Выбери срок и укажи причину.</span>
+          </div>
+          <select class="select-control" id="adminBanDuration">
+            <option value="3600000" data-i18n="admin.oneHour">1 час</option>
+            <option value="86400000" data-i18n="admin.oneDay">1 день</option>
+            <option value="604800000" data-i18n="admin.sevenDays">7 дней</option>
+            <option value="permanent" data-i18n="admin.permanent">Навсегда</option>
+          </select>
+        </label>
+        <label class="leaderboard-search">
+          <span data-i18n="admin.reason">Причина</span>
+          <input class="select-control" id="adminBanReason" type="text" maxlength="240" autocomplete="off">
+        </label>
+        <p class="builder-hint admin-error" id="adminBanError" aria-live="polite"></p>
+        <button class="menu-button" id="adminBanButton" type="button" data-i18n="admin.ban">Забанить игрока</button>
+        <button class="menu-button hidden" id="adminUnbanButton" type="button" data-i18n="admin.unban">Снять бан</button>
+      </div>
+      <div class="modal-actions">
+        <button class="menu-button" data-close-modal="adminModal" type="button" data-i18n="common.close">Закрыть</button>
+      </div>
+    </div>
+  </section>
+
   <section class="modal" id="leaderboardModal" aria-modal="true" role="dialog">
     <div class="modal-panel">
       <div class="modal-heading">
@@ -296,10 +377,17 @@
         <button class="close-button" data-close-modal="leaderboardModal" type="button" aria-label="Закрыть топы" data-i18n-aria="leaderboard.close">×</button>
       </div>
       <div class="segmented leaderboard-tabs" id="leaderboardTabs" role="tablist" aria-label="Вкладки топов">
-        <button class="active" type="button" data-leaderboard-tab="real" role="tab" aria-selected="true" data-i18n="leaderboard.tabReal">Без ботов</button>
-        <button type="button" data-leaderboard-tab="bots" role="tab" aria-selected="false" data-i18n="leaderboard.tabBots">С ботами</button>
+        <button class="active" type="button" data-leaderboard-tab="top" role="tab" aria-selected="true" data-i18n="leaderboard.tabTop">Топ-10</button>
+        <button type="button" data-leaderboard-tab="search" role="tab" aria-selected="false" data-i18n="leaderboard.tabSearch">Поиск</button>
       </div>
       <div id="onlineLeaderboardStatus" class="leaderboard-sync-status"></div>
+      <div id="leaderboardSearchPanel" class="leaderboard-search-panel hidden">
+        <label class="leaderboard-search">
+          <span data-i18n="leaderboard.searchLabel">Поиск игроков по имени</span>
+          <input id="leaderboardSearchInput" class="select-control" type="search" maxlength="24" autocomplete="off">
+        </label>
+        <p class="leaderboard-search-hint" data-i18n="leaderboard.searchHint">Введите имя или его часть.</p>
+      </div>
       <div id="leaderboardList" class="leaderboard-list"></div>
       <div id="leaderboardDetail" class="leaderboard-detail hidden"></div>
     </div>
@@ -470,6 +558,6 @@
     </div>
   </section>
 
-  <script src="script.js?v=20260705-4"></script>
+  <script src="script.js?v=20261120-3"></script>
 </body>
 </html>

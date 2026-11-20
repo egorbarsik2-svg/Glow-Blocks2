@@ -1234,6 +1234,30 @@ h2 {
   margin-top: 14px;
 }
 
+.leaderboard-search-panel {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.leaderboard-search {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 850;
+}
+
+.leaderboard-search .select-control {
+  width: 100%;
+}
+
+.leaderboard-search-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
 .leaderboard-sync-status {
   margin-top: 12px;
   padding: 10px 12px;
@@ -1364,6 +1388,50 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.045);
+}
+
+.admin-level-banner {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid rgba(255, 209, 102, 0.28);
+  border-radius: var(--radius);
+  background: rgba(255, 209, 102, 0.07);
+}
+
+.admin-level-banner strong {
+  color: var(--gold);
+  font-size: 1.05rem;
+}
+
+.admin-level-banner span,
+.admin-sync-note {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.leaderboard-admin-role {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  padding: 12px;
+  border: 1px solid rgba(255, 209, 102, 0.2);
+  border-radius: var(--radius);
+  background: rgba(255, 209, 102, 0.045);
+}
+
+.leaderboard-admin-role label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 850;
+}
+
+.admin-error {
+  min-height: 1.2em;
+  color: var(--red);
 }
 
 .leaderboard-detail-head {
@@ -2085,6 +2153,10 @@ body.performance-lite .score-pop {
 
   .leaderboard-detail-actions {
     justify-content: stretch;
+  }
+
+  .leaderboard-admin-role {
+    grid-template-columns: 1fr;
   }
 
   .leaderboard-detail-actions .menu-button {
